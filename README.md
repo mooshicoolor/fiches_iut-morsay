@@ -12,3 +12,4 @@ Présents:
 Upcoming:
 - UML et lui, par M.McRoss, sous LaTeX, à venir
 - Probabilités, par M.Maths, sous LaTeX, à venir
+- Maths modélisation, par HahahhahahhahahaRIS, à venir
