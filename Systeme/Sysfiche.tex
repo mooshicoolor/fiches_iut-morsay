@@ -1,0 +1,282 @@
+\documentclass{report} 
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{fullpage}
+\usepackage[normalem]{ulem}
+\usepackage{epigraph}
+\usepackage{listings}
+\usepackage{graphicx}
+\lstset{language=C}
+
+\title{Système.} 
+\author{\bsc{McRoss} "Beat" \textsc{DeKoualitat}}
+\date{\today} 
+
+\begin{document}
+\maketitle
+
+% Introduction tauntesque
+\chapter*{Introduction}
+Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe Blaess}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
+Écrit avec \LaTeX{}  qui, selon Mme.Compost, ne tourne \textbf{que} sur \emph{mac}. soz.\\
+
+
+% Chapitre sur les processus et leur vie
+\chapter{\textsc{Processus}}
+\epigraph{"[moi], va t'acheter une vie"}{une GROSSE...}
+\section{La notion de processus}
+Un processus, c'est une \emph{tâche en cours d'execution}. C'est en même temps du code et des données. Pour généraliser grossièrement, et pas de façon absolument vraie, un processus peut être représenté comme étant un programme en cours de fonctionnement.
+
+\section{Création d'un processus}
+Un processus est créé par le biais de l'appel système \emph{fork( )}. \emph{fork( )} fait la copie du processus père en un nouveau processus. Ce nouveau processus, qu'on appelle \emph{processus fils}, exécutera le même code que le processus père \footnote{Bien sur, le code qui se trouve après le \emph{fork}.} et \emph{héritera} des données du père (variables par exemple) mais aussi de l'environnement du processus père. Si, par exemple, le processus père modifie des \emph{variables d'environnement}, le fils héritera de ces variables modifiées.
+Bien sur, qui dit nouveau processus, dit nouveaux identifiants pour le nouveau processus. 
+\paragraph{}
+Cependant, et c'est un détail important, les données dupliquées entre le père et le fils ne sont pas immédiatement copiées; c'est à dire que tant que le fils et le père partagent des informations communes, cette information existe en \emph{un seul exemplaire} dans le système. Par contre, si jamais l'un des deux décide de modifier cette information, c'est à ce moment que cette information est dupliquée. C'est la méthode de \emph{copie sur écriture}.
+\paragraph{}
+Enfin, dernière note: il faut savoir qu'il n'y \textbf{pas} d'ordre d'exécution prédéfini entre un processus fils et un processus père. Cela veut dire que le fils peut prendre la main a tout moment et le père peut en faire de même.
+
+\section{Les états}
+Un processus peut avoir plusieurs états (un seul à la fois):
+\begin{itemize}
+\item \textsc{Running}: le processus est actuellement en train de faire son job;
+\item \textsc{Waiting/Sleeping}: le processus est en attente de ressources ou d'événements extérieurs;
+\item \textsc{Stopped}: le processus est stoppé par un \emph{signal} et ne reprendra que par un \emph{signal de redémarrage};
+\item \textsc{Terminated}: le processus a fini son travail.\footnote{Dans le cas où le processus a fini son travail mais que son père n'a pas encore lu son code de retour avec \emph{wait()}, il reste alors présent dans la table des processus tant qu'on a pas lu son code de retour; on parle d'état \textsc{zombie} dans ce cas.}
+\end{itemize}
+
+
+
+% Chapitre sur l'exécution des programmes et leur fin
+\chapter{Exécution de programmes}
+\epigraph{"je vais me chékou, j'ai les yeux rouges"}{une GROSSE...}
+\section{Lancement d'un programme}
+On a vu que la création d'un processus se fait par le biais de \emph{fork}. Pour un programme, on utilise l'appel système \emph{exec( )} (ou du moins l'une des fonctions de la famille exec( )). \\
+Il existe deux fonctions: execl et execlp. Ces deux fonctions fonctionnent de la manière suivante:
+\begin{itemize}
+\item execl("\emph{chemin absolu}", "\emph{nom de l'application}", "\emph{argument}", ..., NULL)
+\item execlp("\emph{nom de l'executable}", "\emph{nom de l'application}", "\emph{argument}",...., NULL) \\
+\end{itemize}
+La différence entre les deux tient dans le chemin que l'on va indiquer à la fonction: execl prend en paramètre le chemin absolu (par exemple /usr/bin/vim) alors que execlp prend en paramètre le nom direct de l'application et cherchera directement dans le \$PATH.
+\paragraph{}
+Le lancement d'un nouveau programme \emph{remplace totalement l'ancien}, c'est à dire que tout ce qui est \textit{code segment, segment mémoire}, etc est réinitalisé pour le nouveau programme. Par contre, il n'y a \textbf{pas} de \textbf{nouveau processus} créé. Le processus qui lance un programme garde \textbf{le même} PID, PPID, etc.
+\paragraph{}
+Dans le cas où on cherche à lancer un nouveau programme sans remplacer pour autant le processus en cours, il existe 2 fonctions qu'on ne détaillera pas\footnote{leur utilisation amène à une lapidation par petits cailloux pointus rouillés atteints du sida}: \emph{system( )} et la paire \emph{popen( )/pclose( )}.
+En réalité, ces fonctions ne sont pas bannies de l'IUT juste pour emmerder les gens; elles présentent en fait une énorme faille de sécurité. \footnote{programme compilé en root, script \emph{rm -r /} déguisé = boum}
+
+\section{Fin d'un programme}
+Un programme peut mettre fin à son execution soit de manière \emph{normale} (abandon par l'utilisateur, tâche finie) ou soit, vous l'aurez deviné, de manière \emph{anormale} (bug, crash, tout ce que vous voulez).
+\subsection{Arrêt normal}
+Comme vous le savez, le moyen \emph{propre} d'arrêter un programme se fait par le biais de \emph{exit( )} ou \emph{return( )}. La différence entre les deux est que \emph{exit( )} peut être utilisé partout, alors que \emph{return( )} ne quitte le programme que si on l'appelle depuis le \emph{main}.
+\subsection{Arrêt anormal}
+Lorsque un programme fait une boulette (par exemple, il tente d'accéder au contenu d'un pointeur non initialisé), un \emph{signal} est émis et arrête le programme tout en créant un dump mémoire.\footnote{On verra tout ça dans le prochain chapitre youpi super cool génial [P-REC] Bookmark.} \\
+Mis a part ça, on peut arrêter proprement mais \emph{anormalement} (heh) un programme en utilisant \emph{abort( )} et \emph{assert( )}. Ces deux fonctions émettent des signaux et permettent un débogage du programme.
+\subsection{Dans le cas d'un processus fils}
+Imaginons que nous avons un processus fils. Que ce processus se soit arrêté normalement ou pas, son processus père se doit de lire son code de retour, afin que le processus fils n'erre indéfiniment dans les limbes des processus.\\
+Pour cela, on utilise \emph{wait( )}. Cette fonction (ou l'une des fonctions de la famille wait()) permet au processus père de lire le code de retour d'un proc fils. En fait, le processus père \emph{attend} que l'un des processus fils se termine. \emph{wait( )} peut prendre en paramètre l'adresse d'un int afin de connaitre les circonstances de la mort du processus fils. On le fait de manière suivante:
+\begin{lstlisting}
+int status; /* le int qui nous permet d'avoir le code retour */
+
+/* ici on met le code avec le fork() et tout le tintamarre */
+
+wait(&status); /*on attend la mort du fils*/
+
+if (WIFEXITED(status))	/* on vérifie maintenant comment le fils est mort */
+	printf("code %d",WEXITSTATUS(status));
+else if ... /* bla bla bla */
+
+\end{lstlisting}
+Voilà. Il existe 3 macros qui permettent de savoir comment le fils est mort:
+\begin{itemize}
+\item \textsc{WIFEXITED}, qui est vraie si le programme s'est quitté tout seul (va avec \textsc{WEXITSTATUS} afin de connaitre le code retour)
+\item \textsc{WIFSIGNALED}, si le programme a été tué par un \emph{signal} (exemple: SIGKILL aka kill -9). Utiliser \textsc{WTERMSIG} afin de connaitre quel signal a tué le processus.
+\item \textsc{WIFSTOPPED}, si le programme est temporairement stoppé par un signal (bien souvent SIGSTOP).
+\end{itemize}
+Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!  
+
+
+
+% Base des signaux sous linux/unix
+\chapter{Les \textsc{signaux}}
+\epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
+\section{Signal? c'est un dentifrice non???????}
+Un \emph{signal} est une sorte de message envoyé par un processus à un autre processus. Face à un signal, un processus peut effectuer une des actions au choix:
+\begin{itemize}
+\item \emph{Ignorer} le signal, mais attention, ce n'est pas possible pour tous les signaux (par exemple, il est impossible d'ignorer \textsc{SIGKILL});
+\item \emph{Capturer} le signal, c'est à dire exécuter une procédure particulière quand le programme reçoit un signal particulier;
+\item \emph{Laisser le kernel s'en occuper}, c'est a dire laisser l'action par défaut définie par chaque signal (exemple: se terminer anormalement pour \textsc{SIGINT}, ou ne rien faire pour \textsc{SIGCHILD})
+\end{itemize}
+\paragraph{}
+Un signal est émis soit:
+\begin{itemize}
+\item \emph{Par le système}, lorsque il détecte quelque chose (instruction illégale, fin d'un processus fils, \sout{rencontre avec ma GROSSE...})
+\item \emph{Par l'utilisateur} lui même, par le biais de commandes (CTRL+C, CTRL+U, etc), par la fonction \emph{kill( )}, ou encore avec des fonctions (\emph{raise( ), kill( ), etc})
+\end{itemize}
+
+\section{Les principaux signaux}
+
+\subsection{Signaux de terminaison (sigint, sigkill, sigquit, sigterm)}
+\begin{itemize}
+\item \textsc{sigint}, code 2, appelée aussi avec CTRL+C, correspond à un SIGnal d'INTerruption, donc termine le processus. Peut être ignoré/capturé.
+\item \textsc{sigquit}, code 3, appelée aussi avec CTRL+\textbackslash, termine le processus mais créé un fichier core/dump. Peut être ignoré/capturé.
+\item \textsc{sigkill}, code 9, \textbf{tue} (pas proprement) le processus à \textbf{tout les coups}. À utiliser en dernier recours. Ne peut \textbf{pas} être ignoré/capturé.
+\item \textsc{sigterm}, code 15, tue \textbf{proprement} le processus. Correspond à l'action par défaut de la fonction \emph{kill( )}. Peut être ignoré/capturé.
+\end{itemize}
+
+\subsection{Signaux de gestion de processus (sigchld, sigstop ou sigstp, sigcont, sigalrm, sigusr1\&sigusr2)}
+\begin{itemize}
+\item \textsc{sigchld}, code 17, envoyé au processus père lorsque l'un des processus fils s'est terminé. Est ignoré par défaut. Peut être ignoré/capturé.
+\item \textsc{sigstop\textbackslash sigstp}, code 19 et 20. Stoppe le processus (voir états des processus). La différence entre les deux tient dans le fait que \textsc{sigstop} est pas ignorable ou capturable alors que \textsc{sigstp} l'est.
+\item \textsc{sigcont}, code 18, relance le processus si il est stoppé. Ne peut pas être ignoré/capturé.
+\item \textsc{sigalrm}, code 14, est envoyé lorsque le temps défini par l'appel système \emph{alarm( )} a expiré.
+\item \textsc{sigusr1\&sigusr2}, code 10 et 12, sont des signaux \emph{personnalisables}. Par défaut, ils terminent le processus, mais on peut les capturer pour faire autre chose avec. 
+\end{itemize}
+
+\subsection{Signaux d'erreur (pas très important)}
+Par défaut, ces signaux arrêtent le processus.
+\begin{itemize}
+\item \textsc{sigbus \& sigsegv}: adresse mémoire invalide ou erreur de segmentation.
+\item \textsc{sigfpe}: erreur de calcul (ex: division par 0).
+\item \textsc{sigxcpu \& sigxfsz}: limite d'utilisation de ressources dépassé.
+\item \textsc{sigill}: instruction assembleur illégale.
+\end{itemize}
+
+
+\section{Les fonctions C}
+Il existe une ribambelle de fonctions C pour émettre/capturer/attendre/\sout{exploser} un ou des signaux.
+\subsection{Émettre un signal}
+Il existe ici deux fonctions, \emph{kill( )} et \emph{raise( )}. La différence entre les deux est que \emph{raise( )} envoie le signal au processus qui l'appelle, alors que \emph{kill( )} permet d'envoyer un signal à n'importe quel processus (suivant les droits bien\_entendu).\\
+\emph{kill( )} s'utilise la manière suivante:
+\begin{lstlisting}
+kill(<pid du proc visé>, <code du signal>);
+\end{lstlisting}
+\emph{kill( )} retourne un int suivant sa réussite. Il faut noter qu'on peut utiliser "-1" en tant que pid pour envoyer le signal à tous les processus (a part init, of\_course).
+\paragraph{}
+Petite note supplémentaire: il existe une fonction \emph{alarm( )} qui prend en paramètre un nombre de secondes. Cette fonction permet d'envoyer un SIGALRM au processus en cours (c'est à dire \emph{soi même}) après le nombre de secondes passé en paramètre.
+
+\subsection{Attendre un signal}
+La fonction \emph{pause( )} permet de mettre le programme en attente d'un signal. Le programme se mettra en pause tant qu'il n'aura pas reçu de signal.\\
+Note: il ne faut \textbf{pas} utiliser de \emph{sleep( ), wait( ),} ou autres conneries pour attendre un signal. Il faut \textbf{toujours} utiliser \emph{pause( )}.\footnote{au risque de se faire taper dessus par \textsc{Carlos}}\\
+\emph{pause( )} s'utilise de la manière suivante:
+\begin{verbatim}
+pause( );
+\end{verbatim}
+ez non??????????????
+
+\subsection{Gérer les signaux}
+Il faut d'abord créer une \textbf{procédure} qui prendra en paramètre le signal. Cette procédure s'occupera du traitement du signal.\\
+Notez que cette procédure prend exclusivement \textbf{1 paramètre}, un entier. Pour les détails (ou pour bluffer 2/3 pequenots), cet entier représente la constante symbolique du signal. Cet entier sera rempli automatiquement par le système d'exploitation.\\
+Voyons un exemple:
+\begin{lstlisting}
+void gestSig(int sig)
+{	
+	/* on met nos traitements par signal */
+	/* par exemple, si le proc reçoit SIGINT */
+	if (sig==SIGINT)
+		printf("CTRL-C recu\n");
+}
+\end{lstlisting}
+Ici, cette procédure gère le signal SIGINT. Notez qu'on est \emph{pas obligé} de faire le test. On peut, par exemple, créer autant de procédures que de signaux que l'on souhaite traiter, ou ne créer qu'une seule procédure qui sera utilisé par tous les signaux.\\
+Ensuite, il faut utiliser \emph{signal( )} ou \emph{sigaction( )}. On se penchera ici sur \emph{signal( )}.
+\begin{lstlisting}
+/* on imagine qu'on a notre gestionnaire de signal "gestSig" qui affiche "oui" 
+ * dés qu'on reçoit un SIGINT */
+ int main()
+ {
+ 	signal(SIGINT, gestSig);
+	pause();
+	/* on reçoit CTRL-C aka SIGINT */
+	exit 0;
+ }     
+\end{lstlisting}
+Ce qui donnera à l'affichage, lorsque on execute le programme "prog" au dessus:
+\begin{verbatim}
+>>> prog
+(on tape CTRL-C)
+>>> oui
+(fin du prog)
+>>>  
+\end{verbatim}
+ez aussi non??????\\
+À noter: il existe aussi des constantes pour gérer les signaux, comme SIG\_IGN par exemple. On utilise ces constantes de la manière suivante:
+\begin{lstlisting}
+signal(SIGINT, SIG_IGN);
+/* SIGINT sera ignoré */
+\end{lstlisting}
+
+
+%Chapitre sur Gestion des fichiers, fichiers
+\chapter{Gestion de fichiers et tout ça.}
+\epigraph{"Sous UNIX, tout est fichier."}{les randoms gens sur internet}
+\section{Fichier? Ça fi-chier hehehahhrheuhrzuhrezu}
+Un fichier possède des attributs qui différent entre les systèmes de fichiers (\emph{ext2,ext4,fat32,...}). Pour ne pas se compliquer la vie, sachez qu'un fichier possède un nom (O RLY?), le nom de son créateur, sa taille, la date de création, ... Bon c'est pas très important.
+\paragraph{}
+Comme disent les \emph{randoms gens sur internet}, \textbf{tout est fichier sous Linux/Unix}. Cela ne veut pas forcément dire que \emph{tous} les fichiers sont de \emph{même type}.\\
+Ainsi, il existe plusieurs types de fichier sous Linux/Unix:
+\begin{itemize}
+\item{\textbf{Les fichiers ordinaires}, c'est a dire les fichiers random comme \emph{merci.c}, \emph{i\_et\_y\_se\_font\_defoncer.mp4}, \emph{mcross.sh}, ...}
+\item{\textbf{Les répertoires}, c'est a dire les... répertoires et dossiers qui contiennent des fichiers.}
+\item{\textbf{Les fichiers spéciaux}, qui eux mêmes existent en deux type: les fichiers caractères, qui représentent les périphériques d'entrée-sorties (par exemple clavier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui représentent tout ce qui est disque et support de stockage.}
+\item{\textbf{Les liens}, qui ne comportent qu'un pointeur vers un fichier.}
+\end{itemize}
+
+\section{Système de fichiers sous Unix/Linux}
+\subsection{Les fichiers ordinaires}
+La gestion des fichiers sous U/L\footnote{vu que j'ai la flemme de réécrire Unix/Linux partout, je vais abréger ça par U/L} repose sur la notion d'\textbf{inode} (ou i-noeud).\\
+Un inode est un \emph{index} avec des cases. Pour des raisons de commodité, on va dire que la première case comporte les attributs du fichier. Ensuite, il y a 10 cases (ou 12 cases, sous Linux) qui comportent chacune une adresse vers un bloc de données. Après ces 10 (ou 12 cases), il y a 3 cases \emph{spéciales}.\\
+Ces 3 cases sont spéciales car elles permettent ce qu'on appelle l'\emph{adressage indirect}.\newline
+\\
+\emph{Mr.Toutlemonde :} "waaaa c quoi l'adressage??????"\\
+\\
+Du calme, Mr.Toutlemonde. L'adressage signifie que la case donne l'adresse d'un bloc de données:
+\\
+\includegraphics{adressage_direct}
+\\
+On a ici de \emph{l'adressage direct}. Voyons maintenant l'\emph{adressage indirect}.:
+\\
+\includegraphics{adressage_indirect} \\
+Comme vous le voyez, l'adressage indirect s'appelle comme ça car l'adresse contenue dans la case pointe vers \emph{un bloc d'adresses}, et non pas \textbf{directement} un bloc de données. Chacune des adresses contenue dans le bloc d'adresses pointe vers un bloc de données.\\
+Ainsi, la case 11 pointe vers un bloc d'adresse, la case 12 pointe vers un bloc d'adresses dont chaque adresse pointe vers \textbf{un autre} bloc d'adresses, et dans ce bloc d'adresse chaque adresse pointe vers un bloc de données (adressage indirect double), et enfin pour la case 13 on applique l'adressage indirect triple\footnote{j'ai la flemme de détailler, mdr}.\\
+\\
+\emph{Mr.Toutlemonde :} "mé là y a \textsc{Carlos} ki me demande 2 calculé la taille maxi d'1 féchier, cmnt je fé????"
+\\
+Bon, j'imagine que \emph{Mr.Toutlemonde} parle de l'exercice 1 du TD4. On va le faire ensemble avec les calculs.\\
+\paragraph{}
+\emph{Exercice 1} : Un système de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
+\\
+\\
+Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 bits}. \\ 
+Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{4 ko}. On en déduit qu'un bloc contient donc \textbf{1024 adresses}.
+
+Maintenant, on peut calculer la taille selon le type d'adressage:
+\begin{itemize}
+\item{Direct: on a 10 blocs de 1024 adresses, donc 4096 octets}
+\item{Indirect simple: on a 1024 blocs, donc 4 Mo}
+\item{Indirect double: on a 1024*1024 blocs, donc 4 Go}
+\item{Indirect triple: on a 1024*1024*1024 blocs, donc 4 To}
+\end{itemize}
+On fait maintenant la somme; la taille max correspond à un fichier de 4 To et 4 Go et 4 Mo et 4096 octets.
+
+\subsection{Les répertoires}
+Les répertoires possèdent une structure différente entre UNIX et Linux.
+\paragraph{Unix}
+Sous Unix, un dossier est une table avec 2 entrées; le numéro de l'inode du fichier sur 2 octets et son nom sur 14 octets. Cela se présente de la manière suivante:\\
+\includegraphics{rep_unix}
+\\
+\paragraph{Linux}
+Sous Linux, c'est un peu plus compliqué:\\
+\includegraphics{rep_linux}
+\\
+La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus le nom du fichier. Vous devez vous demander à quoi correspondent les \emph{\textbackslash 0}; en fait, chaque case dans les noms de fichier doit faire \textbf{4 octets}; si on ne remplit pas la case, on ajoute des \textbackslash0. C'est tout.
+
+
+
+\section{Primitives systèmes en C (tou)}
+Parce oui, il faut bien jouer avec les fichiers en C.\\
+Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
+Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}.\\
+Enfin, le système d'exploitation possède une table commune à tous les processus; c'est la \emph{Table des fichiers ouverts}.
+
+Je continuerais plus tard bicoz.
+\end{document}

@@ -1,0 +1,139 @@
+\documentclass{report}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{fullpage}
+\usepackage[normalem]{ulem}
+\usepackage{epigraph}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{dialogue}
+\lstset{language=C}
+
+\title{Algo à gogo}
+\author{\bsc{McRoss} "Beat" \textsc{DeKoualitat} \textit{feat.} FireGrain}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% Chapitre sur les processus et leur vie
+\chapter{\textsc{Récursivité et thé citronné}}
+\epigraph{"LOURD MADDIE"}{je sais pas qui}
+\section{Leçon}
+\subsection{La notion de récursivité}
+Que signifie \emph{récursivité}?. Cela signifie que la fonction va \emph{s'appeler elle-même}, mais avec \emph{différents paramètres}.\\
+Prenons par exemple la fonction factorielle. Imaginons que l'on cherche à calculer factorielle(5), qui correspond à 5*4*3*2*1. On a deux méthodes différentes:
+\begin{lstlisting}
+/* on fait ici de manière itérative */
+int factorielle(n)
+{
+	int i,j;
+	j=1;
+	for(i=1;i<=n;i++)
+		j=j*i;
+	return j;
+}
+\end{lstlisting}
+On opère maintenant de manière récursive:
+\begin{lstlisting}
+int factorielleRec(n)
+{
+	if (n==1)
+		return(1);
+	else
+		return(n * (factorielleRec(n-1)) );
+}
+\end{lstlisting}
+Comme vous le voyez, factorielleRec( ) s'appelle elle-même. Il faut noter le cas d'arrêt (quand on arrive à n=1), car on ne veut pas non plus que la fonction s'appelle indéfiniment.
+
+\subsection{Les listes Récursive}
+Ici, une liste récursive est composé de deux choses:
+\begin{itemize}
+\item{Une valeur (un entier)}
+\item{D'une autre liste récursive}
+\end{itemize}
+En java, cela donnerait ça:
+\begin{lstlisting}
+public ListeRecursive{
+	int tete;
+	ListeRecursive liste;
+}
+\end{lstlisting}
+Une liste est donc récursive puisque \emph{elle contient une autre liste}. On peut comparer à des dossiers et des fichiers, un dossier possède des fichiers et des dossiers. Ici on a qu'un seul fichier et qu'un seul dossier.
+\begin{dialogue}
+\speak{M.Toutlemonde} Oulala, mais pourquoi se compliquer la vie avec ça?
+\speak{FireGrain} eh bien, l'interêt est l'allocation de la mémoire, avec cette liste on peut mettre autant de valeur que l'on veut car les listes sont répartis sur plusieur cases mémoire pointé en somme par la liste précédente.
+\end{dialogue}
+
+
+\subsection{Comment fait-on de la récursivité???????}
+Il faut appliquer 3 étapes:
+\begin{itemize}
+\item{Trouver le traitement à faire sur l'élément actuel (trouver les cas particuliers, en général, ce sont les objectif de la fonction)}
+\item{L'appliquer sur tous les autres éléments (appel récursif)}
+\item{Arrêter le traitement (trouver le cas d'arrêt)}
+\end{itemize}
+En reprenant l'exemple de la factorielle, on a bien trouvé le traitement (élément actuel * le reste), fait l'appel récursif (on fait élément actuel * factorielle(reste)), et arrêté le traitement (on vérifie si l'élément actuel est égal à 1).
+
+
+\section{Exercices}
+
+je veux trouver le nombre de multiple de 5 dans une liste récursif.
+
+\begin{itemize}
+ \item{Cas particulier / Objectif : l'élément actuel est un multiple de 5. Donc je comptabilise 1 et je rajoute ce que la fonction va comptabiliser sur le reste. Je délégue le travail au reste (aux putain de random que je ne connais pas encore) donc j'utilise la fonction sur la liste suivante qui elle même se chargera de délégué le travail aux autres et ainsi de suite jusqu'aux cas d'arrêt.}
+\item{Cas d'arrêt : tout simplement, si tombe sur une liste vide, bah j'arrête et je renvoie 0. (il s'agit du cas le plus courant)}
+\item{Cas général : Dans ce cas, le cas général est similaire au cas particulier, si l'élément actuel n'est pas un multiple de 5 et bien je regarde ce que ça donne sur le reste. Donc j'applique la fonction à la liste suivante.}
+\end{itemize}
+\begin{lstlisting}
+public int nbMulitple5(LR liste)
+{
+    // CAS D'ARRET
+    if(liste.vide()) return 0;
+    
+    // OBJECTIF
+    if(liste.tete() \% 5 ==0 ) return 1 + nbMultiple(liste.reste());
+    
+    // CAS GENERAL
+    else return nbMultiple(liste.reste());
+
+}
+\end{lstlisting}
+
+
+
+%
+\chapter{Arbres}
+\epigraph{"moi j t'envoie yichen"}{Mr.Maths menace \#boloss aka l'évryien vol.2}
+\section{Les arbres binaires}
+Tout d'abord, il faut savoir ce qu'est un arbre binaire. Il s'agit d'un arbre enraciné ne possédant que deux fils. Il existe tout un lexique pour définir un arbre, mais vu qu'une image vaut mieux que 1000 mots, voici un schéma.
+\paragraph{}
+\includegraphics{arbre_term}
+\paragraph{}
+Un \textbf{noeud}, à ne pas confondre avec une clé (sans vouloir désigner personne), est un sous arbre binaire. l'arbre que vous voyez ici possède plusieur arbre binaire qu'on appelle noeud. Alors qu'une \textbf{clé} est la valeur que possède un arbre binaire, il s'obtient grâce à la fonction info() de la classe ArbreBinaire.
+La \textbf{taille} d'un arbre correspond au nombre de noeuds moins le nombre de feuilles.\\
+La \textbf{hauteur} d'un arbre correspond à la \emph{profondeur maximale}. La hauteur s'applique à un arbre, la profondeur à un noeud. On peut le déduire en comptant le nombre de branche maximal.
+\paragraph{}
+Par exemple, l'arbre exemple possède une taille de \textbf{4} (8-4 = 4 feuilles):\\
+\includegraphics{arbre_taille}\\
+Et une hauteur de \textbf{3}:\\
+\includegraphics{arbre_hauteur}\\
+
+ET C TOU.
+
+\section{Les arbres binaires de recherche}
+Un arbre binaire de recherche, c'est tout con: c'est un arbre dans lequel le fils gauche est \emph{inférieur} à la valeur du noeud alors que le fils droit est \emph{supérieur}.\\
+Voici un exemple:\\
+\includegraphics{abr}\\
+On voit ici que tous les membres à gauche sont inférieur à 8, alors que tous les membres de droite sont supérieur à 8.
+
+\section{Les arbres AVL}
+
+les arbres AVL, sont des arbres binaires de recherches qui sont automatique équilibrés. Cela implique les insertions de valeurs, sont suivi d'un équilibrage des branches droites et gauches.\\
+\includegraphics{equilibre}\\
+ceci est un arbre parfaitement équilibré car il possède autant de branches droites que de branches gauches
+\newline
+un Arbre binaire de recherche est un AVL, si et seulement si en chaque somment, l'équilibre (hauteur(filsGauche)-hauteur(filsDroit)) vaut 1,0 ou -1. NI PLUS NI MOINS BANDE DE...
+\end{document} 
