@@ -339,7 +339,25 @@ size_t write(int fd, void *buf, size_t nbOct)
 Ici, nbOct représente le nombre d'octet que l'on souhaite écrire dans le fichier et cette primitive renvoie ici le nombre d'octets effectivement écrits dans le fichier.\\
 Souvent, on fait travailler \emph{open} et \emph{write} à la suite, puisque on utilise plusieurs fois le buffer.
 \paragraph{Exemple}
+On reprend l'exemple du dessus. Maintenant qu'on a lu 20 octets dans notre buffer, on va essayer d'écrire dans un nouveau fichier.
+\begin{lstlisting}
+int newFic = open("fic2", O_CREAT, 0755); //On créé un nouveau fichier "fic2"
+if (newFic != -1)
+	int nbOctetsEcrits = write("fic2", buf, 20);
+\end{lstlisting}
+Voilà. On a écrit 20 octets dans un nouveau fichier fic2.
 
+\subsection{Se déplacer dans un fichier avec \emph{lseek( )}}
+Pas important. On verra plus tard.
 
+\subsection{Fermer un fichier avec \emph{close( )}}
+Là, c'est facile. \emph{close( )} ne prend qu'un paramètre, et c'est le \emph{file descriptor}.
+\paragraph{Exemple}
+Maintenant qu'on a écrit et lu nos fichiers fic et fic2, on les ferme.
+\begin{lstlisting}
+close(fd);
+close(newFic);
+\end{lstlisting}
 
+A plus pour de nouvelles aventures feat. \textsc{moi}.
 \end{document}
