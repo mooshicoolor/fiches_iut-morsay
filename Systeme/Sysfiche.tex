@@ -15,7 +15,7 @@
 \date{\today} 
 
 \begin{document}
-\maketitle
+\maketitle{}
 
 % Introduction tauntesque
 \chapter*{Introduction}
@@ -269,8 +269,6 @@ Sous Linux, c'est un peu plus compliqué:\\
 \\
 La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus le nom du fichier. Vous devez vous demander à quoi correspondent les \emph{\textbackslash 0}; en fait, chaque case dans les noms de fichier doit faire \textbf{4 octets}; si on ne remplit pas la case, on ajoute des \textbackslash0. C'est tout.
 
-
-
 \section{Primitives systèmes en C (tou)}
 Parce oui, il faut bien jouer avec les fichiers en C.\\
 Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
@@ -359,5 +357,80 @@ close(fd);
 close(newFic);
 \end{lstlisting}
 
-A plus pour de nouvelles aventures feat. \textsc{moi}.
+
+
+
+\chapter{Communications entre processus (pipe)}
+Les processus (pour l'instant d'une même machine) peuvent communiquer entre eux par le biais de \emph{pipes}. Un pipe, c'est un tube par lequel on fait passer des informations. Un processus peut écrire et lire dans un pipe, cependant il n'y a \textbf{qu'un seul lecteur et qu'un seul écrivain par pipe}. Si on veut que deux programmes communiquent dans les deux sens, il faut créer deux pipes.
+On va commencer par les \textbf{tubes anonymes}.
+
+\section{Tubes anonymes}
+\subsection{Créer un tube}
+Afin de créer un tube, il faut utiliser l'appel système \emph{pipe( )}. Cet appel système prend en paramètre un tableau d'entier de taille 2. Regardez l'exemple:
+\begin{verbatim}
+int desc[2];
+pipe(desc);
+\end{verbatim}
+Pourquoi un tableau d'entier de taille 2? Tout simplement car on aura dans ce tableau les \emph{file descriptor} qui correspondent à l'entrée du tube (ici \textbf{desc[1]}) et la sortie du tube (ici \textbf{desc[0]}). Bien sur, je pars du principe que vous savez ce que sont les \emph{file descriptor}, donc continuons.
+
+\subsection{Écrire dans un tube}
+Vous vous souvenez de \emph{write( )} qu'on utilisait pour écrire dans un fichier? C'est la même chose ici, sauf qu'on met le file descriptor de l'entrée du tube. On a donc:
+\begin{verbatim}
+char buffer[20]; // On a notre buffer de 20 octets
+write(desc[1], buffer, 20); // On souhaite écrire dans notre pipe 20 octets de notre buffer
+\end{verbatim}
+Et voilà, c'est gagné.
+
+\subsection{Lire depuis un tube}
+Là encore, ça ressemble beaucoup à \emph{lire dans un fichier}:
+\begin{verbatim}
+char bufferLecture[20];
+read(desc[0], bufferLecture, 20); //On veut lire 20 octets depuis le pipe dans notre buffer
+\end{verbatim}
+
+\subsection{Communiquer entre deux processus}
+Le problème des tubes anonymes, c'est que les deux processus qui veulent communiquer doivent forcément connaitre les file descriptor. Ainsi, il faut que l'un des processus soit créé après la création du pipe. Par exemple:
+\begin{lstlisting}
+int main()
+{
+	int desc[2];
+	pipe(desc);
+	
+	pid_t fils = fork();
+	
+	if(fils==0)
+	{
+		char bufferEcriture[20];
+		write(desc[1], bufferEcriture, 20);
+
+		exit(0);
+	}
+	
+	wait(NULL);
+	char bufferLecture[20];
+	close(desc[1]);
+	read(desc[0],bufferLecture,20);
+	exit(0);
+}
+\end{lstlisting}
+Et voilà, on a bien établi une communication entre 2 processus!
+
+\subsection{Rediriger des flots vers des tubes}
+Vous vous souvenez de \emph{dup2( )}? Vous savez, le cours ou vous avez \sout{rien} tout compris? Eh ben on va en reparler. 	
+\paragraph{}
+\emph{dup2( )} se présente de la manière suivante:
+\begin{verbatim}
+int dup2(int fdSource, int fdCible);
+\end{verbatim}
+En fait, \emph{dup2( )} permet de copier le file descriptor en deuxième argument dans le premier. Par exemple, la commande suivante, en reprenant notre tube \emph{desc}:
+\begin{verbatim}
+dup2(desc[0], 0);
+\end{verbatim}
+permet d'envoyer sur \emph{stdin} tout ce qui sort de notre tube. De même, la commande suivante:
+\begin{verbatim}
+dup2(desc[1],1);
+\end{verbatim}
+permet d'envoyer tout ce qui sort de \emph{stdout} dans notre tube.
+
+
 \end{document}
