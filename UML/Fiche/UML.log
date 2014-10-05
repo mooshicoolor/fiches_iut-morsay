@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.9.6)  5 OCT 2014 12:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.9.6)  5 OCT 2014 13:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -307,31 +307,36 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1
 
-] [2
-
 ]
 Chapitre 1.
 
 LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
-(Font)              using `T1/lmr/bx/n' instead on input line 34.
+(Font)              using `T1/lmr/bx/n' instead on input line 35.
 
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 35.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 35.
-[3
+<cas_utilisation.png, id=15, 328.22626pt x 262.9825pt>
+File: cas_utilisation.png Graphic file (type png)
 
-] (./UML.aux)
+<use cas_utilisation.png>
+Package pdftex.def Info: cas_utilisation.png used on input line 39.
+(pdftex.def)             Requested size: 328.22545pt x 262.98184pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--41
+
+ []
+
+[2
+
+ <./cas_utilisation.png>] (./UML.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4448 strings out of 493117
- 63400 string characters out of 6135434
+ 4440 strings out of 493117
+ 63378 string characters out of 6135434
  140718 words of memory out of 5000000
- 7831 multiletter control sequences out of 15000+600000
- 65593 words of font info for 46 fonts, out of 8000000 for 9000
+ 7828 multiletter control sequences out of 15000+600000
+ 55409 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,6n,49p,234b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/
@@ -339,12 +344,12 @@ texlive/2014/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/20
 14/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2014/texmf-
 dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/
 type1/public/lm/lmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publi
-c/lm/lmr17.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lmr9.p
-fb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lmri10.pfb>
-Output written on UML.pdf (4 pages, 165093 bytes).
+c/lm/lmr17.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lmri10
+.pfb>
+Output written on UML.pdf (3 pages, 176440 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 32 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
