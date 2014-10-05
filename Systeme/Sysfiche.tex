@@ -19,8 +19,7 @@
 
 % Introduction tauntesque
 \chapter*{Introduction}
-Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe Blaess}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
-Écrit avec \LaTeX{}  qui, selon Mme.Compost, ne tourne \textbf{que} sur \emph{mac}. soz.\\
+Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe Blaess} et le cours de \textsc{Carlos}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
 
 
 % Chapitre sur les processus et leur vie
@@ -207,7 +206,7 @@ signal(SIGINT, SIG_IGN);
 
 
 %Chapitre sur Gestion des fichiers, fichiers
-\chapter{Gestion de fichiers et tout ça.}
+\chapter{Gestion de fichiers}
 \epigraph{"Sous UNIX, tout est fichier."}{les randoms gens sur internet}
 \section{Fichier? Ça fi-chier hehehahhrheuhrzuhrezu}
 Un fichier possède des attributs qui différent entre les systèmes de fichiers (\emph{ext2,ext4,fat32,...}). Pour ne pas se compliquer la vie, sachez qu'un fichier possède un nom (O RLY?), le nom de son créateur, sa taille, la date de création, ... Bon c'est pas très important.
@@ -217,7 +216,7 @@ Ainsi, il existe plusieurs types de fichier sous Linux/Unix:
 \begin{itemize}
 \item{\textbf{Les fichiers ordinaires}, c'est a dire les fichiers random comme \emph{merci.c}, \emph{i\_et\_y\_se\_font\_defoncer.mp4}, \emph{mcross.sh}, ...}
 \item{\textbf{Les répertoires}, c'est a dire les... répertoires et dossiers qui contiennent des fichiers.}
-\item{\textbf{Les fichiers spéciaux}, qui eux mêmes existent en deux type: les fichiers caractères, qui représentent les périphériques d'entrée-sorties (par exemple clavier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui représentent tout ce qui est disque et support de stockage.}
+\item{\textbf{Les fichiers spéciaux}, qui eux mêmes existent en deux type: les fichiers caractères, qui représentent les périphériques d'entrée-sorties (par exemple, le  clavier est représenté sous la forme d'un fichier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui représentent tout ce qui est disque et support de stockage.}
 \item{\textbf{Les liens}, qui ne comportent qu'un pointeur vers un fichier.}
 \end{itemize}
 
@@ -246,7 +245,7 @@ Bon, j'imagine que \emph{Mr.Toutlemonde} parle de l'exercice 1 du TD4. On va le 
 \emph{Exercice 1} : Un système de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
 \\
 \\
-Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 bits}. \\ 
+Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\ 
 Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{4 ko}. On en déduit qu'un bloc contient donc \textbf{1024 adresses}.
 
 Maintenant, on peut calculer la taille selon le type d'adressage:
@@ -276,7 +275,71 @@ La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus
 Parce oui, il faut bien jouer avec les fichiers en C.\\
 Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
 Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}.\\
-Enfin, le système d'exploitation possède une table commune à tous les processus; c'est la \emph{Table des fichiers ouverts}.
+Enfin, le système d'exploitation possède une table commune à tous les processus; c'est la \emph{Table des fichiers ouverts}. Cette table permet au système de savoir quel fichier est ouvert par qui et avec quels droits. On ne va pas s'étendre dessus, c'est pas très intéressant.
+\paragraph{}
+Sur U/L, il faut passer par plusieurs étapes afin d'utiliser un fichier dans un programme C: il faut \textbf{ouvrir} le fichier, faire son petit traitement (\textbf{lecture, écriture}, etc) puis \textbf{fermer} le fichier. Tout cela se fait par le biais d'appels systèmes que nous allons détailler.
 
-Je continuerais plus tard bicoz.
+\subsection{Ouvrir un fichier avec \emph{open( )}}
+\emph{open( )} se présente de la manière suivante:
+\begin{verbatim}
+int open( const char *fichier, int flag );
+\end{verbatim}
+Commençons par les paramètres. \emph{*fichier} représente ici le nom du fichier \textbf{et son chemin}. Le \emph{flag} représente en fait une constante définie dans \emph{fcntl.h} qui définit les conditions dans lesquelles on souhaite ouvrir le fichier. Il en existe 4 d'importantes:
+\begin{itemize}
+\item{O\_RDONLY, comme Open\_ReadONLY, va ouvrir le fichier en lecture uniquement}
+\item{O\_WRONLY, ouvre le fichier en écriture uniquement}
+\item{O\_RDWR, ouvre le fichier en lecture et écriture}
+\item{O\_APPEND, ouvre le fichier en écriture \textbf{en fin de fichier}}
+\end{itemize} 
+Enfin, \emph{open( )} renvoie un entier (ou -1 si il se plante), qui correspond en fait au fameux \textbf{file descriptor}. Il est donc primordial de récupérer la valeur de retour d'open!
+\paragraph{Exemple}
+Imaginons que l'on souhaite ouvrir un fichier \emph{fic} se trouvant à \emph{/home/mooshi/rep} en lecture et écriture, sachant que l'on se trouve dans un autre répertoire que le fichier \emph{fic}; on doit écrire:
+\begin{verbatim} 
+int fd = open("/home/mooshi/rep/fic", O_RDWR);
+\end{verbatim}
+Et \textsc{c'est gagné}.
+
+\paragraph{Création d'un fichier} À noter: \emph{open()} permet aussi de créer un fichier, selon les flags que l'on met. Si on utilise \emph{O\_CREAT}, on doit rajouter un paramètre pour les droits. Regardez l'exemple, ça sera plus clair.
+\begin{lstlisting}
+/* Je souhaite créer un fichier oui avec des droits pour tout le monde */
+int fd_oui = open("oui", O_CREAT, 0777);
+
+/* Je souhaite créer un fichier merci avec des droits que pour moi 
+et seulement si il existe pas déjà */
+int fd_merci = open("merci", O_CREAT | O_EXCL, 0700);
+\end{lstlisting}
+Le 3eme paramètre est un octal qui définit les droits. Vous vous rappelez de \emph{chmod}? C'est la même chose.
+
+\subsection{Lire dans un fichier avec \emph{read( )}}
+Regardons \emph{read( )}:
+\begin{verbatim}
+size_t read( int fd, void *buf, size_t nbOct )
+\end{verbatim}
+\textit{Mr.Toutlemonde}: omg c'est quoi ce size\_t??????? \\
+\\
+\emph{size\_t} correspond juste à un int. C'est juste pour montrer que ce int désigne une taille en octets.\\
+Maintenant, regardons les paramètres. En premier, on retrouve notre cher \emph{file descriptor} que l'on a récupéré un peu plus tôt.\\
+Pour le deuxième paramètre, il va falloir éclaircir la notion de \textbf{buffer}. Un buffer est une sorte de paquet d'une taille définie dans laquelle on va mettre des données. Très généralement, c'est un tableau de caractère qui occupe le rôle de buffer.\\
+Enfin, le dernier paramètre correspond au nombre d'octets que l'on souhaite lire dans le fichier.\\
+\emph{read( )} retourne le nombre d'octets effectivement lu dans le fichier.
+\paragraph{Exemple}
+Reprenons notre fichier fic du premier exemple. On souhaite lire son contenu sur 20 octets.
+\begin{lstlisting}
+char buf[20]; // On cree un buffer de taille 20 octets
+int nbOctetsLus = read(fd, buf, 20); //On lit 20 octets du fichier
+\end{lstlisting}
+\textit{Mr.Toutlemonde}: ouais mais il va où le contenu du fichier???\\
+Ben il va \sout{dans ton cul} ENFIN, non, mais on va voir ça tout de suite avec \emph{write}.
+
+\subsection{Écrire dans un fichier avec \emph{write( )}}
+En fait, les données lues vont dans notre buffer, c'est à dire, dans l'exemple précédent, \emph{buf}. \emph{write( )}, au lieu d'écrire dans le buffer depuis le fichier, va écrire dans le fichier depuis le buffer. Ainsi, on peut noter de nombreuses similitudes entre \emph{write( )} et \emph{open( )}:
+\begin{verbatim}
+size_t write(int fd, void *buf, size_t nbOct)
+\end{verbatim}
+Ici, nbOct représente le nombre d'octet que l'on souhaite écrire dans le fichier et cette primitive renvoie ici le nombre d'octets effectivement écrits dans le fichier.\\
+Souvent, on fait travailler \emph{open} et \emph{write} à la suite, puisque on utilise plusieurs fois le buffer.
+\paragraph{Exemple}
+
+
+
 \end{document}
