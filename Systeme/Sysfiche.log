@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.9.6)  5 OCT 2014 15:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.9.6)  7 OCT 2014 08:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -320,23 +320,21 @@ LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
 (Font)              using `T1/lmr/bx/n' instead on input line 26.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 27.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 27.
-LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 32.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 32.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 32.
 [2
 
-] [3]
+]
 Chapitre 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 58--59
 
  []
 
-[4
+[3
 
 ]
 LaTeX Font Info:    Try loading font information for OMS+lmr on input line 78.
@@ -345,17 +343,19 @@ File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/it' in size <10> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 78.
- [5]
+ [4]
 Chapitre 3.
-[6
+[5
 
 ]
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 161.
 
  (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [7] [8]
+) [6] [7]
 Chapitre 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 210.
 
 Overfull \hbox (10.6668pt too wide) in paragraph at lines 217--218
 []\T1/lmr/bx/n/10 Les fi-chiers or-di-naires\T1/lmr/m/n/10 , c'est a dire les f
@@ -363,88 +363,88 @@ i-chiers ran-dom comme \T1/lmr/m/it/10 merci.c\T1/lmr/m/n/10 , \T1/lmr/m/it/10
 i_et_y_se_font_defoncer.mp4\T1/lmr/m/n/10 ,
  []
 
-<adressage_direct.png, id=44, 343.2825pt x 249.93375pt>
+<adressage_direct.png, id=40, 343.2825pt x 249.93375pt>
 File: adressage_direct.png Graphic file (type png)
 
 <use adressage_direct.png>
-Package pdftex.def Info: adressage_direct.png used on input line 233.
+Package pdftex.def Info: adressage_direct.png used on input line 234.
 (pdftex.def)             Requested size: 343.28165pt x 249.93314pt.
 
-<adressage_indirect.png, id=46, 390.96063pt x 292.59312pt>
+<adressage_indirect.png, id=42, 390.96063pt x 292.59312pt>
 File: adressage_indirect.png Graphic file (type png)
 
 <use adressage_indirect.png>
-Package pdftex.def Info: adressage_indirect.png used on input line 237.
+Package pdftex.def Info: adressage_indirect.png used on input line 238.
 (pdftex.def)             Requested size: 390.95967pt x 292.59239pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--244
+Underfull \hbox (badness 10000) in paragraph at lines 226--245
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--244
+Underfull \hbox (badness 10000) in paragraph at lines 226--245
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--244
+Underfull \hbox (badness 10000) in paragraph at lines 226--245
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--244
+Underfull \hbox (badness 10000) in paragraph at lines 226--245
 
  []
 
-[9
+[8
 
-] [10 <./adressage_direct.png> <./adressage_indirect.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 245--250
+] [9 <./adressage_direct.png> <./adressage_indirect.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 246--251
 
  []
 
-<rep_unix.png, id=55, 279.0425pt x 111.41624pt>
+<rep_unix.png, id=52, 279.0425pt x 111.41624pt>
 File: rep_unix.png Graphic file (type png)
  <use rep_unix.png>
-Package pdftex.def Info: rep_unix.png used on input line 264.
+Package pdftex.def Info: rep_unix.png used on input line 265.
 (pdftex.def)             Requested size: 279.04181pt x 111.41597pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--266
+Underfull \hbox (badness 10000) in paragraph at lines 264--267
 
  []
 
-<rep_linux.png, id=56, 482.30188pt x 147.55125pt>
+<rep_linux.png, id=53, 482.30188pt x 147.55125pt>
 File: rep_linux.png Graphic file (type png)
  <use rep_linux.png>
-Package pdftex.def Info: rep_linux.png used on input line 268.
+Package pdftex.def Info: rep_linux.png used on input line 269.
 (pdftex.def)             Requested size: 482.3007pt x 147.55087pt.
 
-Overfull \hbox (12.54568pt too wide) in paragraph at lines 267--271
+Overfull \hbox (12.54568pt too wide) in paragraph at lines 268--272
 [] 
  []
 
-[11 <./rep_unix.png>] [12 <./rep_linux.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 316--323
+[10 <./rep_unix.png>] [11 <./rep_linux.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 317--324
 
  []
 
-[13] [14]
+[12] [13]
 Chapitre 5.
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 381--381
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 382--382
 []\T1/lmtt/m/n/10 write(desc[1], buffer, 20); // On souhaite écrire dans notre 
 pipe 20 octets de notre buffer[] 
  []
 
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 389--389
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 390--390
 []\T1/lmtt/m/n/10 read(desc[0], bufferLecture, 20); //On veut lire 20 octets de
 puis le pipe dans notre buffer[] 
  []
 
-[15
+[14
 
-] [16] (./Sysfiche.aux)
+] [15] (./Sysfiche.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -452,11 +452,11 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  4954 strings out of 493117
  68539 string characters out of 6135434
- 155718 words of memory out of 5000000
+ 154718 words of memory out of 5000000
  8316 multiletter control sequences out of 15000+600000
  93429 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,6n,49p,579b,1321s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,6n,49p,579b,1552s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2014/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/local/texlive/20
 14/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2014/texmf-d
@@ -471,10 +471,10 @@ nts/type1/public/lm/lmr9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pu
 blic/lm/lmri10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lm
 ri8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></
 usr/local/texlive/2014/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Sysfiche.pdf (17 pages, 510457 bytes).
+Output written on Sysfiche.pdf (16 pages, 507431 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
- 84 compressed objects within 1 object stream
+ 123 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

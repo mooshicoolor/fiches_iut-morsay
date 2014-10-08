@@ -24,7 +24,7 @@ Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe B
 
 % Chapitre sur les processus et leur vie
 \chapter{\textsc{Processus}}
-\epigraph{"[moi], va t'acheter une vie"}{une GROSSE...}
+% \epigraph{"[moi], va t'acheter une vie"}{une GROSSE...} c'est bon on a assez taunté
 \section{La notion de processus}
 Un processus, c'est une \emph{tâche en cours d'execution}. C'est en même temps du code et des données. Pour généraliser grossièrement, et pas de façon absolument vraie, un processus peut être représenté comme étant un programme en cours de fonctionnement.
 
@@ -49,7 +49,7 @@ Un processus peut avoir plusieurs états (un seul à la fois):
 
 % Chapitre sur l'exécution des programmes et leur fin
 \chapter{Exécution de programmes}
-\epigraph{"je vais me chékou, j'ai les yeux rouges"}{une GROSSE...}
+% \epigraph{"je vais me chékou, j'ai les yeux rouges"}{une GROSSE...}
 \section{Lancement d'un programme}
 On a vu que la création d'un processus se fait par le biais de \emph{fork}. Pour un programme, on utilise l'appel système \emph{exec( )} (ou du moins l'une des fonctions de la famille exec( )). \\
 Il existe deux fonctions: execl et execlp. Ces deux fonctions fonctionnent de la manière suivante:
@@ -98,7 +98,7 @@ Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!
 
 % Base des signaux sous linux/unix
 \chapter{Les \textsc{signaux}}
-\epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
+% \epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
 \section{Signal? c'est un dentifrice non???????}
 Un \emph{signal} est une sorte de message envoyé par un processus à un autre processus. Face à un signal, un processus peut effectuer une des actions au choix:
 \begin{itemize}
@@ -218,6 +218,7 @@ Ainsi, il existe plusieurs types de fichier sous Linux/Unix:
 \item{\textbf{Les répertoires}, c'est a dire les... répertoires et dossiers qui contiennent des fichiers.}
 \item{\textbf{Les fichiers spéciaux}, qui eux mêmes existent en deux type: les fichiers caractères, qui représentent les périphériques d'entrée-sorties (par exemple, le  clavier est représenté sous la forme d'un fichier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui représentent tout ce qui est disque et support de stockage.}
 \item{\textbf{Les liens}, qui ne comportent qu'un pointeur vers un fichier.}
+\item{\textbf{Les pipes}, et plus particulièrement les \emph{pipes nommés}, qui existent sous forme de fichier sur le système.}
 \end{itemize}
 
 \section{Système de fichiers sous Unix/Linux}
@@ -272,7 +273,7 @@ La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus
 \section{Primitives systèmes en C (tou)}
 Parce oui, il faut bien jouer avec les fichiers en C.\\
 Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
-Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}.\\
+Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}. Cela veut aussi dire que \textbf{chaque programme} possède dans sa table de descripteur de fichier les descripteurs 0, 1 et 2.\\
 Enfin, le système d'exploitation possède une table commune à tous les processus; c'est la \emph{Table des fichiers ouverts}. Cette table permet au système de savoir quel fichier est ouvert par qui et avec quels droits. On ne va pas s'étendre dessus, c'est pas très intéressant.
 \paragraph{}
 Sur U/L, il faut passer par plusieurs étapes afin d'utiliser un fichier dans un programme C: il faut \textbf{ouvrir} le fichier, faire son petit traitement (\textbf{lecture, écriture}, etc) puis \textbf{fermer} le fichier. Tout cela se fait par le biais d'appels systèmes que nous allons détailler.
