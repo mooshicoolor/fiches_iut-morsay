@@ -15,10 +15,12 @@
 \usepackage{textcomp}
 
 
-  \usepackage{fontspec} % Provide features for AAT and OpenType fonts
- \setmainfont{Helvetica Light} % Define the default font family
+%\usepackage{fontspec} % Provide features for AAT and OpenType fonts
+%\setmainfont{Helvetica Light} % Define the default font family
 
 \lstset{language=C}
+\lstset{showstringspaces=false}
+\lstset{frame=single}
 
 \title{Système.} 
 \author{\bsc{McRoss} "Beat" \textsc{DeKoualitat}}
@@ -501,6 +503,46 @@ On n'oublie pas de fermer les entrées/sorties inutiles pour éviter des embroui
 \chapter{Threads (\& Jamy)}
 \section{La notion de thread}
 Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. En fait, un thread est, pour reprendre les mots du cours sur développez.com, \emph{une unité d'éxecution plus fine qu'un processus}. Ce n'est pas pour rien qu'on appelle aussi les threads des \emph{processus léger}. La différence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. En effet, lorsque on créé un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus père. Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable, cette variable sera modifiée pour \textbf{tous les threads}. Il faut donc faire attention !
+
+\section{Création de thread}
+Pour créer un thread, on utilise la fonction \emph{pthread\_create( )}. Cette fonction se présente de la manière suivante:
+\begin{verbatim}
+int pthread_create(pthread_t *thread, NULL, void *(*fonc), void *arg);
+\end{verbatim}
+Regardons tranquillement les paramètres et leur rôle:
+\begin{itemize}
+\item{\emph{thread} représente un pointeur (ou une adresse) sur un objet de type \emph{pthread\_t};}
+\item{\emph{fonc} représente un pointeur sur un pointeur (wow) de fonction; }
+\item{\emph{arg} représente un argument passé pour la fonction \footnote{je vais faire quelques recherches dessus};}
+\end{itemize}
+Regardons maintenant un exemple:
+\begin{lstlisting}
+#include<pthread.h>
+
+void *fonction_thread(void *inutile)
+{
+	printf("coucou, tu veux voir mon pthread_t?????: %d",pthread_self());
+	pthread_exit(NULL);
+}
+
+int main(int argc, char **argv)
+{
+	
+	printf("Je suis le thread principal et je vais créer un autre thread");
+	pthread_t randomThread;
+	pthread_create(&randomThread, NULL, &fonction_thread, NULL);
+	
+	printf("Maintenant j'attends la fin du thread");
+	pthread_join(randomThread, NULL);
+	
+	exit(0);
+
+}
+\end{lstlisting}	
+
+
+
+
 
 
 
