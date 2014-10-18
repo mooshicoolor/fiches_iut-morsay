@@ -1,16 +1,26 @@
+% !TEX encoding = UTF-8 Unicode
 \documentclass{report} 
-\usepackage[latin1]{inputenc}
+
+%Ã€ compiler avec XeLaTeX
+
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} 
-\usepackage[francais]{babel}
+\usepackage[frenchb]{babel}
 \usepackage{lmodern}
 \usepackage{fullpage}
 \usepackage[normalem]{ulem}
 \usepackage{epigraph}
 \usepackage{listings}
 \usepackage{graphicx}
+\usepackage{textcomp}
+
+
+  \usepackage{fontspec} % Provide features for AAT and OpenType fonts
+ \setmainfont{Helvetica Light} % Define the default font family
+
 \lstset{language=C}
 
-\title{Système.} 
+\title{SystÃ¨me.} 
 \author{\bsc{McRoss} "Beat" \textsc{DeKoualitat}}
 \date{\today} 
 
@@ -19,61 +29,61 @@
 
 % Introduction tauntesque
 \chapter*{Introduction}
-Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe Blaess} et le cours de \textsc{Carlos}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
+BasÃ© sur \textit{Programmation systÃ¨me en C sous Linux} par \textsc{Christophe Blaess} et le cours de \textsc{Carlos}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
 
 
 % Chapitre sur les processus et leur vie
 \chapter{\textsc{Processus}}
-% \epigraph{"[moi], va t'acheter une vie"}{une GROSSE...} c'est bon on a assez taunté
+% \epigraph{"[moi], va t'acheter une vie"}{une GROSSE...} c'est bon on a assez tauntÃ©
 \section{La notion de processus}
-Un processus, c'est une \emph{tâche en cours d'execution}. C'est en même temps du code et des données. Pour généraliser grossièrement, et pas de façon absolument vraie, un processus peut être représenté comme étant un programme en cours de fonctionnement.
+Un processus, c'est une \emph{tÃ¢che en cours d'execution}. C'est en mÃªme temps du code et des donnÃ©es. Pour gÃ©nÃ©raliser grossiÃ¨rement, et pas de faÃ§on absolument vraie, un processus peut Ãªtre reprÃ©sentÃ© comme Ã©tant un programme en cours de fonctionnement.
 
-\section{Création d'un processus}
-Un processus est créé par le biais de l'appel système \emph{fork( )}. \emph{fork( )} fait la copie du processus père en un nouveau processus. Ce nouveau processus, qu'on appelle \emph{processus fils}, exécutera le même code que le processus père \footnote{Bien sur, le code qui se trouve après le \emph{fork}.} et \emph{héritera} des données du père (variables par exemple) mais aussi de l'environnement du processus père. Si, par exemple, le processus père modifie des \emph{variables d'environnement}, le fils héritera de ces variables modifiées.
+\section{CrÃ©ation d'un processus}
+Un processus est crÃ©Ã© par le biais de l'appel systÃ¨me \emph{fork( )}. \emph{fork( )} fait la copie du processus pÃ¨re en un nouveau processus. Ce nouveau processus, qu'on appelle \emph{processus fils}, exÃ©cutera le mÃªme code que le processus pÃ¨re \footnote{Bien sur, le code qui se trouve aprÃ¨s le \emph{fork}.} et \emph{hÃ©ritera} des donnÃ©es du pÃ¨re (variables par exemple) mais aussi de l'environnement du processus pÃ¨re. Si, par exemple, le processus pÃ¨re modifie des \emph{variables d'environnement}, le fils hÃ©ritera de ces variables modifiÃ©es.
 Bien sur, qui dit nouveau processus, dit nouveaux identifiants pour le nouveau processus. 
 \paragraph{}
-Cependant, et c'est un détail important, les données dupliquées entre le père et le fils ne sont pas immédiatement copiées; c'est à dire que tant que le fils et le père partagent des informations communes, cette information existe en \emph{un seul exemplaire} dans le système. Par contre, si jamais l'un des deux décide de modifier cette information, c'est à ce moment que cette information est dupliquée. C'est la méthode de \emph{copie sur écriture}.
+Cependant, et c'est un dÃ©tail important, les donnÃ©es dupliquÃ©es entre le pÃ¨re et le fils ne sont pas immÃ©diatement copiÃ©es; c'est Ã  dire que tant que le fils et le pÃ¨re partagent des informations communes, cette information existe en \emph{un seul exemplaire} dans le systÃ¨me. Par contre, si jamais l'un des deux dÃ©cide de modifier cette information, c'est Ã  ce moment que cette information est dupliquÃ©e. C'est la mÃ©thode de \emph{copie sur Ã©criture}.
 \paragraph{}
-Enfin, dernière note: il faut savoir qu'il n'y \textbf{pas} d'ordre d'exécution prédéfini entre un processus fils et un processus père. Cela veut dire que le fils peut prendre la main a tout moment et le père peut en faire de même.
+Enfin, derniÃ¨re note: il faut savoir qu'il n'y \textbf{pas} d'ordre d'exÃ©cution prÃ©dÃ©fini entre un processus fils et un processus pÃ¨re. Cela veut dire que le fils peut prendre la main a tout moment et le pÃ¨re peut en faire de mÃªme.
 
-\section{Les états}
-Un processus peut avoir plusieurs états (un seul à la fois):
+\section{Les Ã©tats}
+Un processus peut avoir plusieurs Ã©tats (un seul Ã  la fois):
 \begin{itemize}
 \item \textsc{Running}: le processus est actuellement en train de faire son job;
-\item \textsc{Waiting/Sleeping}: le processus est en attente de ressources ou d'événements extérieurs;
-\item \textsc{Stopped}: le processus est stoppé par un \emph{signal} et ne reprendra que par un \emph{signal de redémarrage};
-\item \textsc{Terminated}: le processus a fini son travail.\footnote{Dans le cas où le processus a fini son travail mais que son père n'a pas encore lu son code de retour avec \emph{wait()}, il reste alors présent dans la table des processus tant qu'on a pas lu son code de retour; on parle d'état \textsc{zombie} dans ce cas.}
+\item \textsc{Waiting/Sleeping}: le processus est en attente de ressources ou d'Ã©vÃ©nements extÃ©rieurs;
+\item \textsc{Stopped}: le processus est stoppÃ© par un \emph{signal} et ne reprendra que par un \emph{signal de redÃ©marrage};
+\item \textsc{Terminated}: le processus a fini son travail.\footnote{Dans le cas oÃ¹ le processus a fini son travail mais que son pÃ¨re n'a pas encore lu son code de retour avec \emph{wait()}, il reste alors prÃ©sent dans la table des processus tant qu'on a pas lu son code de retour; on parle d'Ã©tat \textsc{zombie} dans ce cas.}
 \end{itemize}
 
 
 
-% Chapitre sur l'exécution des programmes et leur fin
-\chapter{Exécution de programmes}
-% \epigraph{"je vais me chékou, j'ai les yeux rouges"}{une GROSSE...}
+% Chapitre sur l'exÃ©cution des programmes et leur fin
+\chapter{ExÃ©cution de programmes}
+% \epigraph{"je vais me chÃ©kou, j'ai les yeux rouges"}{une GROSSE...}
 \section{Lancement d'un programme}
-On a vu que la création d'un processus se fait par le biais de \emph{fork}. Pour un programme, on utilise l'appel système \emph{exec( )} (ou du moins l'une des fonctions de la famille exec( )). \\
-Il existe deux fonctions: execl et execlp. Ces deux fonctions fonctionnent de la manière suivante:
+On a vu que la crÃ©ation d'un processus se fait par le biais de \emph{fork}. Pour un programme, on utilise l'appel systÃ¨me \emph{exec( )} (ou du moins l'une des fonctions de la famille exec( )). \\
+Il existe deux fonctions: execl et execlp. Ces deux fonctions fonctionnent de la maniÃ¨re suivante:
 \begin{itemize}
 \item execl("\emph{chemin absolu}", "\emph{nom de l'application}", "\emph{argument}", ..., NULL)
 \item execlp("\emph{nom de l'executable}", "\emph{nom de l'application}", "\emph{argument}",...., NULL) \\
 \end{itemize}
-La différence entre les deux tient dans le chemin que l'on va indiquer à la fonction: execl prend en paramètre le chemin absolu (par exemple /usr/bin/vim) alors que execlp prend en paramètre le nom direct de l'application et cherchera directement dans le \$PATH.
+La diffÃ©rence entre les deux tient dans le chemin que l'on va indiquer Ã  la fonction: execl prend en paramÃ¨tre le chemin absolu (par exemple /usr/bin/vim) alors que execlp prend en paramÃ¨tre le nom direct de l'application et cherchera directement dans le \$PATH.
 \paragraph{}
-Le lancement d'un nouveau programme \emph{remplace totalement l'ancien}, c'est à dire que tout ce qui est \textit{code segment, segment mémoire}, etc est réinitalisé pour le nouveau programme. Par contre, il n'y a \textbf{pas} de \textbf{nouveau processus} créé. Le processus qui lance un programme garde \textbf{le même} PID, PPID, etc.
+Le lancement d'un nouveau programme \emph{remplace totalement l'ancien}, c'est Ã  dire que tout ce qui est \textit{code segment, segment mÃ©moire}, etc est rÃ©initalisÃ© pour le nouveau programme. Par contre, il n'y a \textbf{pas} de \textbf{nouveau processus} crÃ©Ã©. Le processus qui lance un programme garde \textbf{le mÃªme} PID, PPID, etc.
 \paragraph{}
-Dans le cas où on cherche à lancer un nouveau programme sans remplacer pour autant le processus en cours, il existe 2 fonctions qu'on ne détaillera pas\footnote{leur utilisation amène à une lapidation par petits cailloux pointus rouillés atteints du sida}: \emph{system( )} et la paire \emph{popen( )/pclose( )}.
-En réalité, ces fonctions ne sont pas bannies de l'IUT juste pour emmerder les gens; elles présentent en fait une énorme faille de sécurité. \footnote{programme compilé en root, script \emph{rm -r /} déguisé = boum}
+Dans le cas oÃ¹ on cherche Ã  lancer un nouveau programme sans remplacer pour autant le processus en cours, il existe 2 fonctions qu'on ne dÃ©taillera pas\footnote{leur utilisation amÃ¨ne Ã  une lapidation par petits cailloux pointus rouillÃ©s atteints du sida}: \emph{system( )} et la paire \emph{popen( )/pclose( )}.
+En rÃ©alitÃ©, ces fonctions ne sont pas bannies de l'IUT juste pour emmerder les gens; elles prÃ©sentent en fait une Ã©norme faille de sÃ©curitÃ©. \footnote{programme compilÃ© en root, script \emph{rm -r /} dÃ©guisÃ© = boum}
 
 \section{Fin d'un programme}
-Un programme peut mettre fin à son execution soit de manière \emph{normale} (abandon par l'utilisateur, tâche finie) ou soit, vous l'aurez deviné, de manière \emph{anormale} (bug, crash, tout ce que vous voulez).
-\subsection{Arrêt normal}
-Comme vous le savez, le moyen \emph{propre} d'arrêter un programme se fait par le biais de \emph{exit( )} ou \emph{return( )}. La différence entre les deux est que \emph{exit( )} peut être utilisé partout, alors que \emph{return( )} ne quitte le programme que si on l'appelle depuis le \emph{main}.
-\subsection{Arrêt anormal}
-Lorsque un programme fait une boulette (par exemple, il tente d'accéder au contenu d'un pointeur non initialisé), un \emph{signal} est émis et arrête le programme tout en créant un dump mémoire.\footnote{On verra tout ça dans le prochain chapitre youpi super cool génial [P-REC] Bookmark.} \\
-Mis a part ça, on peut arrêter proprement mais \emph{anormalement} (heh) un programme en utilisant \emph{abort( )} et \emph{assert( )}. Ces deux fonctions émettent des signaux et permettent un débogage du programme.
+Un programme peut mettre fin Ã  son execution soit de maniÃ¨re \emph{normale} (abandon par l'utilisateur, tÃ¢che finie, return, exit) ou soit, vous l'aurez devinÃ©, de maniÃ¨re \emph{anormale} (arrÃªtÃ© par un signal quoi).
+\subsection{ArrÃªt normal}
+Comme vous le savez, le moyen \emph{propre} d'arrÃªter un programme se fait par le biais de \emph{exit( )} ou \emph{return( )}. La diffÃ©rence entre les deux est que \emph{exit( )} peut Ãªtre utilisÃ© partout, alors que \emph{return( )} ne quitte le programme que si on l'appelle depuis le \emph{main}.
+\subsection{ArrÃªt anormal}
+Lorsque un programme fait une boulette (par exemple, il tente d'accÃ©der au contenu d'un pointeur non initialisÃ©), un \emph{signal} est Ã©mis et arrÃªte le programme tout en crÃ©ant un dump mÃ©moire.\footnote{On verra tout Ã§a dans le prochain chapitre youpi super cool gÃ©nial [P-REC] Bookmark.} \\
+Mis a part Ã§a, on peut arrÃªter proprement mais \emph{anormalement} (heh) un programme en utilisant \emph{abort( )} et \emph{assert( )}. Ces deux fonctions Ã©mettent des signaux et permettent un dÃ©bogage du programme.
 \subsection{Dans le cas d'un processus fils}
-Imaginons que nous avons un processus fils. Que ce processus se soit arrêté normalement ou pas, son processus père se doit de lire son code de retour, afin que le processus fils n'erre indéfiniment dans les limbes des processus.\\
-Pour cela, on utilise \emph{wait( )}. Cette fonction (ou l'une des fonctions de la famille wait()) permet au processus père de lire le code de retour d'un proc fils. En fait, le processus père \emph{attend} que l'un des processus fils se termine. \emph{wait( )} peut prendre en paramètre l'adresse d'un int afin de connaitre les circonstances de la mort du processus fils. On le fait de manière suivante:
+Imaginons que nous avons un processus fils. Que ce processus se soit arrÃªtÃ© normalement ou pas, son processus pÃ¨re se doit de lire son code de retour, afin que le processus fils n'erre indÃ©finiment dans les limbes des processus.\\
+Pour cela, on utilise \emph{wait( )}. Cette fonction (ou l'une des fonctions de la famille wait()) permet au processus pÃ¨re de lire le code de retour d'un proc fils. En fait, le processus pÃ¨re \emph{attend} que l'un des processus fils se termine. \emph{wait( )} peut prendre en paramÃ¨tre l'adresse d'un int afin de connaitre les circonstances de la mort du processus fils. On le fait de maniÃ¨re suivante:
 \begin{lstlisting}
 int status; /* le int qui nous permet d'avoir le code retour */
 
@@ -81,18 +91,18 @@ int status; /* le int qui nous permet d'avoir le code retour */
 
 wait(&status); /*on attend la mort du fils*/
 
-if (WIFEXITED(status))	/* on vérifie maintenant comment le fils est mort */
+if (WIFEXITED(status))	/* on vÃ©rifie maintenant comment le fils est mort */
 	printf("code %d",WEXITSTATUS(status));
 else if ... /* bla bla bla */
 
 \end{lstlisting}
-Voilà. Il existe 3 macros qui permettent de savoir comment le fils est mort:
+VoilÃ . Il existe 3 macros qui permettent de savoir comment le fils est mort:
 \begin{itemize}
-\item \textsc{WIFEXITED}, qui est vraie si le programme s'est quitté tout seul (va avec \textsc{WEXITSTATUS} afin de connaitre le code retour)
-\item \textsc{WIFSIGNALED}, si le programme a été tué par un \emph{signal} (exemple: SIGKILL aka kill -9). Utiliser \textsc{WTERMSIG} afin de connaitre quel signal a tué le processus.
-\item \textsc{WIFSTOPPED}, si le programme est temporairement stoppé par un signal (bien souvent SIGSTOP).
+\item \textsc{WIFEXITED}, qui est vraie si le programme s'est quittÃ© tout seul (va avec \textsc{WEXITSTATUS} afin de connaitre le code retour)
+\item \textsc{WIFSIGNALED}, si le programme a Ã©tÃ© tuÃ© par un \emph{signal} (exemple: SIGKILL aka kill -9). Utiliser \textsc{WTERMSIG} afin de connaitre quel signal a tuÃ© le processus.
+\item \textsc{WIFSTOPPED}, si le programme est temporairement stoppÃ© par un signal (bien souvent SIGSTOP).
 \end{itemize}
-Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!  
+Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancÃ©s!  
 
 
 
@@ -100,96 +110,96 @@ Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!
 \chapter{Les \textsc{signaux}}
 % \epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
 \section{Signal? c'est un dentifrice non???????}
-Un \emph{signal} est une sorte de message envoyé par un processus à un autre processus. Face à un signal, un processus peut effectuer une des actions au choix:
+Un \emph{signal} est une sorte de message envoyÃ© par un processus Ã  un autre processus. Face Ã  un signal, un processus peut effectuer une des actions au choix:
 \begin{itemize}
 \item \emph{Ignorer} le signal, mais attention, ce n'est pas possible pour tous les signaux (par exemple, il est impossible d'ignorer \textsc{SIGKILL});
-\item \emph{Capturer} le signal, c'est à dire exécuter une procédure particulière quand le programme reçoit un signal particulier;
-\item \emph{Laisser le kernel s'en occuper}, c'est a dire laisser l'action par défaut définie par chaque signal (exemple: se terminer anormalement pour \textsc{SIGINT}, ou ne rien faire pour \textsc{SIGCHILD})
+\item \emph{Capturer} le signal, c'est Ã  dire exÃ©cuter une procÃ©dure particuliÃ¨re quand le programme reÃ§oit un signal particulier;
+\item \emph{Laisser le kernel s'en occuper}, c'est a dire laisser l'action par dÃ©faut dÃ©finie par chaque signal (exemple: se terminer anormalement pour \textsc{SIGINT}, ou ne rien faire pour \textsc{SIGCHILD})
 \end{itemize}
 \paragraph{}
-Un signal est émis soit:
+Un signal est Ã©mis soit:
 \begin{itemize}
-\item \emph{Par le système}, lorsque il détecte quelque chose (instruction illégale, fin d'un processus fils, \sout{rencontre avec ma GROSSE...})
-\item \emph{Par l'utilisateur} lui même, par le biais de commandes (CTRL+C, CTRL+U, etc), par la fonction \emph{kill( )}, ou encore avec des fonctions (\emph{raise( ), kill( ), etc})
+\item \emph{Par le systÃ¨me}, lorsque il dÃ©tecte quelque chose (instruction illÃ©gale, fin d'un processus fils, \sout{rencontre avec ma GROSSE...})
+\item \emph{Par l'utilisateur} lui mÃªme, par le biais de commandes (CTRL+C, CTRL+U, etc), par la fonction \emph{kill( )}, ou encore avec des fonctions (\emph{raise( ), kill( ), etc})
 \end{itemize}
 
 \section{Les principaux signaux}
 
 \subsection{Signaux de terminaison (sigint, sigkill, sigquit, sigterm)}
 \begin{itemize}
-\item \textsc{sigint}, code 2, appelée aussi avec CTRL+C, correspond à un SIGnal d'INTerruption, donc termine le processus. Peut être ignoré/capturé.
-\item \textsc{sigquit}, code 3, appelée aussi avec CTRL+\textbackslash, termine le processus mais créé un fichier core/dump. Peut être ignoré/capturé.
-\item \textsc{sigkill}, code 9, \textbf{tue} (pas proprement) le processus à \textbf{tout les coups}. À utiliser en dernier recours. Ne peut \textbf{pas} être ignoré/capturé.
-\item \textsc{sigterm}, code 15, tue \textbf{proprement} le processus. Correspond à l'action par défaut de la fonction \emph{kill( )}. Peut être ignoré/capturé.
+\item \textsc{sigint}, code 2, appelÃ©e aussi avec CTRL+C, correspond Ã  un SIGnal d'INTerruption, donc termine le processus. Peut Ãªtre ignorÃ©/capturÃ©.
+\item \textsc{sigquit}, code 3, appelÃ©e aussi avec CTRL+\textbackslash, termine le processus mais crÃ©Ã© un fichier core/dump. Peut Ãªtre ignorÃ©/capturÃ©.
+\item \textsc{sigkill}, code 9, \textbf{tue} (pas proprement) le processus Ã  \textbf{tout les coups}. Ã€ utiliser en dernier recours. Ne peut \textbf{pas} Ãªtre ignorÃ©/capturÃ©.
+\item \textsc{sigterm}, code 15, tue \textbf{proprement} le processus. Correspond Ã  l'action par dÃ©faut de la fonction \emph{kill( )}. Peut Ãªtre ignorÃ©/capturÃ©.
 \end{itemize}
 
 \subsection{Signaux de gestion de processus (sigchld, sigstop ou sigstp, sigcont, sigalrm, sigusr1\&sigusr2)}
 \begin{itemize}
-\item \textsc{sigchld}, code 17, envoyé au processus père lorsque l'un des processus fils s'est terminé. Est ignoré par défaut. Peut être ignoré/capturé.
-\item \textsc{sigstop\textbackslash sigstp}, code 19 et 20. Stoppe le processus (voir états des processus). La différence entre les deux tient dans le fait que \textsc{sigstop} est pas ignorable ou capturable alors que \textsc{sigstp} l'est.
-\item \textsc{sigcont}, code 18, relance le processus si il est stoppé. Ne peut pas être ignoré/capturé.
-\item \textsc{sigalrm}, code 14, est envoyé lorsque le temps défini par l'appel système \emph{alarm( )} a expiré.
-\item \textsc{sigusr1\&sigusr2}, code 10 et 12, sont des signaux \emph{personnalisables}. Par défaut, ils terminent le processus, mais on peut les capturer pour faire autre chose avec. 
+\item \textsc{sigchld}, code 17, envoyÃ© au processus pÃ¨re lorsque l'un des processus fils s'est terminÃ©. Est ignorÃ© par dÃ©faut. Peut Ãªtre ignorÃ©/capturÃ©.
+\item \textsc{sigstop\textbackslash sigstp}, code 19 et 20. Stoppe le processus (voir Ã©tats des processus). La diffÃ©rence entre les deux tient dans le fait que \textsc{sigstop} est pas ignorable ou capturable alors que \textsc{sigstp} l'est.
+\item \textsc{sigcont}, code 18, relance le processus si il est stoppÃ©. Ne peut pas Ãªtre ignorÃ©/capturÃ©.
+\item \textsc{sigalrm}, code 14, est envoyÃ© lorsque le temps dÃ©fini par l'appel systÃ¨me \emph{alarm( )} a expirÃ©.
+\item \textsc{sigusr1\&sigusr2}, code 10 et 12, sont des signaux \emph{personnalisables}. Par dÃ©faut, ils terminent le processus, mais on peut les capturer pour faire autre chose avec. 
 \end{itemize}
 
-\subsection{Signaux d'erreur (pas très important)}
-Par défaut, ces signaux arrêtent le processus.
+\subsection{Signaux d'erreur (pas trÃ¨s important)}
+Par dÃ©faut, ces signaux arrÃªtent le processus.
 \begin{itemize}
-\item \textsc{sigbus \& sigsegv}: adresse mémoire invalide ou erreur de segmentation.
+\item \textsc{sigbus \& sigsegv}: adresse mÃ©moire invalide ou erreur de segmentation.
 \item \textsc{sigfpe}: erreur de calcul (ex: division par 0).
-\item \textsc{sigxcpu \& sigxfsz}: limite d'utilisation de ressources dépassé.
-\item \textsc{sigill}: instruction assembleur illégale.
+\item \textsc{sigxcpu \& sigxfsz}: limite d'utilisation de ressources dÃ©passÃ©.
+\item \textsc{sigill}: instruction assembleur illÃ©gale.
 \end{itemize}
 
 
 \section{Les fonctions C}
-Il existe une ribambelle de fonctions C pour émettre/capturer/attendre/\sout{exploser} un ou des signaux.
-\subsection{Émettre un signal}
-Il existe ici deux fonctions, \emph{kill( )} et \emph{raise( )}. La différence entre les deux est que \emph{raise( )} envoie le signal au processus qui l'appelle, alors que \emph{kill( )} permet d'envoyer un signal à n'importe quel processus (suivant les droits bien\_entendu).\\
-\emph{kill( )} s'utilise la manière suivante:
+Il existe une ribambelle de fonctions C pour Ã©mettre/capturer/attendre/\sout{exploser} un ou des signaux.
+\subsection{Ã‰mettre un signal}
+Il existe ici deux fonctions, \emph{kill( )} et \emph{raise( )}. La diffÃ©rence entre les deux est que \emph{raise( )} envoie le signal au processus qui l'appelle, alors que \emph{kill( )} permet d'envoyer un signal Ã  n'importe quel processus (suivant les droits bien\_entendu).\\
+\emph{kill( )} s'utilise la maniÃ¨re suivante:
 \begin{lstlisting}
-kill(<pid du proc visé>, <code du signal>);
+kill(<pid du proc visÃ©>, <code du signal>);
 \end{lstlisting}
-\emph{kill( )} retourne un int suivant sa réussite. Il faut noter qu'on peut utiliser "-1" en tant que pid pour envoyer le signal à tous les processus (a part init, of\_course).
+\emph{kill( )} retourne un int suivant sa rÃ©ussite. Il faut noter qu'on peut utiliser "-1" en tant que pid pour envoyer le signal Ã  tous les processus (a part init, of\_course).
 \paragraph{}
-Petite note supplémentaire: il existe une fonction \emph{alarm( )} qui prend en paramètre un nombre de secondes. Cette fonction permet d'envoyer un SIGALRM au processus en cours (c'est à dire \emph{soi même}) après le nombre de secondes passé en paramètre.
+Petite note supplÃ©mentaire: il existe une fonction \emph{alarm( )} qui prend en paramÃ¨tre un nombre de secondes. Cette fonction permet d'envoyer un SIGALRM au processus en cours (c'est Ã  dire \emph{soi mÃªme}) aprÃ¨s le nombre de secondes passÃ© en paramÃ¨tre.
 
 \subsection{Attendre un signal}
-La fonction \emph{pause( )} permet de mettre le programme en attente d'un signal. Le programme se mettra en pause tant qu'il n'aura pas reçu de signal.\\
+La fonction \emph{pause( )} permet de mettre le programme en attente d'un signal. Le programme se mettra en pause tant qu'il n'aura pas reÃ§u de signal.\\
 Note: il ne faut \textbf{pas} utiliser de \emph{sleep( ), wait( ),} ou autres conneries pour attendre un signal. Il faut \textbf{toujours} utiliser \emph{pause( )}.\footnote{au risque de se faire taper dessus par \textsc{Carlos}}\\
-\emph{pause( )} s'utilise de la manière suivante:
+\emph{pause( )} s'utilise de la maniÃ¨re suivante:
 \begin{verbatim}
 pause( );
 \end{verbatim}
 ez non??????????????
 
-\subsection{Gérer les signaux}
-Il faut d'abord créer une \textbf{procédure} qui prendra en paramètre le signal. Cette procédure s'occupera du traitement du signal.\\
-Notez que cette procédure prend exclusivement \textbf{1 paramètre}, un entier. Pour les détails (ou pour bluffer 2/3 pequenots), cet entier représente la constante symbolique du signal. Cet entier sera rempli automatiquement par le système d'exploitation.\\
+\subsection{GÃ©rer les signaux}
+Il faut d'abord crÃ©er une \textbf{procÃ©dure} qui prendra en paramÃ¨tre le signal. Cette procÃ©dure s'occupera du traitement du signal.\\
+Notez que cette procÃ©dure prend exclusivement \textbf{1 paramÃ¨tre}, un entier. Pour les dÃ©tails (ou pour bluffer 2/3 pequenots), cet entier reprÃ©sente la constante symbolique du signal. Cet entier sera rempli automatiquement par le systÃ¨me d'exploitation.\\
 Voyons un exemple:
 \begin{lstlisting}
 void gestSig(int sig)
 {	
 	/* on met nos traitements par signal */
-	/* par exemple, si le proc reçoit SIGINT */
+	/* par exemple, si le proc reÃ§oit SIGINT */
 	if (sig==SIGINT)
 		printf("CTRL-C recu\n");
 }
 \end{lstlisting}
-Ici, cette procédure gère le signal SIGINT. Notez qu'on est \emph{pas obligé} de faire le test. On peut, par exemple, créer autant de procédures que de signaux que l'on souhaite traiter, ou ne créer qu'une seule procédure qui sera utilisé par tous les signaux.\\
+Ici, cette procÃ©dure gÃ¨re le signal SIGINT. Notez qu'on est \emph{pas obligÃ©} de faire le test. On peut, par exemple, crÃ©er autant de procÃ©dures que de signaux que l'on souhaite traiter, ou ne crÃ©er qu'une seule procÃ©dure qui sera utilisÃ© par tous les signaux.\\
 Ensuite, il faut utiliser \emph{signal( )} ou \emph{sigaction( )}. On se penchera ici sur \emph{signal( )}.
 \begin{lstlisting}
 /* on imagine qu'on a notre gestionnaire de signal "gestSig" qui affiche "oui" 
- * dés qu'on reçoit un SIGINT */
+ * dÃ©s qu'on reÃ§oit un SIGINT */
  int main()
  {
  	signal(SIGINT, gestSig);
 	pause();
-	/* on reçoit CTRL-C aka SIGINT */
+	/* on reÃ§oit CTRL-C aka SIGINT */
 	exit 0;
  }     
 \end{lstlisting}
-Ce qui donnera à l'affichage, lorsque on execute le programme "prog" au dessus:
+Ce qui donnera Ã  l'affichage, lorsque on execute le programme "prog" au dessus:
 \begin{verbatim}
 >>> prog
 (on tape CTRL-C)
@@ -198,56 +208,56 @@ Ce qui donnera à l'affichage, lorsque on execute le programme "prog" au dessus:
 >>>  
 \end{verbatim}
 ez aussi non??????\\
-À noter: il existe aussi des constantes pour gérer les signaux, comme SIG\_IGN par exemple. On utilise ces constantes de la manière suivante:
+Ã€ noter: il existe aussi des constantes pour gÃ©rer les signaux, comme SIG\_IGN par exemple. On utilise ces constantes de la maniÃ¨re suivante:
 \begin{lstlisting}
 signal(SIGINT, SIG_IGN);
-/* SIGINT sera ignoré */
+/* SIGINT sera ignorÃ© */
 \end{lstlisting}
 
 
 %Chapitre sur Gestion des fichiers, fichiers
 \chapter{Gestion de fichiers}
 \epigraph{"Sous UNIX, tout est fichier."}{les randoms gens sur internet}
-\section{Fichier? Ça fi-chier hehehahhrheuhrzuhrezu}
-Un fichier possède des attributs qui différent entre les systèmes de fichiers (\emph{ext2,ext4,fat32,...}). Pour ne pas se compliquer la vie, sachez qu'un fichier possède un nom (O RLY?), le nom de son créateur, sa taille, la date de création, ... Bon c'est pas très important.
+\section{Fichier? Ã‡a fi-chier hehehahhrheuhrzuhrezu}
+Un fichier possÃ¨de des attributs qui diffÃ©rent entre les systÃ¨mes de fichiers (\emph{ext2,ext4,fat32,...}). Pour ne pas se compliquer la vie, sachez qu'un fichier possÃ¨de un nom (O RLY?), le nom de son crÃ©ateur, sa taille, la date de crÃ©ation, ... Bon c'est pas trÃ¨s important.
 \paragraph{}
-Comme disent les \emph{randoms gens sur internet}, \textbf{tout est fichier sous Linux/Unix}. Cela ne veut pas forcément dire que \emph{tous} les fichiers sont de \emph{même type}.\\
+Comme disent les \emph{randoms gens sur internet}, \textbf{tout est fichier sous Linux/Unix}. Cela ne veut pas forcÃ©ment dire que \emph{tous} les fichiers sont de \emph{mÃªme type}.\\
 Ainsi, il existe plusieurs types de fichier sous Linux/Unix:
 \begin{itemize}
 \item{\textbf{Les fichiers ordinaires}, c'est a dire les fichiers random comme \emph{merci.c}, \emph{i\_et\_y\_se\_font\_defoncer.mp4}, \emph{mcross.sh}, ...}
-\item{\textbf{Les répertoires}, c'est a dire les... répertoires et dossiers qui contiennent des fichiers.}
-\item{\textbf{Les fichiers spéciaux}, qui eux mêmes existent en deux type: les fichiers caractères, qui représentent les périphériques d'entrée-sorties (par exemple, le  clavier est représenté sous la forme d'un fichier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui représentent tout ce qui est disque et support de stockage.}
+\item{\textbf{Les rÃ©pertoires}, c'est a dire les... rÃ©pertoires et dossiers qui contiennent des fichiers.}
+\item{\textbf{Les fichiers spÃ©ciaux}, qui eux mÃªmes existent en deux type: les fichiers caractÃ¨res, qui reprÃ©sentent les pÃ©riphÃ©riques d'entrÃ©e-sorties (par exemple, le  clavier est reprÃ©sentÃ© sous la forme d'un fichier, allez voir dans \emph{/dev/}), et les fichiers bloc, qui reprÃ©sentent tout ce qui est disque et support de stockage.}
 \item{\textbf{Les liens}, qui ne comportent qu'un pointeur vers un fichier.}
-\item{\textbf{Les pipes}, et plus particulièrement les \emph{pipes nommés}, qui existent sous forme de fichier sur le système.}
+\item{\textbf{Les pipes}, et plus particuliÃ¨rement les \emph{pipes nommÃ©s}, qui existent sous forme de fichier sur le systÃ¨me.}
 \end{itemize}
 
-\section{Système de fichiers sous Unix/Linux}
+\section{SystÃ¨me de fichiers sous Unix/Linux}
 \subsection{Les fichiers ordinaires}
-La gestion des fichiers sous U/L\footnote{vu que j'ai la flemme de réécrire Unix/Linux partout, je vais abréger ça par U/L} repose sur la notion d'\textbf{inode} (ou i-noeud).\\
-Un inode est un \emph{index} avec des cases. Pour des raisons de commodité, on va dire que la première case comporte les attributs du fichier. Ensuite, il y a 10 cases (ou 12 cases, sous Linux) qui comportent chacune une adresse vers un bloc de données. Après ces 10 (ou 12 cases), il y a 3 cases \emph{spéciales}.\\
-Ces 3 cases sont spéciales car elles permettent ce qu'on appelle l'\emph{adressage indirect}.\newline
+La gestion des fichiers sous U/L\footnote{vu que j'ai la flemme de rÃ©Ã©crire Unix/Linux partout, je vais abrÃ©ger Ã§a par U/L} repose sur la notion d'\textbf{inode} (ou i-noeud).\\
+Un inode est un \emph{index} avec des cases. Pour des raisons de commoditÃ©, on va dire que la premiÃ¨re case comporte les attributs du fichier. Ensuite, il y a 10 cases (ou 12 cases, sous Linux) qui comportent chacune une adresse vers un bloc de donnÃ©es. AprÃ¨s ces 10 (ou 12 cases), il y a 3 cases \emph{spÃ©ciales}.\\
+Ces 3 cases sont spÃ©ciales car elles permettent ce qu'on appelle l'\emph{adressage indirect}.\newline
 \\
 \emph{Mr.Toutlemonde :} "waaaa c quoi l'adressage??????"\\
 \\
-Du calme, Mr.Toutlemonde. L'adressage signifie que la case donne l'adresse d'un bloc de données:
+Du calme, Mr.Toutlemonde. L'adressage signifie que la case donne l'adresse d'un bloc de donnÃ©es:
 \\
 \includegraphics{adressage_direct}
 \\
 On a ici de \emph{l'adressage direct}. Voyons maintenant l'\emph{adressage indirect}.:
 \\
 \includegraphics{adressage_indirect} \\
-Comme vous le voyez, l'adressage indirect s'appelle comme ça car l'adresse contenue dans la case pointe vers \emph{un bloc d'adresses}, et non pas \textbf{directement} un bloc de données. Chacune des adresses contenue dans le bloc d'adresses pointe vers un bloc de données.\\
-Ainsi, la case 11 pointe vers un bloc d'adresse, la case 12 pointe vers un bloc d'adresses dont chaque adresse pointe vers \textbf{un autre} bloc d'adresses, et dans ce bloc d'adresse chaque adresse pointe vers un bloc de données (adressage indirect double), et enfin pour la case 13 on applique l'adressage indirect triple\footnote{j'ai la flemme de détailler, mdr}.\\
+Comme vous le voyez, l'adressage indirect s'appelle comme Ã§a car l'adresse contenue dans la case pointe vers \emph{un bloc d'adresses}, et non pas \textbf{directement} un bloc de donnÃ©es. Chacune des adresses contenue dans le bloc d'adresses pointe vers un bloc de donnÃ©es.\\
+Ainsi, la case 11 pointe vers un bloc d'adresse, la case 12 pointe vers un bloc d'adresses dont chaque adresse pointe vers \textbf{un autre} bloc d'adresses, et dans ce bloc d'adresse chaque adresse pointe vers un bloc de donnÃ©es (adressage indirect double), et enfin pour la case 13 on applique l'adressage indirect triple\footnote{j'ai la flemme de dÃ©tailler, mdr}.\\
 \\
-\emph{Mr.Toutlemonde :} "mé là y a \textsc{Carlos} ki me demande 2 calculé la taille maxi d'1 féchier, cmnt je fé????"
+\emph{Mr.Toutlemonde :} "mÃ© lÃ  y a \textsc{Carlos} ki me demande 2 calculÃ© la taille maxi d'1 fÃ©chier, cmnt je fÃ©????"
 \\
 Bon, j'imagine que \emph{Mr.Toutlemonde} parle de l'exercice 1 du TD4. On va le faire ensemble avec les calculs.\\
 \paragraph{}
-\emph{Exercice 1} : Un système de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
+\emph{Exercice 1} : Un systÃ¨me de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
 \\
 \\
 Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\ 
-Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{4 ko}. On en déduit qu'un bloc contient donc \textbf{1024 adresses}.
+Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond Ã  \textbf{4 ko}. On en dÃ©duit qu'un bloc contient donc \textbf{1024 adresses}.
 
 Maintenant, on peut calculer la taille selon le type d'adressage:
 \begin{itemize}
@@ -256,58 +266,58 @@ Maintenant, on peut calculer la taille selon le type d'adressage:
 \item{Indirect double: on a 1024*1024 blocs, donc 4 Go}
 \item{Indirect triple: on a 1024*1024*1024 blocs, donc 4 To}
 \end{itemize}
-On fait maintenant la somme; la taille max correspond à un fichier de 4 To et 4 Go et 4 Mo et 4096 octets.
+On fait maintenant la somme; la taille max correspond Ã  un fichier de 4 To et 4 Go et 4 Mo et 4096 octets.
 
-\subsection{Les répertoires}
-Les répertoires possèdent une structure différente entre UNIX et Linux.
+\subsection{Les rÃ©pertoires}
+Les rÃ©pertoires possÃ¨dent une structure diffÃ©rente entre UNIX et Linux.
 \paragraph{Unix}
-Sous Unix, un dossier est une table avec 2 entrées; le numéro de l'inode du fichier sur 2 octets et son nom sur 14 octets. Cela se présente de la manière suivante:\\
+Sous Unix, un dossier est une table avec 2 entrÃ©es; le numÃ©ro de l'inode du fichier sur 2 octets et son nom sur 14 octets. Cela se prÃ©sente de la maniÃ¨re suivante:\\
 \includegraphics{rep_unix}
 \\
 \paragraph{Linux}
-Sous Linux, c'est un peu plus compliqué:\\
+Sous Linux, c'est un peu plus compliquÃ©:\\
 \includegraphics{rep_linux}
 \\
-La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus le nom du fichier. Vous devez vous demander à quoi correspondent les \emph{\textbackslash 0}; en fait, chaque case dans les noms de fichier doit faire \textbf{4 octets}; si on ne remplit pas la case, on ajoute des \textbackslash0. C'est tout.
+La taille de l'entrÃ©e correspond Ã  la somme des caractÃ©ristiques (8 octets) plus le nom du fichier. Vous devez vous demander Ã  quoi correspondent les \emph{\textbackslash 0}; en fait, chaque case dans les noms de fichier doit faire \textbf{4 octets}; si on ne remplit pas la case, on ajoute des \textbackslash0. C'est tout.
 
-\section{Primitives systèmes en C (tou)}
+\section{Primitives systÃ¨mes en C (tou)}
 Parce oui, il faut bien jouer avec les fichiers en C.\\
-Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
-Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}. Cela veut aussi dire que \textbf{chaque programme} possède dans sa table de descripteur de fichier les descripteurs 0, 1 et 2.\\
-Enfin, le système d'exploitation possède une table commune à tous les processus; c'est la \emph{Table des fichiers ouverts}. Cette table permet au système de savoir quel fichier est ouvert par qui et avec quels droits. On ne va pas s'étendre dessus, c'est pas très intéressant.
+Ce qu'il faut savoir, c'est que chaque processus possÃ¨de une \emph{File Descriptor Table}, soit, en bon franÃ§ais, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifiÃ© au niveau systÃ¨me par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
+Attention: les descripteurs 0, 1 et 2 sont rÃ©servÃ©s pour 3 fichiers trÃ¨s spÃ©ciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}. Cela veut aussi dire que \textbf{chaque programme} possÃ¨de dans sa table de descripteur de fichier les descripteurs 0, 1 et 2.\\
+Enfin, le systÃ¨me d'exploitation possÃ¨de une table commune Ã  tous les processus; c'est la \emph{Table des fichiers ouverts}. Cette table permet au systÃ¨me de savoir quel fichier est ouvert par qui et avec quels droits. On ne va pas s'Ã©tendre dessus, c'est pas trÃ¨s intÃ©ressant.
 \paragraph{}
-Sur U/L, il faut passer par plusieurs étapes afin d'utiliser un fichier dans un programme C: il faut \textbf{ouvrir} le fichier, faire son petit traitement (\textbf{lecture, écriture}, etc) puis \textbf{fermer} le fichier. Tout cela se fait par le biais d'appels systèmes que nous allons détailler.
+Sur U/L, il faut passer par plusieurs Ã©tapes afin d'utiliser un fichier dans un programme C: il faut \textbf{ouvrir} le fichier, faire son petit traitement (\textbf{lecture, Ã©criture}, etc) puis \textbf{fermer} le fichier. Tout cela se fait par le biais d'appels systÃ¨mes que nous allons dÃ©tailler.
 
 \subsection{Ouvrir un fichier avec \emph{open( )}}
-\emph{open( )} se présente de la manière suivante:
+\emph{open( )} se prÃ©sente de la maniÃ¨re suivante:
 \begin{verbatim}
 int open( const char *fichier, int flag );
 \end{verbatim}
-Commençons par les paramètres. \emph{*fichier} représente ici le nom du fichier \textbf{et son chemin}. Le \emph{flag} représente en fait une constante définie dans \emph{fcntl.h} qui définit les conditions dans lesquelles on souhaite ouvrir le fichier. Il en existe 4 d'importantes:
+CommenÃ§ons par les paramÃ¨tres. \emph{*fichier} reprÃ©sente ici le nom du fichier \textbf{et son chemin}. Le \emph{flag} reprÃ©sente en fait une constante dÃ©finie dans \emph{fcntl.h} qui dÃ©finit les conditions dans lesquelles on souhaite ouvrir le fichier. Il en existe 4 d'importantes:
 \begin{itemize}
 \item{O\_RDONLY, comme Open\_ReadONLY, va ouvrir le fichier en lecture uniquement}
-\item{O\_WRONLY, ouvre le fichier en écriture uniquement}
-\item{O\_RDWR, ouvre le fichier en lecture et écriture}
-\item{O\_APPEND, ouvre le fichier en écriture \textbf{en fin de fichier}}
+\item{O\_WRONLY, ouvre le fichier en Ã©criture uniquement}
+\item{O\_RDWR, ouvre le fichier en lecture et Ã©criture}
+\item{O\_APPEND, ouvre le fichier en Ã©criture \textbf{en fin de fichier}}
 \end{itemize} 
-Enfin, \emph{open( )} renvoie un entier (ou -1 si il se plante), qui correspond en fait au fameux \textbf{file descriptor}. Il est donc primordial de récupérer la valeur de retour d'open!
+Enfin, \emph{open( )} renvoie un entier (ou -1 si il se plante), qui correspond en fait au fameux \textbf{file descriptor}. Il est donc primordial de rÃ©cupÃ©rer la valeur de retour d'open!
 \paragraph{Exemple}
-Imaginons que l'on souhaite ouvrir un fichier \emph{fic} se trouvant à \emph{/home/mooshi/rep} en lecture et écriture, sachant que l'on se trouve dans un autre répertoire que le fichier \emph{fic}; on doit écrire:
+Imaginons que l'on souhaite ouvrir un fichier \emph{fic} se trouvant Ã  \emph{/home/mooshi/rep} en lecture et Ã©criture, sachant que l'on se trouve dans un autre rÃ©pertoire que le fichier \emph{fic}; on doit Ã©crire:
 \begin{verbatim} 
 int fd = open("/home/mooshi/rep/fic", O_RDWR);
 \end{verbatim}
-Et \textsc{c'est gagné}.
+Et \textsc{c'est gagnÃ©}.
 
-\paragraph{Création d'un fichier} À noter: \emph{open()} permet aussi de créer un fichier, selon les flags que l'on met. Si on utilise \emph{O\_CREAT}, on doit rajouter un paramètre pour les droits. Regardez l'exemple, ça sera plus clair.
+\paragraph{CrÃ©ation d'un fichier} Ã€ noter: \emph{open()} permet aussi de crÃ©er un fichier, selon les flags que l'on met. Si on utilise \emph{O\_CREAT}, on doit rajouter un paramÃ¨tre pour les droits. Regardez l'exemple, Ã§a sera plus clair.
 \begin{lstlisting}
-/* Je souhaite créer un fichier oui avec des droits pour tout le monde */
+/* Je souhaite crÃ©er un fichier oui avec des droits pour tout le monde */
 int fd_oui = open("oui", O_CREAT, 0777);
 
-/* Je souhaite créer un fichier merci avec des droits que pour moi 
-et seulement si il existe pas déjà */
+/* Je souhaite crÃ©er un fichier merci avec des droits que pour moi 
+et seulement si il existe pas dÃ©jÃ  */
 int fd_merci = open("merci", O_CREAT | O_EXCL, 0700);
 \end{lstlisting}
-Le 3eme paramètre est un octal qui définit les droits. Vous vous rappelez de \emph{chmod}? C'est la même chose.
+Le 3eme paramÃ¨tre est un octal qui dÃ©finit les droits. Vous vous rappelez de \emph{chmod}? C'est la mÃªme chose.
 
 \subsection{Lire dans un fichier avec \emph{read( )}}
 Regardons \emph{read( )}:
@@ -316,10 +326,10 @@ size_t read( int fd, void *buf, size_t nbOct )
 \end{verbatim}
 \textit{Mr.Toutlemonde}: omg c'est quoi ce size\_t??????? \\
 \\
-\emph{size\_t} correspond juste à un int. C'est juste pour montrer que ce int désigne une taille en octets.\\
-Maintenant, regardons les paramètres. En premier, on retrouve notre cher \emph{file descriptor} que l'on a récupéré un peu plus tôt.\\
-Pour le deuxième paramètre, il va falloir éclaircir la notion de \textbf{buffer}. Un buffer est une sorte de paquet d'une taille définie dans laquelle on va mettre des données. Très généralement, c'est un tableau de caractère qui occupe le rôle de buffer.\\
-Enfin, le dernier paramètre correspond au nombre d'octets que l'on souhaite lire dans le fichier.\\
+\emph{size\_t} correspond juste Ã  un int. C'est juste pour montrer que ce int dÃ©signe une taille en octets.\\
+Maintenant, regardons les paramÃ¨tres. En premier, on retrouve notre cher \emph{file descriptor} que l'on a rÃ©cupÃ©rÃ© un peu plus tÃ´t.\\
+Pour le deuxiÃ¨me paramÃ¨tre, il va falloir Ã©claircir la notion de \textbf{buffer}. Un buffer est une sorte de paquet d'une taille dÃ©finie dans laquelle on va mettre des donnÃ©es. TrÃ¨s gÃ©nÃ©ralement, c'est un tableau de caractÃ¨re qui occupe le rÃ´le de buffer.\\
+Enfin, le dernier paramÃ¨tre correspond au nombre d'octets que l'on souhaite lire dans le fichier.\\
 \emph{read( )} retourne le nombre d'octets effectivement lu dans le fichier.
 \paragraph{Exemple}
 Reprenons notre fichier fic du premier exemple. On souhaite lire son contenu sur 20 octets.
@@ -327,32 +337,32 @@ Reprenons notre fichier fic du premier exemple. On souhaite lire son contenu sur
 char buf[20]; // On cree un buffer de taille 20 octets
 int nbOctetsLus = read(fd, buf, 20); //On lit 20 octets du fichier
 \end{lstlisting}
-\textit{Mr.Toutlemonde}: ouais mais il va où le contenu du fichier???\\
-Ben il va \sout{dans ton cul} ENFIN, non, mais on va voir ça tout de suite avec \emph{write}.
+\textit{Mr.Toutlemonde}: ouais mais il va oÃ¹ le contenu du fichier???\\
+Ben il va \sout{dans ton cul} ENFIN, non, mais on va voir Ã§a tout de suite avec \emph{write}.
 
-\subsection{Écrire dans un fichier avec \emph{write( )}}
-En fait, les données lues vont dans notre buffer, c'est à dire, dans l'exemple précédent, \emph{buf}. \emph{write( )}, au lieu d'écrire dans le buffer depuis le fichier, va écrire dans le fichier depuis le buffer. Ainsi, on peut noter de nombreuses similitudes entre \emph{write( )} et \emph{open( )}:
+\subsection{Ã‰crire dans un fichier avec \emph{write( )}}
+En fait, les donnÃ©es lues vont dans notre buffer, c'est Ã  dire, dans l'exemple prÃ©cÃ©dent, \emph{buf}. \emph{write( )}, au lieu d'Ã©crire dans le buffer depuis le fichier, va Ã©crire dans le fichier depuis le buffer. Ainsi, on peut noter de nombreuses similitudes entre \emph{write( )} et \emph{open( )}:
 \begin{verbatim}
 size_t write(int fd, void *buf, size_t nbOct)
 \end{verbatim}
-Ici, nbOct représente le nombre d'octet que l'on souhaite écrire dans le fichier et cette primitive renvoie ici le nombre d'octets effectivement écrits dans le fichier.\\
-Souvent, on fait travailler \emph{open} et \emph{write} à la suite, puisque on utilise plusieurs fois le buffer.
+Ici, nbOct reprÃ©sente le nombre d'octet que l'on souhaite Ã©crire dans le fichier et cette primitive renvoie ici le nombre d'octets effectivement Ã©crits dans le fichier.\\
+Souvent, on fait travailler \emph{open} et \emph{write} Ã  la suite, puisque on utilise plusieurs fois le buffer.
 \paragraph{Exemple}
-On reprend l'exemple du dessus. Maintenant qu'on a lu 20 octets dans notre buffer, on va essayer d'écrire dans un nouveau fichier.
+On reprend l'exemple du dessus. Maintenant qu'on a lu 20 octets dans notre buffer, on va essayer d'Ã©crire dans un nouveau fichier.
 \begin{lstlisting}
-int newFic = open("fic2", O_CREAT, 0755); //On créé un nouveau fichier "fic2"
+int newFic = open("fic2", O_CREAT, 0755); //On crÃ©Ã© un nouveau fichier "fic2"
 if (newFic != -1)
 	int nbOctetsEcrits = write("fic2", buf, 20);
 \end{lstlisting}
-Voilà. On a écrit 20 octets dans un nouveau fichier fic2.
+VoilÃ . On a Ã©crit 20 octets dans un nouveau fichier fic2.
 
-\subsection{Se déplacer dans un fichier avec \emph{lseek( )}}
+\subsection{Se dÃ©placer dans un fichier avec \emph{lseek( )}}
 Pas important. On verra plus tard.
 
 \subsection{Fermer un fichier avec \emph{close( )}}
-Là, c'est facile. \emph{close( )} ne prend qu'un paramètre, et c'est le \emph{file descriptor}.
+LÃ , c'est facile. \emph{close( )} ne prend qu'un paramÃ¨tre, et c'est le \emph{file descriptor}.
 \paragraph{Exemple}
-Maintenant qu'on a écrit et lu nos fichiers fic et fic2, on les ferme.
+Maintenant qu'on a Ã©crit et lu nos fichiers fic et fic2, on les ferme.
 \begin{lstlisting}
 close(fd);
 close(newFic);
@@ -362,35 +372,35 @@ close(newFic);
 
 
 \chapter{Communications entre processus (pipe)}
-Les processus (pour l'instant d'une même machine) peuvent communiquer entre eux par le biais de \emph{pipes}. Un pipe, c'est un tube par lequel on fait passer des informations. Un processus peut écrire et lire dans un pipe, cependant il n'y a \textbf{qu'un seul lecteur et qu'un seul écrivain par pipe}. Si on veut que deux programmes communiquent dans les deux sens, il faut créer deux pipes.
+Les processus (pour l'instant d'une mÃªme machine) peuvent communiquer entre eux par le biais de \emph{pipes}. Un pipe, c'est un tube par lequel on fait passer des informations. Un processus peut Ã©crire et lire dans un pipe, cependant il n'y a \textbf{qu'un seul lecteur et qu'un seul Ã©crivain par pipe}. Si on veut que deux programmes communiquent dans les deux sens, il faut crÃ©er deux pipes.
 On va commencer par les \textbf{tubes anonymes}.
 
 \section{Tubes anonymes}
-\subsection{Créer un tube}
-Afin de créer un tube, il faut utiliser l'appel système \emph{pipe( )}. Cet appel système prend en paramètre un tableau d'entier de taille 2. Regardez l'exemple:
+\subsection{CrÃ©er un tube}
+Afin de crÃ©er un tube, il faut utiliser l'appel systÃ¨me \emph{pipe( )}. Cet appel systÃ¨me prend en paramÃ¨tre un tableau d'entier de taille 2. Regardez l'exemple:
 \begin{verbatim}
 int desc[2];
 pipe(desc);
 \end{verbatim}
-Pourquoi un tableau d'entier de taille 2? Tout simplement car on aura dans ce tableau les \emph{file descriptor} qui correspondent à l'entrée du tube (ici \textbf{desc[1]}) et la sortie du tube (ici \textbf{desc[0]}). Bien sur, je pars du principe que vous savez ce que sont les \emph{file descriptor}, donc continuons.
+Pourquoi un tableau d'entier de taille 2? Tout simplement car on aura dans ce tableau les \emph{file descriptor} qui correspondent Ã  l'entrÃ©e du tube (ici \textbf{desc[1]}) et la sortie du tube (ici \textbf{desc[0]}). Bien sur, je pars du principe que vous savez ce que sont les \emph{file descriptor}, donc continuons.
 
-\subsection{Écrire dans un tube}
-Vous vous souvenez de \emph{write( )} qu'on utilisait pour écrire dans un fichier? C'est la même chose ici, sauf qu'on met le file descriptor de l'entrée du tube. On a donc:
+\subsection{Ã‰crire dans un tube}
+Vous vous souvenez de \emph{write( )} qu'on utilisait pour Ã©crire dans un fichier? C'est la mÃªme chose ici, sauf qu'on met le file descriptor de l'entrÃ©e du tube. On a donc:
 \begin{verbatim}
 char buffer[20]; // On a notre buffer de 20 octets
-write(desc[1], buffer, 20); // On souhaite écrire dans notre pipe 20 octets de notre buffer
+write(desc[1], buffer, 20); // On souhaite Ã©crire dans notre pipe 20 octets de notre buffer
 \end{verbatim}
-Et voilà, c'est gagné.
+Et voilÃ , c'est gagnÃ©.
 
 \subsection{Lire depuis un tube}
-Là encore, ça ressemble beaucoup à \emph{lire dans un fichier}:
+LÃ  encore, Ã§a ressemble beaucoup Ã  \emph{lire dans un fichier}:
 \begin{verbatim}
 char bufferLecture[20];
 read(desc[0], bufferLecture, 20); //On veut lire 20 octets depuis le pipe dans notre buffer
 \end{verbatim}
 
 \subsection{Communiquer entre deux processus}
-Le problème des tubes anonymes, c'est que les deux processus qui veulent communiquer doivent forcément connaitre les file descriptor. Ainsi, il faut que l'un des processus soit créé après la création du pipe. Par exemple:
+Le problÃ¨me des tubes anonymes, c'est que les deux processus qui veulent communiquer doivent forcÃ©ment connaitre les file descriptor. Ainsi, il faut que l'un des processus soit crÃ©Ã© aprÃ¨s la crÃ©ation du pipe. Par exemple:
 \begin{lstlisting}
 int main()
 {
@@ -401,9 +411,9 @@ int main()
 	
 	if(fils==0)
 	{
+		close(desc[0]);
 		char bufferEcriture[20];
 		write(desc[1], bufferEcriture, 20);
-
 		exit(0);
 	}
 	
@@ -414,24 +424,85 @@ int main()
 	exit(0);
 }
 \end{lstlisting}
-Et voilà, on a bien établi une communication entre 2 processus!
+Il faut aussi s'assurer de \textbf{fermer} les extrÃ©mitÃ©s - comprendre les \emph{desc[]} - inutilisÃ©s par chaque processus. Dans l'exemple ci-dessus, le fils n'est qu'un Ã©crivain; par consÃ©quent, on ferme l'extrÃ©mitÃ© de lecture - desc[0] -. De mÃªme pour le pÃ¨re, qui n'est que lecteur, on ferme d'abord l'extrÃ©mitÃ© d'Ã©criture - desc[1] -.
+Et voilÃ , on a bien Ã©tabli une communication entre 2 processus!\\
+On peut rÃ©sumer tout Ã§a en un schÃ©ma:\\
+\includegraphics{pipe}
 
-\subsection{Rediriger des flots vers des tubes}
-Vous vous souvenez de \emph{dup2( )}? Vous savez, le cours ou vous avez \sout{rien} tout compris? Eh ben on va en reparler. 	
-\paragraph{}
-\emph{dup2( )} se présente de la manière suivante:
+\section{Redirection de tubes aka \emph{dup2( )}}
+Vous vous souvenez de \emph{dup2( )}? Vous savez, le cours ou vous avez \sout{rien} tout compris? Eh ben on va en reparler Ã  travers un petit exercice:\footnote{inspirÃ© de http://www.zeitoun.net/articles/communication-par-tuyau/start}\\
+\textbf{Bouyou-Geauchamps}: \textit{Faites un programme qui execute l'Ã©quivalent de la commande "\emph{ls | wc}", sinon je \textbf{WAWAWAWAWAAAA}}\\
+
+Comme vous Ãªtes des gens vraiment \emph{too stongue}, vous avez certainement les Ã©tapes en tÃªte:
+\begin{itemize}
+\item{Le processus pÃ¨re crÃ©Ã© un processus fils, qui exÃ©cute \emph{ls}}
+\item{La sortie standard du processus fils est \textbf{redirigÃ©e} vers l'entrÃ©e standard du pÃ¨re}
+\item{Le pÃ¨re execute ensuite wc}
+\item{\textit{C'est gagnÃ©}}
+\end{itemize}
+ 
+L'Ã©tape 1 est relativement facile: 
+\begin{lstlisting}
+int main( int argc, char ** argv )
+ {
+   pid_t pidFils = fork();
+
+   if (pidFils == 0)
+     {
+       execlp("ls", "ls", NULL);
+       return 1;
+     }
+   
+   wait(NULL);
+   execlp("wc", "wc", NULL);
+   return 2;
+ }
+\end{lstlisting}
+
+La difficultÃ© se passe Ã©videmment sur la redirection. Il faut nÃ©cessairement crÃ©er un pipe qui fera la communication entre le pÃ¨re et le fils - on appellera ce pipe \emph{pipeCom} - mais pour la suite?\\
+Comme vous l'avez devinÃ©, il faut utiliser \emph{dup2( )}.\\
+\emph{dup2( )} se prÃ©sente de la maniÃ¨re suivante:
 \begin{verbatim}
 int dup2(int fdSource, int fdCible);
 \end{verbatim}
-En fait, \emph{dup2( )} permet de copier le file descriptor en deuxième argument dans le premier. Par exemple, la commande suivante, en reprenant notre tube \emph{desc}:
-\begin{verbatim}
-dup2(desc[0], 0);
-\end{verbatim}
-permet d'envoyer sur \emph{stdin} tout ce qui sort de notre tube. De même, la commande suivante:
-\begin{verbatim}
-dup2(desc[1],1);
-\end{verbatim}
-permet d'envoyer tout ce qui sort de \emph{stdout} dans notre tube.
+En fait, \emph{dup2( )} permet de copier le file descriptor en deuxiÃ¨me argument dans le premier. 
+
+Dans notre exercice, cela se traduit donc par une \textbf{redirection} de la sortie standard du fils sur l'entrÃ©e du pipe \emph{pipeCom} et une redirection de la sortie du pipe \emph{pipeCom} sur l'entrÃ©e standard du pÃ¨re.\\ Regardez le schÃ©ma pour un peu plus de clartÃ©:\\
+\includegraphics[scale=0.5]{dup2}
+\\ Et maintenant, voilÃ  notre code:
+\begin{lstlisting}
+int main( int argc, char ** argv )
+ {
+   pid_t pidFils = fork();
+   int pipeCom[2];
+   pipe(pipeCom);
+   
+   if (pidFils == 0)
+     {
+       close(pipeCom[0]);
+       dup2(pipeCom[1],1);
+       close(pipeCom[1]);
+       execlp("ls", "ls", NULL);
+       return 1;
+     }
+   
+   wait(NULL);
+   close(pipeCom[1]);
+   dup2(pipeCom[0],0);
+   close(pipeCom[0]);
+   execlp("wc", "wc", NULL);
+   return 2;
+ }
+\end{lstlisting}
+On n'oublie pas de fermer les entrÃ©es/sorties inutiles pour Ã©viter des embrouilles, et c'est gagnÃ©!
+
+
+
+\chapter{Threads (\& Jamy)}
+\section{La notion de thread}
+Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. En fait, un thread est, pour reprendre les mots du cours sur dÃ©veloppez.com, \emph{une unitÃ© d'Ã©xecution plus fine qu'un processus}. Ce n'est pas pour rien qu'on appelle aussi les threads des \emph{processus lÃ©ger}. La diffÃ©rence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. En effet, lorsque on crÃ©Ã© un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus pÃ¨re. Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable, cette variable sera modifiÃ©e pour \textbf{tous les threads}. Il faut donc faire attention !
+
+
 
 
 \end{document}
