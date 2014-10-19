@@ -1,10 +1,10 @@
 % !TEX encoding = UTF-8 Unicode
-\documentclass{report} 
+\documentclass{report}
 
 %À compiler avec XeLaTeX
 
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
 \usepackage[frenchb]{babel}
 \usepackage{lmodern}
 \usepackage{fullpage}
@@ -13,7 +13,7 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{textcomp}
-
+\usepackage{dialogue}
 
 %\usepackage{fontspec} % Provide features for AAT and OpenType fonts
 %\setmainfont{Helvetica Light} % Define the default font family
@@ -22,16 +22,16 @@
 \lstset{showstringspaces=false}
 \lstset{frame=single}
 
-\title{Système.} 
-\author{\bsc{McRoss} "Beat" \textsc{DeKoualitat}}
-\date{\today} 
+\title{Système.}
+\author{\bsc{McRoss} \& Firegrain ofc}
+\date{\today}
 
 \begin{document}
 \maketitle{}
 
 % Introduction tauntesque
 \chapter*{Introduction}
-Basé sur \textit{Programmation système en C sous Linux} par \textsc{Christophe Blaess} et le cours de \textsc{Carlos}. C'est un \textit{WIP}, donc encore (et certainement pour toujours) imparfait.\\
+21 pages, still going strong |)
 
 
 % Chapitre sur les processus et leur vie
@@ -42,7 +42,7 @@ Un processus, c'est une \emph{tâche en cours d'execution}. C'est en même temps
 
 \section{Création d'un processus}
 Un processus est créé par le biais de l'appel système \emph{fork( )}. \emph{fork( )} fait la copie du processus père en un nouveau processus. Ce nouveau processus, qu'on appelle \emph{processus fils}, exécutera le même code que le processus père \footnote{Bien sur, le code qui se trouve après le \emph{fork}.} et \emph{héritera} des données du père (variables par exemple) mais aussi de l'environnement du processus père. Si, par exemple, le processus père modifie des \emph{variables d'environnement}, le fils héritera de ces variables modifiées.
-Bien sur, qui dit nouveau processus, dit nouveaux identifiants pour le nouveau processus. 
+Bien sur, qui dit nouveau processus, dit nouveaux identifiants pour le nouveau processus.
 \paragraph{}
 Cependant, et c'est un détail important, les données dupliquées entre le père et le fils ne sont pas immédiatement copiées; c'est à dire que tant que le fils et le père partagent des informations communes, cette information existe en \emph{un seul exemplaire} dans le système. Par contre, si jamais l'un des deux décide de modifier cette information, c'est à ce moment que cette information est dupliquée. C'est la méthode de \emph{copie sur écriture}.
 \paragraph{}
@@ -104,7 +104,7 @@ Voilà. Il existe 3 macros qui permettent de savoir comment le fils est mort:
 \item \textsc{WIFSIGNALED}, si le programme a été tué par un \emph{signal} (exemple: SIGKILL aka kill -9). Utiliser \textsc{WTERMSIG} afin de connaitre quel signal a tué le processus.
 \item \textsc{WIFSTOPPED}, si le programme est temporairement stoppé par un signal (bien souvent SIGSTOP).
 \end{itemize}
-Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!  
+Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!
 
 
 
@@ -141,7 +141,7 @@ Un signal est émis soit:
 \item \textsc{sigstop\textbackslash sigstp}, code 19 et 20. Stoppe le processus (voir états des processus). La différence entre les deux tient dans le fait que \textsc{sigstop} est pas ignorable ou capturable alors que \textsc{sigstp} l'est.
 \item \textsc{sigcont}, code 18, relance le processus si il est stoppé. Ne peut pas être ignoré/capturé.
 \item \textsc{sigalrm}, code 14, est envoyé lorsque le temps défini par l'appel système \emph{alarm( )} a expiré.
-\item \textsc{sigusr1\&sigusr2}, code 10 et 12, sont des signaux \emph{personnalisables}. Par défaut, ils terminent le processus, mais on peut les capturer pour faire autre chose avec. 
+\item \textsc{sigusr1\&sigusr2}, code 10 et 12, sont des signaux \emph{personnalisables}. Par défaut, ils terminent le processus, mais on peut les capturer pour faire autre chose avec.
 \end{itemize}
 
 \subsection{Signaux d'erreur (pas très important)}
@@ -191,7 +191,7 @@ void gestSig(int sig)
 Ici, cette procédure gère le signal SIGINT. Notez qu'on est \emph{pas obligé} de faire le test. On peut, par exemple, créer autant de procédures que de signaux que l'on souhaite traiter, ou ne créer qu'une seule procédure qui sera utilisé par tous les signaux.\\
 Ensuite, il faut utiliser \emph{signal( )} ou \emph{sigaction( )}. On se penchera ici sur \emph{signal( )}.
 \begin{lstlisting}
-/* on imagine qu'on a notre gestionnaire de signal "gestSig" qui affiche "oui" 
+/* on imagine qu'on a notre gestionnaire de signal "gestSig" qui affiche "oui"
  * dés qu'on reçoit un SIGINT */
  int main()
  {
@@ -199,7 +199,7 @@ Ensuite, il faut utiliser \emph{signal( )} ou \emph{sigaction( )}. On se pencher
 	pause();
 	/* on reçoit CTRL-C aka SIGINT */
 	exit 0;
- }     
+ }
 \end{lstlisting}
 Ce qui donnera à l'affichage, lorsque on execute le programme "prog" au dessus:
 \begin{verbatim}
@@ -207,7 +207,7 @@ Ce qui donnera à l'affichage, lorsque on execute le programme "prog" au dessus:
 (on tape CTRL-C)
 >>> oui
 (fin du prog)
->>>  
+>>>
 \end{verbatim}
 ez aussi non??????\\
 À noter: il existe aussi des constantes pour gérer les signaux, comme SIG\_IGN par exemple. On utilise ces constantes de la manière suivante:
@@ -258,7 +258,7 @@ Bon, j'imagine que \emph{Mr.Toutlemonde} parle de l'exercice 1 du TD4. On va le 
 \emph{Exercice 1} : Un système de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
 \\
 \\
-Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\ 
+Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\
 Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{4 ko}. On en déduit qu'un bloc contient donc \textbf{1024 adresses}.
 
 Maintenant, on peut calculer la taille selon le type d'adressage:
@@ -301,11 +301,11 @@ Commençons par les paramètres. \emph{*fichier} représente ici le nom du fichi
 \item{O\_WRONLY, ouvre le fichier en écriture uniquement}
 \item{O\_RDWR, ouvre le fichier en lecture et écriture}
 \item{O\_APPEND, ouvre le fichier en écriture \textbf{en fin de fichier}}
-\end{itemize} 
+\end{itemize}
 Enfin, \emph{open( )} renvoie un entier (ou -1 si il se plante), qui correspond en fait au fameux \textbf{file descriptor}. Il est donc primordial de récupérer la valeur de retour d'open!
 \paragraph{Exemple}
 Imaginons que l'on souhaite ouvrir un fichier \emph{fic} se trouvant à \emph{/home/mooshi/rep} en lecture et écriture, sachant que l'on se trouve dans un autre répertoire que le fichier \emph{fic}; on doit écrire:
-\begin{verbatim} 
+\begin{verbatim}
 int fd = open("/home/mooshi/rep/fic", O_RDWR);
 \end{verbatim}
 Et \textsc{c'est gagné}.
@@ -315,7 +315,7 @@ Et \textsc{c'est gagné}.
 /* Je souhaite créer un fichier oui avec des droits pour tout le monde */
 int fd_oui = open("oui", O_CREAT, 0777);
 
-/* Je souhaite créer un fichier merci avec des droits que pour moi 
+/* Je souhaite créer un fichier merci avec des droits que pour moi
 et seulement si il existe pas déjà */
 int fd_merci = open("merci", O_CREAT | O_EXCL, 0700);
 \end{lstlisting}
@@ -369,7 +369,6 @@ Maintenant qu'on a écrit et lu nos fichiers fic et fic2, on les ferme.
 close(fd);
 close(newFic);
 \end{lstlisting}
-
 
 
 
@@ -442,8 +441,8 @@ Comme vous êtes des gens vraiment \emph{too stongue}, vous avez certainement le
 \item{Le père execute ensuite wc}
 \item{\textit{C'est gagné}}
 \end{itemize}
- 
-L'étape 1 est relativement facile: 
+
+L'étape 1 est relativement facile:
 \begin{lstlisting}
 int main( int argc, char ** argv )
  {
@@ -454,7 +453,7 @@ int main( int argc, char ** argv )
        execlp("ls", "ls", NULL);
        return 1;
      }
-   
+
    wait(NULL);
    execlp("wc", "wc", NULL);
    return 2;
@@ -467,7 +466,7 @@ Comme vous l'avez deviné, il faut utiliser \emph{dup2( )}.\\
 \begin{verbatim}
 int dup2(int fdSource, int fdCible);
 \end{verbatim}
-En fait, \emph{dup2( )} permet de copier le file descriptor en deuxième argument dans le premier. 
+En fait, \emph{dup2( )} permet de copier le file descriptor en deuxième argument dans le premier.
 
 Dans notre exercice, cela se traduit donc par une \textbf{redirection} de la sortie standard du fils sur l'entrée du pipe \emph{pipeCom} et une redirection de la sortie du pipe \emph{pipeCom} sur l'entrée standard du père.\\ Regardez le schéma pour un peu plus de clarté:\\
 \includegraphics[scale=0.5]{dup2}
@@ -478,7 +477,7 @@ int main( int argc, char ** argv )
    pid_t pidFils = fork();
    int pipeCom[2];
    pipe(pipeCom);
-   
+
    if (pidFils == 0)
      {
        close(pipeCom[0]);
@@ -487,7 +486,7 @@ int main( int argc, char ** argv )
        execlp("ls", "ls", NULL);
        return 1;
      }
-   
+
    wait(NULL);
    close(pipeCom[1]);
    dup2(pipeCom[0],0);
@@ -500,51 +499,104 @@ On n'oublie pas de fermer les entrées/sorties inutiles pour éviter des embroui
 
 
 
-\chapter{Threads (\& Jamy)}
+\chapter{Threads (\& Jamy) feat Firegrain ofc}
+\epigraph{"JME KASS, ET C TOU"}{McRoss, qui en a visiblement marre des threads}
+
+
+
 \section{La notion de thread}
-Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. En fait, un thread est, pour reprendre les mots du cours sur développez.com, \emph{une unité d'éxecution plus fine qu'un processus}. Ce n'est pas pour rien qu'on appelle aussi les threads des \emph{processus léger}. La différence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. En effet, lorsque on créé un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus père. Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable, cette variable sera modifiée pour \textbf{tous les threads}. Il faut donc faire attention !
+Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. En fait, un thread est, \emph{une unité d'éxecution plus fine qu'un processus}. Ce n'est pas pour rien qu'on appelle aussi les threads des \emph{processus léger}. La différence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. En effet, lorsque on créé un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus père. Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable globale, cette variable sera modifiée pour \textbf{tous les threads}. Il faut donc faire attention !
 
 \section{Création de thread}
 Pour créer un thread, on utilise la fonction \emph{pthread\_create( )}. Cette fonction se présente de la manière suivante:
 \begin{verbatim}
-int pthread_create(pthread_t *thread, NULL, void *(*fonc), void *arg);
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*fonc)(void*), void *arg);
 \end{verbatim}
 Regardons tranquillement les paramètres et leur rôle:
 \begin{itemize}
-\item{\emph{thread} représente un pointeur (ou une adresse) sur un objet de type \emph{pthread\_t};}
-\item{\emph{fonc} représente un pointeur sur un pointeur (wow) de fonction; }
-\item{\emph{arg} représente un argument passé pour la fonction \footnote{je vais faire quelques recherches dessus};}
+\item{\emph{thread} représente un pointeur (ou une adresse) sur un objet de type \emph{pthread\_t} qui sera l'identifiant du thread après l'execution de cette fonction;}
+\item{\emph{attr} représente le ou les attributs du thread, on peut voir ça comme les options de la fonction open(); }
+\item{\emph{fonc} représente un \textbf{pointeur de pointeur de fonction} - vous suivez? -. Ça sera la fonction exécutée par le thread.\footnote{Pour simplifier, un pointeur de fonction représente juste une fonction avec une étoile devant le nom. Pas besoin de se compliquer la vie :):):):)};}
+\item{\emph{arg} représente un argument passé pour la fonction, il faut que ce soit un pointeur sans type, utiliser un cast si besoin. C'est donc le paramètre que va utiliser le thread pour la fonction donnée précédemment;}
 \end{itemize}
 Regardons maintenant un exemple:
 \begin{lstlisting}
 #include<pthread.h>
 
-void *fonction_thread(void *inutile)
+void *fonction_thread(void *attr)
 {
-	printf("coucou, tu veux voir mon pthread_t?????: %d",pthread_self());
-	pthread_exit(NULL);
+     printf("coucou, tu veux voir mon pthread_t????? \n c'est trop génial");
+     
+    /* on regarde si le pointeur attribut pointe sur quelque chose */
+    if(attr!=NULL) 
+    {
+    	 /* l'attribut est considéré comme une chaine de caractère */
+        printf("l'attribut en string",(char*)attr); 
+        /* l'attribut considéré comme un pointeur d'entier */
+        printf("l'attribut en int",*((int*)attr)); 
+    }
+    int retour=0;
+    pthread_exit((void*)&retour); 
+    /* je quitte et je renvoie l'adresse de ma variable retour en faisant 
+     * bien attention de renvoyer un pointeur sans type */
 }
 
 int main(int argc, char **argv)
 {
 	
 	printf("Je suis le thread principal et je vais créer un autre thread");
-	pthread_t randomThread;
-	pthread_create(&randomThread, NULL, &fonction_thread, NULL);
-	
+	pthread_t* fredId;
+        int param = 5;
+	pthread_create(fredId, NULL, fonction_thread, (void*)&param); 
+    /* lorsque je passe un pointeur de fonction en paramètre je
+     * passe le nom de la fonction, ici je peux faire le malin parce 
+     * que la signature de
+     * fonction_thread correspond à celle demandé par la signature 
+     * de la fonction pthread_create
+     * j'envoie aussi l'adresse de param en le considérant comme
+     * une adresse sans type */
+
 	printf("Maintenant j'attends la fin du thread");
-	pthread_join(randomThread, NULL);
-	
-	exit(0);
+       int retour;
+	pthread_join(fredId, (void *)retour); 
+	// et hop je récupère la valeur de retour	
+	exit(retour);
 
 }
 \end{lstlisting}	
 
+\section{Arrêt forcé d'un Thread}
+
+%Je suis un Thread qui veut arrêter son fils (ou un putain de random qui veux faire chier un autre thread), dans ce cas j'utilse la fonction\newline
+Pour arrêter un thread, il faut utiliser:
+\begin{verbatim}
+int pthread_cancel(pthread_t thread);
+\end{verbatim}
+avec \emph{thread} étant l'identifiant du thread que vous avez envie d'arrêter. \textbf{Cependant}, tout comme les processus et les signaux, un thread est capable de bloquer cette demande d'arrêt.
+
+\subsection{Modification du comportement lors d'une demande d'arrêt}
+Pour modifier ce comportement, il faut utiliser:
+\begin{verbatim}
+int pthread_setcancelstate(int etat, int *etat_ancien);
+\end{verbatim}
+Un peu comme \emph{open( )} et ses multiples flags, il est possible de spécifier une ou plusieurs options avec des pipes pour le paramètre etat :
+\begin{itemize}
+\item{Comportement à la reception du signal : \emph{PTHREAD\_CANCEL\_DISABLE} pour bloquer le signal d'arrêt ou \emph{PTHREAD\_CANCEL\_ENABLE} pour se terminer}
+\item{Comportement si je récupère le signal : PTHREAD\_CANCEL\_ASYCHRONOUS pour n'accepter le signal qu'à certains point de contrôle, c'est à dire quand j'utilise la fonction  pthread\_join, pthread\_testcancel ou pthread\_cond\_wait. Et PTHREAD\_CANCEL\_DEFERRED si j'accepte sans attendre le signal. }
+\end {itemize}
+\begin{dialogue}
+\speak{Firegrain} voilà pour l'arret d'un thread
+\speak{M.Tourlemonde} attendez vous n'avez pas expliquer le deuxième paremètre
+\speak{Firegrain} ah oui, eh bien....
+\speak{Toutlemonde} ?
+\speak{Firegrain} en fait, on fait on doit spécifier notre comportement précédent, mais vu qu'on ne le connait pas forcement... ce paramètre est un peu useless en somme, en général on met NULL et on s'en porte pas plus mal
+\speak{Toutlemonde} dites plutôt que vous ne savez pas ce que c'est
+\speak{Firegrain} Oh, ispice di piti!
+\speak{...} nous interrompons cette fiche à cause d'un petit problème technique, nous nous reverrons plus tard
+\speak{...} Nous dédicassons cette fiche à Firegrain qui a été arrêté suite à atteinte sur mineur... Il est condamné à payer une amende de 12 000 euro, à 3 mois d'emprisonnement et 12 mois de travaux d'intêret général...
+\end{dialogue}
 
 
 
 
-
-
-
-\end{document}
+\end{document} 
