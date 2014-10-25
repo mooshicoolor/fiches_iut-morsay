@@ -31,12 +31,11 @@
 
 % Introduction tauntesque
 \chapter*{Introduction}
-bouyou ofc
+21 pages, still going strong |)
 
 
 % Chapitre sur les processus et leur vie
-
-\chapter{Processus}
+\chapter{\textsc{Processus}}
 % \epigraph{"[moi], va t'acheter une vie"}{une GROSSE...} c'est bon on a assez taunté
 \section{La notion de processus}
 Un processus, c'est une \emph{tâche en cours d'execution}. C'est en même temps du code et des données. Pour généraliser grossièrement, et pas de façon absolument vraie, un processus peut être représenté comme étant un programme en cours de fonctionnement.
@@ -61,7 +60,6 @@ Un processus peut avoir plusieurs états (un seul à la fois):
 
 
 % Chapitre sur l'exécution des programmes et leur fin
-
 \chapter{Exécution de programmes}
 % \epigraph{"je vais me chékou, j'ai les yeux rouges"}{une GROSSE...}
 \section{Lancement d'un programme}
@@ -111,10 +109,9 @@ Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!
 
 
 % Base des signaux sous linux/unix
-
-\chapter{Les signaux}
+\chapter{Les \textsc{signaux}}
 % \epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
-\section{Qu'est-ce qu'un signal?}
+\section{Signal? c'est un dentifrice non???????}
 Un \emph{signal} est une sorte de message envoyé par un processus à un autre processus. Face à un signal, un processus peut effectuer une des actions au choix:
 \begin{itemize}
 \item \emph{Ignorer} le signal, mais attention, ce n'est pas possible pour tous les signaux (par exemple, il est impossible d'ignorer \textsc{SIGKILL});
@@ -176,6 +173,7 @@ Note: il ne faut \textbf{pas} utiliser de \emph{sleep( ), wait( ),} ou autres co
 \begin{verbatim}
 pause( );
 \end{verbatim}
+ez non??????????????
 
 \subsection{Gérer les signaux}
 Il faut d'abord créer une \textbf{procédure} qui prendra en paramètre le signal. Cette procédure s'occupera du traitement du signal.\\
@@ -220,10 +218,9 @@ signal(SIGINT, SIG_IGN);
 
 
 %Chapitre sur Gestion des fichiers, fichiers
-
 \chapter{Gestion de fichiers}
 \epigraph{"Sous UNIX, tout est fichier."}{les randoms gens sur internet}
-\section{Définition d'un fichier}
+\section{Fichier? Ça fi-chier hehehahhrheuhrzuhrezu}
 Un fichier possède des attributs qui différent entre les systèmes de fichiers (\emph{ext2,ext4,fat32,...}). Pour ne pas se compliquer la vie, sachez qu'un fichier possède un nom (O RLY?), le nom de son créateur, sa taille, la date de création, ... Bon c'est pas très important.
 \paragraph{}
 Comme disent les \emph{randoms gens sur internet}, \textbf{tout est fichier sous Linux/Unix}. Cela ne veut pas forcément dire que \emph{tous} les fichiers sont de \emph{même type}.\\
@@ -261,7 +258,7 @@ Bon, j'imagine que \emph{Mr.Toutlemonde} parle de l'exercice 1 du TD4. On va le 
 \emph{Exercice 1} : Un système de gestion de fichiers sous Unix utilise des \textbf{blocs de 4096 octets} et code les \textbf{adresses sur 32 bits}.
 \\
 \\
-Oui merci maintenant tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\
+Oui merci tg l'exercice. Tout d'abord, notez bien les informations en gras, ce sont les infos les plus importantes. Vu que 1 octet = 8 bits, une adresse tient sur \textbf{4 octets}. \\
 Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{4 ko}. On en déduit qu'un bloc contient donc \textbf{1024 adresses}.
 
 Maintenant, on peut calculer la taille selon le type d'adressage:
@@ -285,7 +282,7 @@ Sous Linux, c'est un peu plus compliqué:\\
 \\
 La taille de l'entrée correspond à la somme des caractéristiques (8 octets) plus le nom du fichier. Vous devez vous demander à quoi correspondent les \emph{\textbackslash 0}; en fait, chaque case dans les noms de fichier doit faire \textbf{4 octets}; si on ne remplit pas la case, on ajoute des \textbackslash0. C'est tout.
 
-\section{Manipulation des fichiers en C}
+\section{Primitives systèmes en C (tou)}
 Parce oui, il faut bien jouer avec les fichiers en C.\\
 Ce qu'il faut savoir, c'est que chaque processus possède une \emph{File Descriptor Table}, soit, en bon français, une \emph{Table de Descripteurs de fichiers}. En fait, un fichier est identifié au niveau système par un entier que l'on appelle \emph{file descriptor}. La table contient donc des descripteurs de fichiers qui pointent chacune sur un fichier.\\
 Attention: les descripteurs 0, 1 et 2 sont réservés pour 3 fichiers très spéciaux, respectivement \emph{stdin}, \emph{stdout} et enfin \emph{stderr}. Cela veut aussi dire que \textbf{chaque programme} possède dans sa table de descripteur de fichier les descripteurs 0, 1 et 2.\\
@@ -375,10 +372,9 @@ close(newFic);
 
 
 
-
-\chapter{Pipes}
+\chapter{Communications entre processus (pipe)}
 Les processus (pour l'instant d'une même machine) peuvent communiquer entre eux par le biais de \emph{pipes}. Un pipe, c'est un tube par lequel on fait passer des informations. Un processus peut écrire et lire dans un pipe, cependant il n'y a \textbf{qu'un seul lecteur et qu'un seul écrivain par pipe}. Si on veut que deux programmes communiquent dans les deux sens, il faut créer deux pipes.
-On va commencer par les \textbf{tubes anonymes}.\footnote{et on va faire que ça parce bon}
+On va commencer par les \textbf{tubes anonymes}.
 
 \section{Tubes anonymes}
 \subsection{Créer un tube}
@@ -436,7 +432,7 @@ On peut résumer tout ça en un schéma:\\
 
 \section{Redirection de tubes aka \emph{dup2( )}}
 Vous vous souvenez de \emph{dup2( )}? Vous savez, le cours ou vous avez \sout{rien} tout compris? Eh ben on va en reparler à travers un petit exercice:\footnote{inspiré de http://www.zeitoun.net/articles/communication-par-tuyau/start}\\
-\textbf{Bouyou-Geauchamps}: \textit{Faites un programme qui execute l'équivalent de la commande "\emph{ls | wc}", sinon je \textbf{COLLOOOOOOOOOOOOO-}}\\
+\textbf{Bouyou-Geauchamps}: \textit{Faites un programme qui execute l'équivalent de la commande "\emph{ls | wc}", sinon je \textbf{WAWAWAWAWAAAA}}\\
 
 Comme vous êtes des gens vraiment \emph{too stongue}, vous avez certainement les étapes en tête:
 \begin{itemize}
@@ -503,49 +499,13 @@ On n'oublie pas de fermer les entrées/sorties inutiles pour éviter des embroui
 
 
 
-
-\chapter{Threads}
+\chapter{Threads (\& Jamy) feat Firegrain ofc}
 \epigraph{"JME KASS, ET C TOU"}{McRoss, qui en a visiblement marre des threads}
 
-\section{Préambule : Pointeurs et pointeurs de fonction}
-\subsection{Pointeurs (lol S1)}
-Faisons un petit rappel sur les pointeurs (get\_bellik):
-\begin{itemize}
-\item{Un pointeur se déclare sous la forme <type>* <nomDuPointeur>; il doit obligatoirement pointer sur une variable.}
-\item{Un pointeur comporte l’adresse de la variable sur laquelle il pointe.}
-\item{Afin d’accéder au contenu de la variable sur laquelle le pointeur pointe, il faut utiliser \emph{*<pointeur>}}.
-\item{Utiliser <pointeur> permettra d’accéder à l’adresse de la variable pointée.}
-\end{itemize}
-En gros, un pointeur est une adresse, plus précisément celle de la variable pointée.
-
-\subsection{Pointeurs de fonction}
-Avant d'attaquer les threads, intéressons nous aux pointeurs de fonction.
-Un pointeur de fonction est donc une variable qui désigne une fonction. Comme toute variable, on peut utiliser un pointeur de fonction en tant que variable dans une fonction, mais aussi et surtout comme un paramètre dans une fonction.\\
-Un pointeur de fonction se déclare de la manière suivante:
-\begin{verbatim}
-void *pointeurFonction;
-\end{verbatim}
-Enfin, on peut créer directement des pointeurs de fonction avec un corps, tout comme une fonction "normale", sauf qu'on ajoute un \textbf{*} devant le nom de la fonction.
-\begin{verbatim}
-void *nomDeMaFonction([paramètres])
-{
-	/* corps de la fonction */
-}
-\end{verbatim}
-
-
 \section{La notion de thread}
-Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. 
-En fait, un thread est, \emph{une unité d'éxecution plus fine qu'un processus}; c'est pour cela qu'on appelle les threads des \emph{processus légers}.\\
-Le but des threads est de pouvoir executer plusieurs parties d'un programme en parallèle. 
-La différence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. 
-En effet, lorsque on créé un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus père. 
-Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable globale, cette variable sera modifiée pour \textbf{tous les threads}.
-Il faut donc faire attention !
-Enfin, notez que tous les threads dépendent du \textbf{thread principal}; si le thread principal se termine, tous les autres threads se terminent aussi.
+Vous vous souvenez des processus? Un programme englobe des processus, un processus englobe des threads. En fait, un thread est, \emph{une unité d'éxecution plus fine qu'un processus}. Ce n'est pas pour rien qu'on appelle aussi les threads des \emph{processus léger}. Le but des threads est de pouvoir executer plusieurs parties d'un programme en parallèle. La différence majeure avec les processus est que les threads \textbf{partagent tout} entre eux. En effet, lorsque on créé un processus, le fait de modifier quelque chose dans le processus fils n'impactait pas le processus père. Avec les threads, ce n'est pas le cas. Par exemple, si un thread modifie une variable globale, cette variable sera modifiée pour \textbf{tous les threads}. Il faut donc faire attention !
 
-Un thread s'identifie avec un pthread\_t. De la meme manière que la fonction \emph{getpid()}, il est possible d'obtenir l'identifiant d'un thread avec la fonction \emph{pthread\_self( )}.
-\section{Création de thread et attente de terminaison}
+\section{Création de thread}
 Pour créer un thread, on utilise la fonction \emph{pthread\_create( )}. Cette fonction se présente de la manière suivante:
 \begin{verbatim}
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*fonc)(void*), void *arg);
@@ -553,112 +513,96 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*fonc)(
 Regardons tranquillement les paramètres et leur rôle:
 \begin{itemize}
 \item{\emph{thread} représente un pointeur (ou une adresse) sur un objet de type \emph{pthread\_t} qui sera l'identifiant du thread après l'execution de cette fonction;}
-\item{\emph{attr} représente le ou les attributs du thread, on peut voir ça comme les options de la fonction open();}
-\item{\emph{fonc} représente un \textbf{pointeur de pointeur de fonction} - vous suivez? -. Ça sera la fonction exécutée par le thread.;}
-\item{\emph{arg} représente un argument passé pour la fonction, il faut que ce soit un pointeur sans type (comprendre \emph{void *}), utiliser un cast si besoin. C'est donc le paramètre que va utiliser le thread pour la fonction donnée précédemment;}
+\item{\emph{attr} représente le ou les attributs du thread, on peut voir ça comme les options de la fonction open(); }
+\item{\emph{fonc} représente un \textbf{pointeur de pointeur de fonction} - vous suivez? -. Ça sera la fonction exécutée par le thread.\footnote{Pour simplifier, un pointeur de fonction représente juste une fonction avec une étoile devant le nom. Pas besoin de se compliquer la vie :):):):)};}
+\item{\emph{arg} représente un argument passé pour la fonction, il faut que ce soit un pointeur sans type, utiliser un cast si besoin. C'est donc le paramètre que va utiliser le thread pour la fonction donnée précédemment;}
 \end{itemize}
-
-Après avoir créé un thread, il faut bien le terminer. Il faut donc utiliser:
-\begin{verbatim}
-pthread_exit(void *valeurRetour);
-\end{verbatim}
-\emph{valeurRetour} est donc un pointeur non typé sur une valeur de retour. Concrètement, cela veut dire qu'il faut faire un cast sur l'adresse de la variable que l'on souhaite retourner.
-Enfin, sachez que \emph{pthread\_exit()} ne tue pas réellement le processus. On verra d'autres manières de le faire dans la partie qui va suivre.
-
-Tout cela parait très flou? Regardons alors un exemple.
-
+Regardons maintenant un exemple:
 \begin{lstlisting}
 #include<pthread.h>
 
-/* Voici la fonction qui sera exécutée par le thread. 
- *  Elle prend un paramètre int. */
-void *fonction_thread(void *nombre)
+void *fonction_thread(void *attr)
 {
-    /* on récupère ici notre paramètre en faisant un cast.
-        On cherche à récupérer le contenu d'un pointeur de type int */
-    int nombreParam = *((*int) nombre);
-
-   /* on affiche notre paramètre */
-    printf("Le paramètre passé est %i \n", nombreParam);
-    
-    /* enfin, on termine le thread et on renvoie notre nombre.
-    	Pour cela, il faut faire un cast sur l'adresse
-	de la variable que l'on veut renvoyer */
-    pthread_exit( (void*) &nombreRetour); 
+     printf("coucou, tu veux voir mon pthread_t????? \n c'est trop génial");
+     
+    /* on regarde si le pointeur attribut pointe sur quelque chose */
+    if(attr!=NULL) 
+    {
+    	 /* l'attribut est considéré comme une chaine de caractère */
+        printf("l'attribut en string",(char*)attr); 
+        /* l'attribut considéré comme un pointeur d'entier */
+        printf("l'attribut en int",*((int*)attr)); 
+    }
+    int retour=0;
+    pthread_exit((void*)&retour); 
+    /* je quitte et je renvoie l'adresse de ma variable retour en faisant 
+     * bien attention de renvoyer un pointeur sans type */
 }
 
 int main(int argc, char **argv)
 {
-	pthread_t threadFils;
-	int param = 5;
 	
-	/* on créé un thread qui execute fonction_thread 
-	    on passe aussi un paramètre "param" */
-	pthread_create(&threadFils, NULL, fonction_thread, (void*) &param); 
+	printf("Je suis le thread principal et je vais créer un autre thread");
+	pthread_t* fredId;
+        int param = 5;
+	pthread_create(fredId, NULL, fonction_thread, (void*)&param); 
+    /* lorsque je passe un pointeur de fonction en paramètre je
+     * passe le nom de la fonction, ici je peux faire le malin parce 
+     * que la signature de
+     * fonction_thread correspond à celle demandé par la signature 
+     * de la fonction pthread_create
+     * j'envoie aussi l'adresse de param en le considérant comme
+     * une adresse sans type */
 
-	/* on déclare un void* pour lire le retour */
-	void *ret1;
-	
-	/* maintenant on attend la fin du thread
-	   et on lit sa valeur de retour
-	   On oublie pas de caster ret1 selon
-	   le type de retour attendu */
-	pthread_join(threadFils, (int*) ret1); 
-	
-	/* #cterminé */
-	exit(0);
+	printf("Maintenant j'attends la fin du thread");
+       int retour;
+	pthread_join(fredId, (void *)retour); 
+	// et hop je récupère la valeur de retour	
+	exit(retour);
+
 }
 \end{lstlisting}	
 
-\section{Autres manières d'arrêter un thread}
+\section{Arrêt forcé d'un Thread}
 %Je suis un Thread qui veut arrêter son fils (ou un putain de random qui veux faire chier un autre thread), dans ce cas j'utilse la fonction\newline
-
-\subsection{Arrêter un thread sans code de retour}
-Dans certains cas, on peut libérer les ressources utilisées par un thread sans se soucier de son code de retour. Pour cela, on utilise:
-\begin{verbatim}
-pthread_detach(pthread_t thread_a_arreter);
-\end{verbatim}
-Cette fonction permet donc de tuer réellement un thread dés qu'il a fini réellement son travail, pas comme \emph{pthread\_exit( )}.
-
-\subsection{Envoyer un signal pour tuer un thread (cancel)}
-Tout comme les processus, il est possible de forcer l'arrêt d'un thread, mais aussi de bloquer le signal d'arrêt.
 Pour arrêter un thread, il faut utiliser:
 \begin{verbatim}
 int pthread_cancel(pthread_t thread);
 \end{verbatim}
 avec \emph{thread} étant l'identifiant du thread que vous avez envie d'arrêter. \textbf{Cependant}, tout comme les processus et les signaux, un thread est capable de bloquer cette demande d'arrêt.
 
-\subsection{Modification du comportement lors d'une demande de cancel}
-Il existe deux fonctions permettant de modifier ce comportement:
+\subsection{Modification du comportement lors d'une demande d'arrêt}
+Pour modifier ce comportement, il faut utiliser:
 \begin{verbatim}
 int pthread_setcancelstate(int etat, int *etat_ancien);
 \end{verbatim}
-et
-\begin{verbatim}
-int pthread_setcaneltype(int mode, int *mode_ancien);
-\end{verbatim}
-Commençons par \emph{setcancelstate}.
-
-\paragraph{pthread\_setcancelstate} permet de définir si le thread accepte ou pas les \emph{cancels}. On a donc que deux modes possibles:
+Un peu comme \emph{open( )} et ses multiples flags, il est possible de spécifier une ou plusieurs options avec des pipes pour le paramètre etat :
 \begin{itemize}
-\item{\emph{PTHREAD\_CANCEL\_DISABLE} pour que le thread bloque tous les cancels;}
-\item{\emph{PTHREAD\_CANCEL\_ENABLE} pour que le thread reçoive tous les cancels. C'est le mode par défaut.}
-\end{itemize}
+\item{Comportement à la reception du signal : \emph{PTHREAD\_CANCEL\_DISABLE} pour bloquer le signal d'arrêt ou \emph{PTHREAD\_CANCEL\_ENABLE} pour se terminer}
+\item{Comportement si je récupère le signal : PTHREAD\_CANCEL\_ASYCHRONOUS pour n'accepter le signal qu'à certains point de contrôle, c'est à dire quand j'utilise la fonction  pthread\_join, pthread\_testcancel ou pthread\_cond\_wait. Et PTHREAD\_CANCEL\_DEFERRED si j'accepte sans attendre le signal. }
+\end {itemize}
+\begin{dialogue}
+\speak{Firegrain} voilà pour l'arret d'un thread
+\speak{M.Tourlemonde} attendez vous n'avez pas expliquer le deuxième paremètre
+\speak{Firegrain} ah oui, eh bien....
+\speak{Toutlemonde} ?
+\speak{Firegrain} en fait, on fait on doit spécifier notre comportement précédent, mais vu qu'on ne le connait pas forcement... ce paramètre est un peu useless en somme, en général on met NULL et on s'en porte pas plus mal
+\speak{Toutlemonde} dites plutôt que vous ne savez pas ce que c'est
+\speak{Firegrain} Oh, ispice di piti!
+\speak{BFMerde TV} nous interrompons cette fiche à cause d'un petit problème technique, nous nous reverrons plus tard
+\speak{BFMerde TV} Nous dédicassons cette fiche à Firegrain qui a été arrêté suite à atteinte sur mineur... Il est condamné à payer une amende de 12 000 euro, à 3 mois d'emprisonnement et 12 mois de travaux d'intêret général...
+\end{dialogue}
 
-Un petit exemple pour la route:
+
+\section{Attente de la fin d'un processus.}
+Vu que \textsc{Firegrain} est actuellement en garde à vue pour aggression sur \sout{un putain de random} Mr.Toutlemonde, je reprends la main.\\
+Vous aurez compris que si il y a une façon de forcer l'arrêt d'un thread, il y a aussi une façon d'attendre la fin d'un thread et de lire son code de retour. Pour cela, on utilise la fonction:
 \begin{verbatim}
-/* je bloque tous les cancels */
-pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+int pthread_join(pthread_t thread, void **retour);
 \end{verbatim}
+Là encore, \emph{thread} désigne l'identifiant du thread et \emph{retour} désigne un pointeur dans lequel on va stocker la valeur de retour.\footnote{vous vous souvenez de status? meme chose}
 
-
-\paragraph{pthread\_setcanceltype} permet de définir \textbf{comment} le thread accepte les \emph{cancels}. On a, là aussi, que deux modes possibles:
-\begin{itemize}
-\item{\emph{PTHREAD\_CANCEL\_ASYNCHRONOUS} pour que le thread traite les cancels à tous les instants;}
-\item{\emph{PTHREAD\_CANCEL\_DEFERED} pour que le thread ne traite les cancels qu'a un certain moment. C'est le mode par défaut.}
-\end{itemize}
-Développons un peu cette histoire de \emph{CANCEL\_DEFERED}: en fait, cela veut dire que les cancels reçus par un thread ne seront traités qu'a l'exécution (par le thread) de certaines fonctions, qui sont \emph{pthread\_join( ), pthread\_testcancel( )} ou \emph{pthread\_cond\_wait}. Cela veut dire que les cancels reçus n'auront pas d'impact sur le thread jusqu'a que ce dernier exécute une des 3 fonctions citées auparavant.
-
+J'avoue que les threads me font \textbf{vraiment} chier, alors passons à la programmation réseau.
 
 
 \chapter{Programmation réseau en C}
