@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  27 OCT 2014 12:55
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  27 OCT 2014 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -467,13 +467,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 438--440
 
 [15]
 File: dup2.png Graphic file (type QTm)
- <use  "dup2.png" > [16] [17]
+ <use  "dup2.png" >
+Overfull \hbox (367.37044pt too wide) in paragraph at lines 475--478
+[] 
+ []
+
+[16] [17] [18]
 Chapitre 6.
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
-[18
+[19
 
 ]
 Overfull \hbox (49.99347pt too wide) in paragraph at lines 552--552
@@ -481,18 +486,18 @@ Overfull \hbox (49.99347pt too wide) in paragraph at lines 552--552
 ttr, void *(*fonc)(void*), void *arg);[] 
  []
 
-[19] [20] [21]
+[20] [21] [22]
 Chapitre 7.
-[22
+[23
 
-] [23] (./Sysfiche.aux) ) 
+] [24] (./Sysfiche.aux) ) 
 Here is how much of TeX's memory you used:
- 4259 strings out of 493734
- 60157 string characters out of 6146349
+ 4267 strings out of 493734
+ 60254 string characters out of 6146349
  155175 words of memory out of 5000000
- 7493 multiletter control sequences out of 15000+600000
+ 7501 multiletter control sequences out of 15000+600000
  109811 words of font info for 65 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  29i,6n,49p,662b,1447s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Sysfiche.pdf (24 pages).
+Output written on Sysfiche.pdf (25 pages).
