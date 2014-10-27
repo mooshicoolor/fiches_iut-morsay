@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  25 OCT 2014 17:13
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  27 OCT 2014 12:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -485,14 +485,14 @@ ttr, void *(*fonc)(void*), void *arg);[]
 Chapitre 7.
 [22
 
-] (./Sysfiche.aux) ) 
+] [23] (./Sysfiche.aux) ) 
 Here is how much of TeX's memory you used:
- 4256 strings out of 493734
- 60123 string characters out of 6146349
+ 4259 strings out of 493734
+ 60157 string characters out of 6146349
  155175 words of memory out of 5000000
- 7491 multiletter control sequences out of 15000+600000
- 102753 words of font info for 63 fonts, out of 8000000 for 9000
+ 7493 multiletter control sequences out of 15000+600000
+ 109811 words of font info for 65 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 29i,6n,49p,579b,1447s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,6n,49p,662b,1447s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Sysfiche.pdf (23 pages).
+Output written on Sysfiche.pdf (24 pages).

@@ -662,13 +662,57 @@ Développons un peu cette histoire de \emph{CANCEL\_DEFERED}: en fait, cela veut
 
 
 \chapter{Programmation réseau en C}
-\section{Petits rappels}
-Bien sur, vous vous souvenez tous du réseau en S2 avec \textsc{Momo}; tcp, udp, ip, etc...\\
-Ce qui est important ici, c'est la notion de \textbf{socket}. Un(e) socket est un flux de données qui permet de communiquer via le réseau. En fait, c'est un peu comme un pipe, mais destiné pour la communication par réseau.\\
-Un(e) socket utilise un protocole, soit \textbf{udp}, soit \textbf{tcp}. Pour résumer très simplement, le protocole udp envoie des informations très rapidement sans vérifier si elle a bien été reçue alors que le protocole tcp vérifie si le paquet a bien été reçu.\\
-udp = rapide, sans vérif; tcp = lent, mais vérifie.  
 
-\section{Notions de base}
+\epigraph{"Avec le protocole \emph{TCP}, mes informations sont \textsc{complètes} et en \textsc{très bon état} ! \emph{Trékontan}"}{TG Biga, \textsc{brocantier}}
+
+\section{Rappels et notions}
+\subsection{Adresses ip \& ports}
+Comme \textsc{Momo} nous l'a appris le semestre dernier, une communication réseau a besoin de connaître d'où elle vient et où elle va. On utilise donc des \emph{adresses ip} associé à un \emph{port}.\\
+Il existe deux types d'adresses ip:
+\begin{itemize}
+\item{IPV4, qui est certainement le plus connu, et qui se présente par exemple de cette manière: 192.0.0.1;}
+\item{IPV6, qui est assez nouveau, qui ressemble à ça: 2001:db8:0:85a3:0:0:ac1f:8001} 
+\end{itemize}
+Ne vous inquiétez pas; dans le contexte actuel, on ne se concentra que sur les adresses \emph{IPV4}.
+
+Quant au port, il se présente sous la forme d'une série de chiffres qui permettent de \emph{préciser} là où doit aller l'information. Chaque port est dédié à un programme, afin d'éviter de mélanger les informations dédiés par exemple à la messagerie à celle dédié à un jeu vidéo en ligne par exemple. Sachez que les ports ayant un numéro inférieur à \emph{1024} sont considérés comme spéciaux, ainsi, ne prenez pas un port ayant un numéro inférieur à 1024.
+
+\subsection{Protocoles UDP \& TCP}
+Pour communiquer sur le réseau, il existe deux protocoles de communication: \emph{UDP} et \emph{TCP}.
+\paragraph{UDP}
+signifie \emph{User Datagram Protocol}. En gros, l'UDP permet d'envoyer très rapidement des informations, et pour cause: on \textbf{ne vérifie pas} si l'information est bien arrivée. C'est aussi pour cela que l'UDP est ce qu'on appelle un protocole \emph{connectionless}: on a pas à faire de \emph{connexion préalable} avant d'envoyer l'information. On met une adresse, on envoie l'information, \textsc{et c tou}. Pour faire un parallèle avec la vraie vie, voyez l'\emph{UDP} comme \textit{une lettre postale}: on envoie l'information, on sait pas si le destinataire existe, mais on s'en fout puisque on a déjà envoyé l'information.
+
+\paragraph{TCP} signifie \emph{Transmission Control Protocol}. Contrairement à l'\emph{UDP}, il faut d'abord établir une communication avec l'écouteur avant d'envoyer des informations. Comme son nom l'indique, il y a un \emph{contrôle} des informations, ainsi on est assuré d'envoyer les informations dans le \emph{bon ordre} mais aussi de façon \emph{complète}. Comme le dit \textsc{Bouyou}, on peut comparer le protocole \emph{TCP} à \emph{une conversation téléphonique}. Le désavantage du protocole \emph{TCP} par rapport à l'\emph{UDP} est sa vitesse, mis à part ça...
+
+
+\subsection{Sockets}
+Les \emph{sockets} sont l'intermédiaire entre une application et la couche réseau du système. Tout comme \emph{tout et n'importe quoi} dans \textsc{Unix}, les \emph{sockets} sont aussi des fichiers ! Ainsi, les sockets sont identifiés avec un \emph{file descriptor}, eh oui. Par conséquent, il existe moults appels systèmes permettant d'utiliser ces sockets.\\
+Mais, ne vous inquiétez pas, nous reviendrons sur leur utilisation plus tard; pour l'instant, regardons les différents types de \emph{sockets} disponibles. 
+
+On a à notre disposition 2 types de sockets\footnote{il existe un 3è type, que l'on appelle "raw", mais ici on ne les utilisera pas}: chacune correspondant à un protocole.
+\begin{itemize}
+\item{les \emph{Stream Sockets}, donc \emph{socquettes de flux} en bon Francais, utilisent le protocole \emph{TCP}. Ils ont donc un très bon niveau de qualité de transmission de données, et on est assuré d'avoir l'info dans le bon ordre et en bon état;}
+\item{les \emph{Datagram Sockets}, donc \emph{sockets de pacquets}, utilisent le protocole \emph{UDP}. Allez voir en haut si vous voulez une description de l'udp.}
+\end{itemize}
+
+\subsection{Structures en C}
+Petit rappel de C: une structure est une sorte d'objet, mais en C. Une structure se déclare de la façon suivante:
+\begin{lstlisting}
+typedef struct{
+	/* random attributs */
+	int a;
+} nomDeLaStructure;
+\end{lstlisting}
+On peut ensuite l'utiliser et accéder aux attributs comme ça:
+\begin{lstlisting}
+nomDeLaStructure bruno = {a=1};
+/* affiche 1 */
+printf("%i", bruno.a);
+bruno.a = 2;
+/*affiche 2*/
+printf("%i", bruno.a);
+\end{lstlisting}
+Bon voilà c'est tout, maintenant en route pour les Sockets en C!!!!!!!!!!!!
 
 
 
