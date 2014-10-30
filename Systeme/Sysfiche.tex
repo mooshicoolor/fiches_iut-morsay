@@ -58,7 +58,7 @@
 
 
 \title{Système et bouyous}
-\author{\bsc{Borey UK} \& \bsc{Steeve VINCENT}}
+\author{\bsc{Borey UK} \& \bsc{Steeve VINCENT} \& un peu \bsc{Elias MIA}}
 \date{\today}
 
 \begin{document}
@@ -307,12 +307,12 @@ Ensuite, on sait qu'un bloc tient sur 4096 octets, ce qui correspond à \textbf{
 
 Maintenant, on peut calculer la taille selon le type d'adressage:
 \begin{itemize}
-\item{Direct: on a 10 blocs de 1024 adresses, donc 4096 octets}
+\item{Direct: on a 10 blocs de 1024 adresses, donc 4096 KiloOctets}
 \item{Indirect simple: on a 1024 blocs, donc 4 Mo}
 \item{Indirect double: on a 1024*1024 blocs, donc 4 Go}
 \item{Indirect triple: on a 1024*1024*1024 blocs, donc 4 To}
 \end{itemize}
-On fait maintenant la somme; la taille max correspond à un fichier de 4 To et 4 Go et 4 Mo et 4096 octets.
+On fait maintenant la somme; la taille max correspond à un fichier de 4 To et 4 Go et 4 Mo et 4096 ko.
 
 \subsection{Les répertoires}
 Les répertoires possèdent une structure différente entre UNIX et Linux.
@@ -877,7 +877,8 @@ bind(socket_fd,servinfo->ai_addr, servinfo->ai_addrlen);
 
 \subsection{\emph{connect( )}}
 \emph{connect( )} se présente de la manière suivante;
-\begin{lstlisting}int connect(int sockfd, struct sockaddr *serv_addr, int addrlen);
+\begin{lstlisting}
+int connect(int sockfd, struct sockaddr *serv_addr, int addrlen);
 \end{lstlisting}
 
 
