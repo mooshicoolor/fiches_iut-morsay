@@ -1,8 +1,11 @@
 % !TEX encoding = UTF-8 Unicode
 \documentclass{report}
 
+
+
 %À compiler avec XeLaTeX
 
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[frenchb]{babel}
@@ -18,12 +21,44 @@
 %\usepackage{fontspec} % Provide features for AAT and OpenType fonts
 %\setmainfont{Helvetica Light} % Define the default font family
 
-\lstset{language=C}
+%couleurs
+\definecolor{base03}{HTML}{002B36}
+\definecolor{base02}{HTML}{073642}
+\definecolor{base01}{HTML}{586E75}
+\definecolor{base00}{HTML}{657B83}
+\definecolor{base0}{HTML}{839496}
+\definecolor{base1}{HTML}{93A1A1}
+\definecolor{base2}{HTML}{EEE8D5}
+\definecolor{base3}{HTML}{FDF6E3}
+\definecolor{yellow}{HTML}{B58900}
+\definecolor{orange}{HTML}{CB4B16}
+\definecolor{red}{HTML}{DC322F}
+\definecolor{magenta}{HTML}{D33682}
+\definecolor{violet}{HTML}{6C71C4}
+\definecolor{blue}{HTML}{268BD2}
+\definecolor{cyan}{HTML}{2AA198}
+\definecolor{green}{HTML}{859900}
+
+
+
 \lstset{showstringspaces=false}
 \lstset{frame=single}
+\lstset{
+    language=C,
+    sensitive=true,
+    backgroundcolor=\color{base3},
+    keywordstyle=\color{cyan},
+    commentstyle=\color{base1},
+    stringstyle=\color{blue},
+    numberstyle=\color{violet},
+    breaklines=true,
+    tabsize=2
+}
 
-\title{Système.}
-\author{\bsc{McRoss} \& Firegrain ofc}
+
+
+\title{Système et bouyous}
+\author{\bsc{Borey UK} \& \bsc{Steeve VINCENT}}
 \date{\today}
 
 \begin{document}
@@ -31,8 +66,14 @@
 
 % Introduction tauntesque
 \chapter*{Introduction}
-bouyou ofc
-
+gl hf pour déchiffrer la dernière partie sur les sockets.\\
+fiche (qui ressemble plus à un dossier, maintenant) à compléter avec vos cours, livres\footnote{Programmation Système par Christophe Blaess, par exemple, mais aussi Beej's Guide to Network Programming, developpez.com, etc etc}, internet, et tout.\\
+\begin{center}
+\includegraphics[scale=1]{moi}
+\end{center}
+\begin{center}
+merci.
+\end{center}
 
 % Chapitre sur les processus et leur vie
 
@@ -113,7 +154,7 @@ Enfin, notons qu'il faut autant de \emph{wait( )} que de processus fils lancés!
 % Base des signaux sous linux/unix
 
 \chapter{Les signaux}
-% \epigraph{"mais mec, y a le mifa chez ouam"}{une GROSSE...}
+\epigraph{"Si tu veux m'parler, envoie-moi un... fax."}{\textsc{L'Homme le Plus Classe du Monde}}
 \section{Qu'est-ce qu'un signal?}
 Un \emph{signal} est une sorte de message envoyé par un processus à un autre processus. Face à un signal, un processus peut effectuer une des actions au choix:
 \begin{itemize}
@@ -377,6 +418,7 @@ close(newFic);
 
 
 \chapter{Pipes}
+\epigraph{"Ça sent le pipeau ton histoire. Le pipeau !"}{Dave - La Classe Américaine}
 Les processus (pour l'instant d'une même machine) peuvent communiquer entre eux par le biais de \emph{pipes}. Un pipe, c'est un tube par lequel on fait passer des informations. Un processus peut écrire et lire dans un pipe, cependant il n'y a \textbf{qu'un seul lecteur et qu'un seul écrivain par pipe}. Si on veut que deux programmes communiquent dans les deux sens, il faut créer deux pipes.
 On va commencer par les \textbf{tubes anonymes}.\footnote{et on va faire que ça parce bon}
 
@@ -473,7 +515,7 @@ int dup2(int fdSource, int fdCible);
 En fait, \emph{dup2( )} permet de copier le file descriptor en deuxième argument dans le premier.
 
 Dans notre exercice, cela se traduit donc par une \textbf{redirection} de la sortie standard du fils sur l'entrée du pipe \emph{pipeCom} et une redirection de la sortie du pipe \emph{pipeCom} sur l'entrée standard du père.\\ Regardez le schéma pour un peu plus de clarté:\\
-\includegraphics[scale=0.5]{dup2}
+\includegraphics[scale=0.25]{dup2}
 \\ Et maintenant, voilà notre code:
 \begin{lstlisting}
 int main( int argc, char ** argv )
@@ -505,7 +547,7 @@ On n'oublie pas de fermer les entrées/sorties inutiles pour éviter des embroui
 
 
 \chapter{Threads}
-\epigraph{"JME KASS, ET C TOU"}{McRoss, qui en a visiblement marre des threads}
+\epigraph{"Ça m'a l'air d'être un bordel..."}{La Classe Américaine}
 
 \section{Préambule : Pointeurs et pointeurs de fonction}
 \subsection{Pointeurs (lol S1)}
@@ -665,6 +707,8 @@ Développons un peu cette histoire de \emph{CANCEL\_DEFERED}: en fait, cela veut
 
 \epigraph{"Avec le protocole \emph{TCP}, mes informations sont \textsc{complètes} et en \textsc{très bon état} ! \emph{Trékontan}"}{TG Biga, \textsc{brocantier}}
 
+NB: Si vous avez le temps et l'envie, allez lire le \emph{Beej's Guide to Network Programming}, un guide très bien foutu à propos de tout ce bordel.
+
 \section{Rappels et notions}
 \subsection{Adresses ip \& ports}
 Comme \textsc{Momo} nous l'a appris le semestre dernier, une communication réseau a besoin de connaître d'où elle vient et où elle va. On utilise donc des \emph{adresses ip} associé à un \emph{port}.\\
@@ -714,8 +758,311 @@ printf("%i", bruno.a);
 \end{lstlisting}
 Retenez aussi que pour accéder à un attribut d'un pointeur, on utilise la notation \emph{->}.
 
-\section{Structures importantes 
-On va commencer par le plus simple
+\section{Structures importantes \& appels systèmes} 
+La programmation réseau en C utilise un tas de nouvelles structures et types qui peuvent sembler bizarres au premier coup d'oeil. Avant de nous pencher sur la programmation même, explicitons les structures utilisées.\\
+PS: \textsc{Bouyou} a basé son cours sur des trucs obsolètes, ainsi, sa \emph{manière de procéder} sera - peut-être - expliquée à la fin de cette fiche.
+
+\subsection{\emph{addrinfo} et \emph{getaddrinfo( )}}
+
+\emph{addrinfo} se présente de la manière suivante:
+\begin{lstlisting}
+struct addrinfo {
+    int              ai_flags;     // AI_PASSIVE, AI_CANONNAME, etc.
+    int              ai_family;    // AF_INET, AF_INET6, AF_UNSPEC
+    int              ai_socktype;  // SOCK_STREAM, SOCK_DGRAM
+    int              ai_protocol;  // use 0 for "any"
+    size_t           ai_addrlen;   // size of ai_addr in bytes
+    struct sockaddr *ai_addr;      // struct sockaddr_in or _in6
+    char            *ai_canonname; // full canonical hostname
+    struct addrinfo *ai_next;      // linked list, next node
+};
+\end{lstlisting}
+"Oula oula", allez vous me dire, "c'est quoi ce bordel monstre????"\\
+\emph{addrinfo} est en fait une structure très importante, puisque elle va regrouper la majorité des informations permettant de créer un socket.\\
+En fait, afin de savoir où se connecter, il faut appeler la procédure \emph{getaddrinfo( )}, qui remplira une structure \emph{addrinfo}.\\
+Mais trève de blabla, regardons maintenant ses attributs:
+\begin{itemize}
+\item{\emph{ai\_family} indique le protocole ip desiré par les adresses ip renvoyées. On a soit \emph{AF\_INET} (protocole ipv4), \emph{AF\_INET6} (ipv6) ou \emph{AF\_UNSPEC} (les deux).
+Dans notre cas, on utilsera \emph{AF\_INET};}
+\item{\emph{ai\_socktype} indique le type de socket utilisé. Allez voir en haut pour avoir une description de ces sockets.}
+\item{\emph{ai\_protocol} indique le protocole utilisé par les sockets. Mettez 0, cela suffira.}
+\item{\emph{ai\_flags} indique des modifieurs. \emph{AI\_PASSIVE}, par exemple, permettera de remplir le \emph{sockaddr} automatiquement avec l'adresse de l'hôte. Très pratique pour faire un serveur!}
+\end{itemize}
+
+Maintenant, regardons \emph{getaddrinfo( )}:
+\begin{lstlisting}
+int getaddrinfo(const char *node,     // Adresse ip de l'hôte ou adresse http
+                const char *service,  // Numero de port ou "http"
+                const struct addrinfo *hints, // pointeur vers une structure 
+                				//"addrinfo" préremplie
+                struct addrinfo **res); //pointeur vers un pointeur d'addrinfo 
+                			//(le resultat)
+\end{lstlisting}
+En fait, avant d'appeller \emph{getaddrinfo}, il faut créer une structure \emph{addrinfo} et un \emph{pointeur de structure addrinfo}.\\
+La structure permettra de définir ce que l'on souhaite récupérer et le pointeur permettra de récupérer les \emph{addrinfo} correspondants à nos critères définis dans la structure.
+\paragraph{En pratique} cela se présente de la manière suivante:
+\begin{lstlisting}
+struct addrinfo hints;
+struct addrinfo *servinfo;
+/* on initialise la structure */
+memset(&hints, 0, sizeof hints);
+/* on souhaite une connexion avec ipv4 et en UDP */
+hints.ai_family = AF_INET;
+hints.ai_socktype = SOCK_DGRAM;
+/* on souhaite obtenir des infos pour se connecter à "127.0.0.1"
+ * au port 1337 */
+getaddrinfo(127.0.0.1, 1337, &hints, &servinfo);
+/* maintenant, les résultats sont pointés par servinfo */
+\end{lstlisting}
+Maintenant, interessons nous à \emph{sockaddr}, structure qui possède des informations sur le socket.
+
+\subsection{\emph{sockaddr}}
+En réalité, il existe 3 types de \emph{sockaddr}:
+\begin{itemize}
+\item{\emph{sockaddr\_in}, qui contient des informations relatives au socket selon le protocole IPV4}
+\item{\emph{sockaddr\_in6}, qui contient des informations selon le protocole IPV6}
+\item{\emph{sockaddr}, qui est plus général que ses variantes \_in et \_in6. Dans les faits, on castera sockaddr\_in en sockaddr pour pouvoir utiliser \emph{connect}}
+\end{itemize}
+En plus de ces 3 types de sockaddr, il existe un dernier type de sockaddr, \emph{sockaddr\_storage}, qui permet en fait de stocker les informations du l'expéditeur. Je sais que tout cela semble très flou pour le moment, mais tout devrait s'éclaircir par la suite.\\
+Pour le plaisir, voilà le contenu de la structure \emph{sockaddr} et \emph{sockaddr\_in}:
+\begin{lstlisting}
+struct sockaddr {
+    unsigned short    sa_family;    // address family, AF_xxx
+    char              sa_data[14];  // 14 bytes of protocol address
+};
+
+struct sockaddr_in {
+    short int          sin_family;  // Address family, AF_INET
+    unsigned short int sin_port;    // Port number
+    struct in_addr     sin_addr;    // Internet address
+    unsigned char      sin_zero[8]; // Same size as struct sockaddr
+};
+
+struct in_addr {
+    uint32_t s_addr; // that's a 32-bit int (4 bytes)
+};
+\end{lstlisting}
+
+\subsection{\emph{socket( )}}
+\begin{verbatim}
+socket(int domain, int type, int protocol)
+\end{verbatim}
+\emph{socket( )} retourne donc un int, qui correspond au fait à un descripteur de fichier. Il est donc primordial de récuperer la valeur de retour de socket.\\
+Cet appel système prend donc 3 paramètres:
+\begin{itemize}
+\item{\emph{domain} correspond à la portée du socket. \textbf{AF\_UNIX} pour une portée locale, \textbf{AF\_INET} pour une communication par réseau.}
+\item{\emph{type} correspond au type de socket utilisé. \textbf{SOCK\_DGRAM} pour une communication non connectée (udp), \textbf{SOCK\_STREAM} pour une connectée (tcp). On peut aussi mettre \textbf{SOCK\_RAW}, mais on ne l'utilisera pas ici.}
+\item{\emph{protocol}, pas besoin de le présenter. \textbf{IPPROTO\_UDP} ou \textbf{IPPROTO\_TCP}. Laissez \textbf{0} et le système se débrouillera comme un grand.}
+\end{itemize}
+
+\subsection{\emph{bind( )}}
+\begin{verbatim}
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+\end{verbatim}
+\emph{bind( )} permet d'attacher un socket - représenté par un descripteur de fichier - à une adresse réseau, c'est à dire un sockaddr.
+
+\begin{itemize}
+\item{sockfd, le descripteur d'un socket.}
+\item{addr : un pointeur sur une structure de type sockaddr.} 
+\item{addrlen : la taille en octets de la structure addr.}
+\end{itemize}
+Aujourd'hui, il est assez simple d'attacher une structure réseau, puisque c'est \emph{getaddrinfo( )} qui remplit une structure. Du coup, il est facile d'utiliser bind, puisque tout est déjà dans la structure pointée par res:
+\begin{lstlisting}
+/* Exemple tiré du TP7, coté serveur
+ * on suppose qu'on a déjà déclaré nos structures */
+getaddrinfo(NULL, SERVERPORT, &hints, &servinfo);
+int socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
+bind(socket_fd,servinfo->ai_addr, servinfo->ai_addrlen);
+\end{lstlisting}
+
+\subsection{\emph{connect( )}}
+\emph{connect( )} se présente de la manière suivante;
+\begin{lstlisting}int connect(int sockfd, struct sockaddr *serv_addr, int addrlen);
+\end{lstlisting}
+
+
+\section{Connexion client/serveur en TCP}
+voir guide.
+
+\section{Connexion client/serveur en UDP}
+\subsection{Client}
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
+// le port sur lequel on se connecte
+#define SERVERPORT "4950"
+
+int main(int argc, char **argv)
+{
+	if(argc != 2)
+	{
+		fprintf(stderr, "Usage: client_TP7 <nom de l'hote>");
+		exit(1);
+	}
+	
+	/* déclaration des variables */
+	int socket_fd;
+	struct addrinfo hints;
+	struct addrinfo *servinfo;
+
+	/* réinitialisation de hints */
+	memset(&hints, 0, sizeof hints);
+	
+	/* on cherche à avoir des adresses ipv4 */
+	hints.ai_family = AF_INET;
+	/* on communique en udp */
+	hints.ai_socktype = SOCK_DGRAM;
+	/* on veut se connecter au serveur passé en parametre au port 4950 
+	 * on obtient les infos de l'hote passé en parametre */
+	getaddrinfo(argv[1], SERVERPORT, &hints, &servinfo);
+	
+	/* on créé un socket, de type ipv4, udp */
+	socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
+	
+	/* rien de fabuleux, récupération du nom d'artiste */
+	char nom[20];
+	printf("Entrer un nom d'artiste :\n");
+	scanf("%s",nom);
+	
+	/* on envoie maintenant par le socket à l'adresse trouvée par getaddrinfo le nom d'artiste */
+	int sent = sendto(socket_fd, nom, strlen(nom), 0, servinfo->ai_addr, servinfo->ai_addrlen);
+	
+	//printf("sent %i bytes\n",sent);
+	
+	/* reception */
+	/* on a un sockaddr_storage pour etre sur de pouvoir stocker le socket de l'expéditeur */
+	struct sockaddr_storage sender;
+	socklen_t addr_len = sizeof(sender);
+	memset(&sender, 0, sizeof(sender));
+	
+	char messRetour[50];
+	/* on lit le message de retour */
+	int rec = recvfrom(socket_fd, messRetour, sizeof(messRetour), 0, (struct sockaddr*)&sender, &addr_len);
+	
+	printf("%s\n",messRetour);
+		
+	/* on a fini, on se casse */
+	freeaddrinfo(servinfo);
+	close(socket_fd);
+	
+	exit(0);
+}
+\end{lstlisting}
+
+\subsection{Serveur}
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <signal.h>
+
+// le port sur lequel on se connecte
+#define SERVERPORT "4950"
+#define MAXBUFLEN 100
+
+/* tp related */
+typedef struct
+{
+	char nom[20];
+	char numero[50];
+} abonne;
+
+void killFils(int sig)
+{
+	while(waitpid(-1, NULL, WNOHANG) > 0);
+}
+
+
+int main(int argc, char **argv)
+{
+
+	abonne tableAbonne[10] = {{ "bouyou","01 02 03 04 05" }, { "brunon", "trop pauvre pour un tel" }, { "sttev", "36 15 dites CURRY" }, { "elias", "69 69 69 69" },
+							  { "ithihar", "peut pas parler car mifa" }, { "miku", "6d612062697465" }};
+	
+	signal(SIGCHLD, killFils);
+	struct addrinfo hints;
+	struct addrinfo *servinfo;
+	
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_DGRAM;
+	hints.ai_flags = AI_PASSIVE;
+	
+	getaddrinfo(NULL, SERVERPORT, &hints, &servinfo);
+	int socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
+	bind(socket_fd,servinfo->ai_addr, servinfo->ai_addrlen);
+	
+	struct sockaddr_in their_addr;
+	socklen_t addr_len;
+	addr_len = sizeof their_addr;
+	char buf[MAXBUFLEN];
+	
+	while(1) 
+    	{
+	   	 memset(&buf, 0, sizeof(buf));
+		int read = recvfrom(socket_fd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len);
+	
+		printf("Reçu : %s\n",buf);
+	
+		/*faire le traitement*/
+		char abonne[50];
+		strcpy(abonne,buf);
+		abonne[read] = '\0';
+		printf("%s\n",abonne);
+		
+		int i=0;
+		int ret=1;
+	
+		while( ret != 0 && i<10 )
+		{
+			ret = strcmp(tableAbonne[i].nom, abonne);
+			//printf("%s\n",tableAbonne[i].nom);
+			i+=1;
+		}
+		
+		char messRetour[50];
+	
+		if(ret == 0)
+		{
+			sprintf(messRetour,"Le numero de l'abonne est ");
+			strcat(messRetour,tableAbonne[i-1].numero) ;
+		}
+		else
+		{
+			sprintf(messRetour,"abonne inconnu");
+		}
+	
+		int sent = sendto(socket_fd, messRetour, strlen(messRetour), 0, (struct sockaddr *)&their_addr, addr_len);
+	}
+	
+	exit(0);
+}
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
 
 
 

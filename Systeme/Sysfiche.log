@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  27 OCT 2014 15:26
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  30 OCT 2014 11:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -25,10 +25,53 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
+(/usr/local/texlive/2014/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Package option `usenames' ignored on input line 216.
+Package xcolor Info: Driver file: xetex.def on input line 225.
+
+(/usr/local/texlive/2014/texmf-dist/tex/xelatex/xetex-def/xetex.def
+File: xetex.def 2014/04/28 v4.01 LaTeX color/graphics driver for XeTeX (RRM/JK)
+
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen103
+\extrarowheight=\dimen104
+\NC@list=\toks14
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\everycr=\toks15
+\minrowclearance=\skip45
+)
+\rownum=\count89
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2014/04/23 v3.0j Driver-dependant file (DPC,SPQR)
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2007/01/21 v2.11 Predefined colors according to SVG 1.1 (UK)
+))
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2014/04/30 v1.2b Input encoding file
-\inpenc@prehook=\toks14
-\inpenc@posthook=\toks15
+\inpenc@prehook=\toks16
+\inpenc@posthook=\toks17
 
 
 Package inputenc Warning: inputenc package ignored with utf8 based engines.
@@ -48,15 +91,15 @@ Language: frenchb 2014/04/18 v3.0c French support from the babel system
 
 (/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2014/03/24 3.9k Babel common definitions
-\babel@savecnt=\count89
-\U@D=\dimen103
+\babel@savecnt=\count90
+\U@D=\dimen105
 
 (/usr/local/texlive/2014/texmf-dist/tex/generic/babel/xebabel.def))
 \l@acadian = a dialect from \language\l@french 
 \l@canadien = a dialect from \language\l@french 
-\FBcolonskip=\skip43
-\FBthinskip=\skip44
-\FB@interchartokenstateORI=\count90
+\FBcolonskip=\skip46
+\FBthinskip=\skip47
+\FB@interchartokenstateORI=\count91
 Package frenchb.ldf Info: No need for active punctuation characters
 (frenchb.ldf)             with this version of XeTeX!
 (frenchb.ldf)             reported on input line 264.
@@ -66,20 +109,20 @@ Package frenchb.ldf Info: No need for active punctuation characters
 \FB@guilo=\XeTeXintercharclass7
 \FB@guilf=\XeTeXintercharclass8
 \FB@guilnul=\XeTeXintercharclass9
-\FBguillskip=\skip45
-\FB@Mht=\dimen104
+\FBguillskip=\skip48
+\FB@Mht=\dimen106
 LaTeX Info: Redefining \degres on input line 666.
-\std@mcc=\count91
-\dec@mcc=\count92
-\listindentFB=\skip46
-\labelwidthFB=\skip47
-\leftmarginFB=\skip48
-\parindentFFN=\dimen105
+\std@mcc=\count92
+\dec@mcc=\count93
+\listindentFB=\skip49
+\labelwidthFB=\skip50
+\leftmarginFB=\skip51
+\parindentFFN=\dimen107
 ))
 (/usr/local/texlive/2014/texmf-dist/tex/latex/carlisle/scalefnt.sty)
 (/usr/local/texlive/2014/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
-\KV@toks@=\toks16
+\KV@toks@=\toks18
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
@@ -118,45 +161,45 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/preprint/fullpage.sty
 Package: fullpage 1999/02/23 1.1 (PWD)
-\FP@margin=\skip49
+\FP@margin=\skip52
 )
 (/usr/local/texlive/2014/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box26
 \UL@hyphenbox=\box27
-\UL@skip=\skip50
-\UL@hook=\toks17
-\UL@height=\dimen106
-\UL@pe=\count93
-\UL@pixel=\dimen107
+\UL@skip=\skip53
+\UL@hook=\toks19
+\UL@height=\dimen108
+\UL@pe=\count94
+\UL@pixel=\dimen109
 \ULC@box=\box28
 Package: ulem 2012/05/18
-\ULdepth=\dimen108
+\ULdepth=\dimen110
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/epigraph/epigraph.sty
 Package: epigraph 2009/09/02 v1.5c typesetting epigraphs
-\beforeepigraphskip=\skip51
-\afterepigraphskip=\skip52
-\epigraphwidth=\skip53
-\epigraphrule=\skip54
+\beforeepigraphskip=\skip54
+\afterepigraphskip=\skip55
+\epigraphwidth=\skip56
+\epigraphrule=\skip57
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count94
+\lst@mode=\count95
 \lst@gtempboxa=\box29
-\lst@token=\toks18
-\lst@length=\count95
-\lst@currlwidth=\dimen109
-\lst@column=\count96
-\lst@pos=\count97
-\lst@lostspace=\dimen110
-\lst@width=\dimen111
-\lst@newlines=\count98
-\lst@lineno=\count99
-\lst@maxwidth=\dimen112
+\lst@token=\toks20
+\lst@length=\count96
+\lst@currlwidth=\dimen111
+\lst@column=\count97
+\lst@pos=\count98
+\lst@lostspace=\dimen112
+\lst@width=\dimen113
+\lst@newlines=\count99
+\lst@lineno=\count100
+\lst@maxwidth=\dimen114
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
-\c@lstnumber=\count100
-\lst@skipnumbers=\count101
+\c@lstnumber=\count101
+\lst@skipnumbers=\count102
 \lst@framebox=\box30
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/listings.cfg
@@ -177,13 +220,9 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: xetex.def on input line 91.
-
-(/usr/local/texlive/2014/texmf-dist/tex/xelatex/xetex-def/xetex.def
-File: xetex.def 2014/04/28 v4.01 LaTeX color/graphics driver for XeTeX (RRM/JK)
-
-))
-\Gin@req@height=\dimen113
-\Gin@req@width=\dimen114
+)
+\Gin@req@height=\dimen115
+\Gin@req@width=\dimen116
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
@@ -275,8 +314,8 @@ Package: blkcntrl 2001/08/31 v1.2 block control
 (/usr/local/texlive/2014/texmf-dist/tex/latex/frankenstein/moredefs.sty
 Package: moredefs 2001/08/31 v1.8 more defining commands (Frankenstein's brain)
 
-\sc@toks@a=\toks19
-\sc@toks@b=\toks20
+\sc@toks@a=\toks21
+\sc@toks@b=\toks22
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/relsize/relsize.sty
 Package: relsize 2013/03/29 ver 4.1
@@ -290,106 +329,114 @@ File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
 (./Sysfiche.aux)
 \openout1 = `Sysfiche.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 64.
  (/usr/local/texlive/2014/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 29.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 64.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \dots on input line 29.
-LaTeX Info: Redefining \up on input line 29.
+LaTeX Info: Redefining \dots on input line 64.
+LaTeX Info: Redefining \up on input line 64.
 
 
 Package frenchb.ldf Warning: Add \usepackage{fontspec} to the
-(frenchb.ldf)                preamble of your document, on input line 29.
+(frenchb.ldf)                preamble of your document, on input line 64.
 
-\c@lstlisting=\count102
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 30.
+\c@lstlisting=\count103
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 65.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 30.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 65.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 30.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 65.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 30.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 65.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 30.
+(Font)              <12> on input line 65.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 30.
+(Font)              <8> on input line 65.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 30.
+(Font)              <6> on input line 65.
  [1
 
-] [1
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 70.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 70.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 70.
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--71
+
+ []
+
+File: moi.jpg Graphic file (type QTm)
+<use  "moi.jpg" > [1
 
 ]
 Chapitre 1.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 45.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 45.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 45.
 [2
 
 ]
 Chapitre 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
 
  []
 
 [3
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 92.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 133.
+
  (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [4]
 Chapitre 3.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 157.
 [5
 
 ]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 176.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 217.
 
  (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [6] [7]
 Chapitre 4.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 225.
 
-Overfull \hbox (10.6668pt too wide) in paragraph at lines 232--233
+Overfull \hbox (10.6668pt too wide) in paragraph at lines 273--274
 []\T1/lmr/bx/n/10 Les fi-chiers or-di-naires\T1/lmr/m/n/10 , c'est a dire les f
 i-chiers ran-dom comme \T1/lmr/m/it/10 merci.c\T1/lmr/m/n/10 , \T1/lmr/m/it/10 
 i_et_y_se_font_defoncer.mp4\T1/lmr/m/n/10 ,
@@ -399,59 +446,59 @@ File: adressage_direct.png Graphic file (type QTm)
 <use  "adressage_direct.png" >
 File: adressage_indirect.png Graphic file (type QTm)
  <use  "adressage_indirect.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 241--260
+Underfull \hbox (badness 10000) in paragraph at lines 282--301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--260
+Underfull \hbox (badness 10000) in paragraph at lines 282--301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--260
+Underfull \hbox (badness 10000) in paragraph at lines 282--301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--260
+Underfull \hbox (badness 10000) in paragraph at lines 282--301
 
  []
 
 [8
 
 ] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 261--266
+Underfull \hbox (badness 10000) in paragraph at lines 302--307
 
  []
 
 File: rep_unix.png Graphic file (type QTm)
 <use  "rep_unix.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 279--282
+Underfull \hbox (badness 10000) in paragraph at lines 320--323
 
  []
 
 File: rep_linux.png Graphic file (type QTm)
 <use  "rep_linux.png" >
-Overfull \hbox (12.57045pt too wide) in paragraph at lines 283--287
+Overfull \hbox (12.57045pt too wide) in paragraph at lines 324--328
 [] 
  []
 
 [10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 332--339
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
 
  []
 
 [12] [13]
 Chapitre 5.
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 397--397
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 439--439
 []\T1/lmtt/m/n/10 write(desc[1], buffer, 20); // On souhaite écrire dans notre 
 pipe 20 octets de notre buffer[] 
  []
 
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 405--405
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 447--447
 []\T1/lmtt/m/n/10 read(desc[0], bufferLecture, 20); //On veut lire 20 octets de
 puis le pipe dans notre buffer[] 
  []
@@ -461,43 +508,38 @@ puis le pipe dans notre buffer[]
 ]
 File: pipe.png Graphic file (type QTm)
  <use  "pipe.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 438--440
+Underfull \hbox (badness 10000) in paragraph at lines 480--482
 
  []
 
 [15]
 File: dup2.png Graphic file (type QTm)
- <use  "dup2.png" >
-Overfull \hbox (367.37044pt too wide) in paragraph at lines 475--478
-[] 
- []
-
-[16] [17] [18]
+ <use  "dup2.png" > [16] [17]
 Chapitre 6.
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
 Missing character: There is no ’ in font ec-lmr10!
-[19
+[18
 
 ]
-Overfull \hbox (49.99347pt too wide) in paragraph at lines 552--552
+Overfull \hbox (49.99347pt too wide) in paragraph at lines 594--594
 []\T1/lmtt/m/n/10 int pthread_create(pthread_t *thread, const pthread_attr_t *a
 ttr, void *(*fonc)(void*), void *arg);[] 
  []
 
-[20] [21] [22]
+[19] [20] [21]
 Chapitre 7.
-[23
+[22
 
-] [24] (./Sysfiche.aux) ) 
+] [23] [24] [25] [26] [27] [28] [29] (./Sysfiche.aux) ) 
 Here is how much of TeX's memory you used:
- 4267 strings out of 493734
- 60254 string characters out of 6146349
- 155175 words of memory out of 5000000
- 7501 multiletter control sequences out of 15000+600000
- 109811 words of font info for 65 fonts, out of 8000000 for 9000
+ 5190 strings out of 493734
+ 72026 string characters out of 6146349
+ 298469 words of memory out of 5000000
+ 8402 multiletter control sequences out of 15000+600000
+ 109394 words of font info for 64 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 29i,6n,49p,662b,1447s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,7n,49p,662b,1473s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Sysfiche.pdf (25 pages).
+Output written on Sysfiche.pdf (30 pages).
