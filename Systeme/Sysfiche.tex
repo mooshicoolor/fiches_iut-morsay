@@ -758,10 +758,200 @@ printf("%i", bruno.a);
 \end{lstlisting}
 Retenez aussi que pour accéder à un attribut d'un pointeur, on utilise la notation \emph{->}.
 
-\section{Structures importantes \& appels systèmes} 
-La programmation réseau en C utilise un tas de nouvelles structures et types qui peuvent sembler bizarres au premier coup d'oeil. Avant de nous pencher sur la programmation même, explicitons les structures utilisées.\\
-PS: \textsc{Bouyou} a basé son cours sur des trucs obsolètes, ainsi, sa \emph{manière de procéder} sera - peut-être - expliquée à la fin de cette fiche.
 
+\section{Établir une connexion en UDP, partie Client} 
+Pour établir une connexion, c'est très simple: il suffit de respecter un certain nombre d'étapes à la lettre. On va commencer par le plus simple, l'UDP.
+\subsection{Créer un socket et préparation de la connexion}
+Avant toute chose, le client doit savoir \textbf{où} se connecter. Cela veut donc dire que le client doit connaître au préalable le nom de l'hôte et le port sur lequel il va se connecter.\\
+Ensuite, on créé un socket avec ces informations et on se prépare à envoyer nos informations en modifiant ce socket. En C, cela se représente de la manière suivante:
+\begin{lstlisting}
+#define PORT 1337int main(int argc , char ∗∗argv){
+
+	/* Préparation de notre socket + sockaddr */
+	int socket_fd;
+	/* Ce sockaddr sert a contenir les informations du serveur */
+	struct sockaddr_in sockServer = {0};
+	/* Ce pointeur pointera vers une structure
+	   qui contiendra les informations correspondant
+	    à l'hote que l'on souhaite contacter */
+	struct hostent *h;
+	
+	/* On remplit notre pointeur de structure avec
+	    l'information trouvée par gethostbyname */
+	h=gethostbyname(argv[1]);
+	/* On prépare notre socket */
+	socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+	
+	/* On remplit enfin notre sockServer
+	   On utilisera ce sockServer pour se connecter */
+	sockServer.sin_family = AF_INET;
+	sockServer.sin_port = htons(PORT);
+	sockServer.sin_addr = *((struct in_addr *)h -> h_addr);
+}
+\end{lstlisting}
+
+\subsection{Envoi/reception de message}
+Maintenant qu'on a préparé notre connexion, on peut enfin utiliser notre \textsc{bon vieux} socket et sockAddr.\\
+N'oubliez pas; vu qu'UDP est un protocole \emph{non connecté}, on a donc pas de connect, mais juste \emph{sendto} et \emph{recvfrom}.\\
+Concrétement, on  a donc ça:
+\begin{lstlisting}
+/* Tout ce code se place à la suite du code mis en haut */
+	/* on cherche à envoyer ce message */
+	char message[] = "coucou";
+	/* On envoie donc ce message par le biais du socket socket_fd
+	   à travers le sockaddr sockServer, qu'on oublie pas de caster en sockaddr* */
+	int sent = sendto(socket_fd , message, strlen(message), 0, (const struct sockaddr ∗)&sockServer , sizeof(struct sockaddr));
+
+	/* On attend ensuite un message de la part du serveur
+	    On prépare d'abord à recevoir les informations du serveur */
+	struct sockaddr_storage sender;
+	socklen_t addr_len = sizeof(sender); 
+	memset(&sender , 0 , sizeof (sender));
+	
+	/* On va recevoir le message du serveur dans un char[] */
+	char buffer[50];
+	/* On attend donc le message du serveur par le biais du socket_fd */
+	int rec = recvfrom ( socket_fd , buffer , sizeof (buffer) , 0 , (struct sockaddr∗)&sender , &addr_len );
+/* Après, on peut faire ce qu'on veut du message qui se trouve dans le buffer */
+	close(socket_fd);
+	return(0);
+}
+\end{lstlisting}
+Voilà, c'est tout pour la partie client. On va maintenant s'interesser à la partie serveur en UDP.
+
+\section{Connexion en UDP, partie Serveur}
+Le principe est à peu près le même que le client, à la différence que le serveur doit se bind sur un port défini, et qu'il doit d'abord attendre de recevoir un message avant d'en envoyer un.
+Vu que j'ai pas envie de me faire chier, je vais reprendre le code du TP7, commenté:
+\begin{lstlisting}
+#define PORT 1337
+
+/* Structure d'un abonne, rien de fabuleux */
+typedef struct
+{
+	char nom[20];
+	char numero[50];
+} abonne;
+
+int main(int argc, char **argv)
+{
+	/* Notre fabuleuse table d'abonnés */
+	abonne tableAbonne[10] = {{ "Ouam","01 02 03 04 05" }, { "BruneOuais", "06 06 07 01 02" }, 
+				  { "Steeve", "36 15 13 37 42 " }, { "Eli Assez", "06 69 69 69 69" },
+				  { "Mozart", "01 01 01 02 02" }, { "Stravinsky", "01 99 99 13 37" }};
+
+	/* Là aussi, on prépare nos informations */
+	int sock_fd;
+	/* Cette structure permet de préparer NOS informations */
+	struct sockaddr_in socketServeur;
+	
+	/* On créé un socket */
+	sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
+	
+	/* On regle nos parametres */
+	socketServeur.sin_family = AF_INET;
+	socketServeur.sin_port = htons(PORT);
+	socketServeur.sin_addr.s_addr = htonl(INADDR_ANY);
+	
+	/* On assigne notre sockServeur au socket créé */
+	bind(sock_fd, (struct sockaddr *)&socketServeur, sizeof(socketServeur));
+
+	/* On se prépare à recevoir le message et les informations du client */
+	struct sockaddr_in socketClient;
+	socklen_t addr_len;
+	addr_len = sizeof socketClient;
+	char buf[100];
+
+	/* Notre serveur tourne en continu */	
+	while(1) 
+    {
+	  	memset(&buf, 0, sizeof(buf));
+
+		/* On lit le message du client */
+		int read = recvfrom(sock_fd, buf, 100-1 , 0, 
+				   (struct sockaddr *)&socketClient, &addr_len);
+	
+		/* Traitement du message */
+		char abonne[50];
+		strcpy(abonne,buf);
+		abonne[read] = '\0';
+		int i=0;
+		int ret=1;
+		while( ret != 0 && i<10 )
+		{
+			ret = strcmp(tableAbonne[i].nom, abonne);
+			i+=1;
+		}	
+		char messRetour[50];
+		if(ret == 0)
+		{
+			sprintf(messRetour,"Le numero de l'abonne est ");
+			strcat(messRetour,tableAbonne[i-1].numero) ;
+		}
+		else
+			sprintf(messRetour,"abonne inconnu");
+
+		/* On envoie enfin le message au client */
+		int sent = sendto(sock_fd, messRetour, strlen(messRetour), 
+				  0, (struct sockaddr *)&socketClient, addr_len);
+	}
+	exit(0);
+}
+\end{lstlisting}
+
+\section{Connexion en TCP, partie client}
+Là aussi, je vais commenter le code parce que.
+\begin{lstlisting}
+#define PORTS 6500
+
+int main(int argc, char** argv)
+{
+	struct hostent *h;
+	struct sockaddr_in sockClient;
+	struct sockaddr_in sockServer;
+	int sock;
+	int lg;
+	int n;
+	
+	/* on créé un socket */
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	
+	/* préparation de l'adresse locale */
+	sockClient.sin_family = AF_INET;
+	sockClient.sin_port = htonl(argv[2]);
+	sockClient.sin_addr.s_addr = INADDR_ANY;
+	
+	bind(sock, struct sockaddr *)&sockClient, sizeof(sockClient);
+	
+	h = gethostbyname(argv[1]);
+	
+	sockServer.sin_family = AF_INET;
+	bcopy(h->h_addr, &sockServer.sin_addr, h->h_length);
+	sockServer.sin_port = htons(PORTS);
+	
+	connect(sock, (const struct sockaddr *)&sockServer, sizeof(sockServer));
+	
+	char abonne[50];
+	printf("Donnez un nom d'abonne");
+	scanf("%s",abonne);
+	
+	/* On envoie des requetes tant qu'on a pas fait ctrl+d */
+	while(!feof(stdin))
+	{
+		write(sock, abonne, strlen(abonne)+1);
+		
+		char telephone[12];
+		read(sock,telephone,12);
+		printf("%s \n saisir autre abonne", telephone);
+		scanf("%s",abonne);
+	}
+	close(sock);
+	exit(0);
+}
+\end{lstlisting}
+
+
+\section{Structures utilisées et attributs de ces structures}
+La programmation réseau en C utilise un tas de nouvelles structures et types qui peuvent sembler bizarres au premier coup d'oeil. Même si c'est pas obligatoire pour réussir les exercices, explicitons les structures utilisées.\\
 \subsection{\emph{addrinfo} et \emph{getaddrinfo( )}}
 
 \emph{addrinfo} se présente de la manière suivante:
@@ -1055,19 +1245,5 @@ int main(int argc, char **argv)
 	exit(0);
 }
 \end{lstlisting}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \end{document} 
