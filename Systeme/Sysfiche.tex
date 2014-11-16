@@ -58,7 +58,7 @@
 
 
 \title{Système et bouyous}
-\author{\bsc{Borey UK} \& \bsc{Steeve VINCENT} \& un peu \bsc{Elias MIA}}
+\author{\bsc{Borey UK} \& \bsc{Elias MIA} \&  Steeve VINCENT le négligé}
 \date{\today}
 
 \begin{document}
@@ -398,7 +398,7 @@ On reprend l'exemple du dessus. Maintenant qu'on a lu 20 octets dans notre buffe
 \begin{lstlisting}
 int newFic = open("fic2", O_CREAT, 0755); //On créé un nouveau fichier "fic2"
 if (newFic != -1)
-	int nbOctetsEcrits = write("fic2", buf, 20);
+	int nbOctetsEcrits = write(newFic, buf, 20);
 \end{lstlisting}
 Voilà. On a écrit 20 octets dans un nouveau fichier fic2.
 
@@ -459,15 +459,15 @@ int main()
 	if(fils==0)
 	{
 		close(desc[0]);
-		char bufferEcriture[20];
-		write(desc[1], bufferEcriture, 20);
+		char bufferEcriture[]="un message pour mon papa";
+		write(desc[1], bufferEcriture, strlen(bufferEcriture));
 		exit(0);
 	}
 	
 	wait(NULL);
-	char bufferLecture[20];
+	char bufferLecture[100];
 	close(desc[1]);
-	read(desc[0],bufferLecture,20);
+	read(desc[0],bufferLecture,strlen(bufferEcriture));
 	exit(0);
 }
 \end{lstlisting}
@@ -765,7 +765,9 @@ Pour établir une connexion, c'est très simple: il suffit de respecter un certa
 Avant toute chose, le client doit savoir \textbf{où} se connecter. Cela veut donc dire que le client doit connaître au préalable le nom de l'hôte et le port sur lequel il va se connecter.\\
 Ensuite, on créé un socket avec ces informations et on se prépare à envoyer nos informations en modifiant ce socket. En C, cela se représente de la manière suivante:
 \begin{lstlisting}
-#define PORT 1337int main(int argc , char ∗∗argv){
+#define PORT 1337
+
+int main(int argc , char ∗∗argv){
 
 	/* Préparation de notre socket + sockaddr */
 	int socket_fd;
