@@ -899,6 +899,14 @@ int main(int argc, char **argv)
 	exit(0);
 }
 \end{lstlisting}
+Pour résumer :
+\begin{itemize}
+\item{On prépare ses informations sur son sockAddr}
+\item{On créé un socket d'écoute}
+\item{On assigne notre sockAddr à ce socket avec \emph{bind()}}
+\item{On lit depuis ce socket (\emph{recvfrom()}), on stocke les informations du client}
+\item{On écrit sur ce socket (\emph{sendto()}) avec les informations du client}
+\end{itemize}
 
 \section{Connexion en TCP, partie client}
 Là aussi, je vais commenter le code parce que.
@@ -911,25 +919,27 @@ int main(int argc, char** argv)
 	struct sockaddr_in sockClient;
 	struct sockaddr_in sockServer;
 	int sock;
-	int lg;
-	int n;
 	
 	/* on créé un socket */
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	
 	/* préparation de l'adresse locale */
-	sockClient.sin_family = AF_INET;
-	sockClient.sin_port = htonl(argv[2]);
-	sockClient.sin_addr.s_addr = INADDR_ANY;
+	sockClient.sin_family = AF_INET;  //ipv4
+	sockClient.sin_port = htonl(argv[2]); //dans ce programme on passe le port en parametre
+	sockClient.sin_addr.s_addr = INADDR_ANY; //cela permet d'avoir une adresse automatique
 	
+	// On assigne notre sockaddr au socket
 	bind(sock, struct sockaddr *)&sockClient, sizeof(sockClient);
 	
+	// on obtient les informations de l'hote distant
 	h = gethostbyname(argv[1]);
 	
-	sockServer.sin_family = AF_INET;
-	bcopy(h->h_addr, &sockServer.sin_addr, h->h_length);
+	//On définit les parametres de l'hote
+	sockServer.sin_family = AF_INET; //ipv4
+	bcopy(h->h_addr, &sockServer.sin_addr, h->h_length); //on copie l'adresse trouvée en résultat dans le sockAddr serveur
 	sockServer.sin_port = htons(PORTS);
 	
+	//On lance la connexion au serveur
 	connect(sock, (const struct sockaddr *)&sockServer, sizeof(sockServer));
 	
 	char abonne[50];
@@ -939,20 +949,129 @@ int main(int argc, char** argv)
 	/* On envoie des requetes tant qu'on a pas fait ctrl+d */
 	while(!feof(stdin))
 	{
+		// On écrit sur le socket le message
 		write(sock, abonne, strlen(abonne)+1);
 		
 		char telephone[12];
+		// On lit depuis le socket le message du serveur
 		read(sock,telephone,12);
 		printf("%s \n saisir autre abonne", telephone);
 		scanf("%s",abonne);
 	}
+	// Quand on a fini, on ferme le socket.
 	close(sock);
 	exit(0);
 }
 \end{lstlisting}
+Résumons.
+\begin{itemize}
+\item{On prépare ses informations sur son sockAddr et celles du serveur}
+\item{On créé un socket}
+\item{On assigne notre sockAddr à ce socket avec \emph{bind()}}
+\item{On obtient les informations sur l'hote avec \emph{gethostbyname( )}
+\item{On copie l'adresse trouvée par \emph{gethostbyname( )} dans le sockAddr du serveur}
+\item{On se connect avec notre socket au sockAddr du serveur}
+\item{On lit et on écrit sur notre socket}}
+\end{itemize}
+Relativement facile non? Passons au serveur, ça va \emph{un peu} se corser.
+
+\section{Connexion en TCP, partie Serveur}
+Ce programme est relativement complexe car \textsc{Bouyou} a décidé de le rendre compliqué. Il s'agit en fait de bien faire la différence entre ce qui est important pour la connexion en TCP et ce qui était important pour le TD6.
+\begin{lstlisting}
+#define PORTS 6500
+
+//Structure d'un abonné + tableau d'abonnés
+struct abonne{
+	char nom[30];
+	char telephone[12];
+} annuaire[] = {
+	"bla", "01010101"
+};
+
+char msg[] = "erreur !";
+void *service(void *);
+
+int main(){
+	int lg, sock, newsock, *ptint;
+	struct sockaddr_in sockServeur;
+	struct sockaddr_in sockClient;
+	pthread_t pth_id;
+	
+	/* Création du socket d'écoute */
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	
+	/* Préparation de l'adresse locale */
+	sockServeur.sin_family = AF_INET; //ipv4
+	sockServeur.sin_port = htons(PORTS); //sur le port défini en constante
+	sockServeur.sin_addr.s_addr = htonl(INADDR_ANY); //on se bind sur n'importe quelle adresse
+	
+	/* On associe le socket à notre sockAddr */
+	bind(sock, (struct sockaddr *)&sockServer, sizeof(sockServer));
+	
+	/* Dimensionnement de la file d'attente */
+	listen(sockClient,30);
+	
+	/* Tant que le serveur tourne */
+	while(1)
+	{
+		/* accept retourne un descripteur de socket pour chacune des connexions faites sur le socket sock */
+		newsock = accept(sock, (struct sockaddr*)&sockClient, &lg);
+		
+		/* ne faites pas vraiment attention au reste, on cherche en fait à passer notre nouveau descripteur de socket à notre fonction de thread */
+		ptint=(int) malloc(sizeof(int));
+		*ptint = newsock;
+		pthread_create(&pt_id, NULL, service, (void *)ptint);
+		pthread_detach(pth_id);
+	}
+}
+
+void *service(void * sockservice)
+{
+	int nb, l, j, i, test;
+	char line[30];
+	
+	/* On met dans line le message écrit par le client */
+	nb=read(*(int*)sockservice, line, 30);
+	
+	/* Ce n'est pas important pour le TCP, c'est juste du traitement */
+	while(nb!=0)
+	{
+		l = strlen(line);
+		for(j=0;j<l;j++)
+			line[j] = (char) tolower((int)line[j]);
+		i=test=0;
+		while ((test==0) && (i<10))
+		{
+			if(strcmp(line,annuaire[i].nom) == 0)
+				test=1;
+			i++;
+		}
+		
+		/* LÀ c'est important: on écrit sur le socketClient le message */
+		if (test==1)
+			write(*(int*)sockservice, annuaire[i-1].telephone,strlen(annuaire[i-1].telephone)+1);
+		else
+			write(*(int*)sockservice, msg, strlen(msg)+1);
+		nb=read(*(int*)sockservice,line,30);
+	}
+	
+	/* Une fois que c'est fini, on ferme le socket */
+	close(*(int*)sockservice);
+	pthread_exit(NULL);
+}
+\end{lstlisting}
+Pour résumer simplement comment ça fonctionne coté serveur:
+\begin{itemize}
+\item{On prépare ses informations sur son sockAddr}
+\item{On créé un socket d'écoute}
+\item{On assigne un sockAddr à un socket avec \emph{bind()}}
+\item{On écoute (\emph{listen( )}) puis on accepte (\emph{accept( )}) les connexions sur ce socket}
+\item{On lit et on écrit depuis le socket retourné par \emph{accept( )}}
+\end{itemize}
 
 
-\section{Structures utilisées et attributs de ces structures}
+\chapter{Bonus et \sout{Taunts}}
+Si vous voulez vraiment en savoir plus, lisez le \textsc{Beej's Guide to Network Programming}.\\
 La programmation réseau en C utilise un tas de nouvelles structures et types qui peuvent sembler bizarres au premier coup d'oeil. Même si c'est pas obligatoire pour réussir les exercices, explicitons les structures utilisées.\\
 \subsection{\emph{addrinfo} et \emph{getaddrinfo( )}}
 
@@ -1071,181 +1190,6 @@ bind(socket_fd,servinfo->ai_addr, servinfo->ai_addrlen);
 \emph{connect( )} se présente de la manière suivante;
 \begin{lstlisting}
 int connect(int sockfd, struct sockaddr *serv_addr, int addrlen);
-\end{lstlisting}
-
-
-\section{Connexion client/serveur en TCP}
-voir guide.
-
-\section{Connexion client/serveur en UDP}
-\subsection{Client}
-\begin{lstlisting}
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-
-// le port sur lequel on se connecte
-#define SERVERPORT "4950"
-
-int main(int argc, char **argv)
-{
-	if(argc != 2)
-	{
-		fprintf(stderr, "Usage: client_TP7 <nom de l'hote>");
-		exit(1);
-	}
-	
-	/* déclaration des variables */
-	int socket_fd;
-	struct addrinfo hints;
-	struct addrinfo *servinfo;
-
-	/* réinitialisation de hints */
-	memset(&hints, 0, sizeof hints);
-	
-	/* on cherche à avoir des adresses ipv4 */
-	hints.ai_family = AF_INET;
-	/* on communique en udp */
-	hints.ai_socktype = SOCK_DGRAM;
-	/* on veut se connecter au serveur passé en parametre au port 4950 
-	 * on obtient les infos de l'hote passé en parametre */
-	getaddrinfo(argv[1], SERVERPORT, &hints, &servinfo);
-	
-	/* on créé un socket, de type ipv4, udp */
-	socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
-	
-	/* rien de fabuleux, récupération du nom d'artiste */
-	char nom[20];
-	printf("Entrer un nom d'artiste :\n");
-	scanf("%s",nom);
-	
-	/* on envoie maintenant par le socket à l'adresse trouvée par getaddrinfo le nom d'artiste */
-	int sent = sendto(socket_fd, nom, strlen(nom), 0, servinfo->ai_addr, servinfo->ai_addrlen);
-	
-	//printf("sent %i bytes\n",sent);
-	
-	/* reception */
-	/* on a un sockaddr_storage pour etre sur de pouvoir stocker le socket de l'expéditeur */
-	struct sockaddr_storage sender;
-	socklen_t addr_len = sizeof(sender);
-	memset(&sender, 0, sizeof(sender));
-	
-	char messRetour[50];
-	/* on lit le message de retour */
-	int rec = recvfrom(socket_fd, messRetour, sizeof(messRetour), 0, (struct sockaddr*)&sender, &addr_len);
-	
-	printf("%s\n",messRetour);
-		
-	/* on a fini, on se casse */
-	freeaddrinfo(servinfo);
-	close(socket_fd);
-	
-	exit(0);
-}
-\end{lstlisting}
-
-\subsection{Serveur}
-\begin{lstlisting}
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <signal.h>
-
-// le port sur lequel on se connecte
-#define SERVERPORT "4950"
-#define MAXBUFLEN 100
-
-/* tp related */
-typedef struct
-{
-	char nom[20];
-	char numero[50];
-} abonne;
-
-void killFils(int sig)
-{
-	while(waitpid(-1, NULL, WNOHANG) > 0);
-}
-
-
-int main(int argc, char **argv)
-{
-
-	abonne tableAbonne[10] = {{ "bouyou","01 02 03 04 05" }, { "brunon", "trop pauvre pour un tel" }, { "sttev", "36 15 dites CURRY" }, { "elias", "69 69 69 69" },
-							  { "ithihar", "peut pas parler car mifa" }, { "miku", "6d612062697465" }};
-	
-	signal(SIGCHLD, killFils);
-	struct addrinfo hints;
-	struct addrinfo *servinfo;
-	
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_DGRAM;
-	hints.ai_flags = AI_PASSIVE;
-	
-	getaddrinfo(NULL, SERVERPORT, &hints, &servinfo);
-	int socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
-	bind(socket_fd,servinfo->ai_addr, servinfo->ai_addrlen);
-	
-	struct sockaddr_in their_addr;
-	socklen_t addr_len;
-	addr_len = sizeof their_addr;
-	char buf[MAXBUFLEN];
-	
-	while(1) 
-    	{
-	   	 memset(&buf, 0, sizeof(buf));
-		int read = recvfrom(socket_fd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len);
-	
-		printf("Reçu : %s\n",buf);
-	
-		/*faire le traitement*/
-		char abonne[50];
-		strcpy(abonne,buf);
-		abonne[read] = '\0';
-		printf("%s\n",abonne);
-		
-		int i=0;
-		int ret=1;
-	
-		while( ret != 0 && i<10 )
-		{
-			ret = strcmp(tableAbonne[i].nom, abonne);
-			//printf("%s\n",tableAbonne[i].nom);
-			i+=1;
-		}
-		
-		char messRetour[50];
-	
-		if(ret == 0)
-		{
-			sprintf(messRetour,"Le numero de l'abonne est ");
-			strcat(messRetour,tableAbonne[i-1].numero) ;
-		}
-		else
-		{
-			sprintf(messRetour,"abonne inconnu");
-		}
-	
-		int sent = sendto(socket_fd, messRetour, strlen(messRetour), 0, (struct sockaddr *)&their_addr, addr_len);
-	}
-	
-	exit(0);
-}
 \end{lstlisting}
 
 \end{document} 
