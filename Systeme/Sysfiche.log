@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  17 NOV 2014 18:57
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  17 NOV 2014 19:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -329,80 +329,79 @@ File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
 (./Sysfiche.aux)
 \openout1 = `Sysfiche.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 64.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 43.
  (/usr/local/texlive/2014/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 64.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 43.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \dots on input line 64.
-LaTeX Info: Redefining \up on input line 64.
+LaTeX Info: Redefining \dots on input line 43.
+LaTeX Info: Redefining \up on input line 43.
 
 
 Package frenchb.ldf Warning: Add \usepackage{fontspec} to the
-(frenchb.ldf)                preamble of your document, on input line 64.
+(frenchb.ldf)                preamble of your document, on input line 43.
 
 \c@lstlisting=\count103
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 65.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 44.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 65.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 44.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 65.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 44.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 65.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 44.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 65.
+(Font)              <12> on input line 44.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 65.
+(Font)              <8> on input line 44.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 65.
+(Font)              <6> on input line 44.
  [1
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 70.
+(Font)              <10> on input line 49.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 70.
+(Font)              <7> on input line 49.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 70.
+(Font)              <5> on input line 49.
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--71
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
 
  []
 
-File: moi.jpg Graphic file (type QTm)
-<use  "moi.jpg" > [1
+[1
 
 ]
 Chapitre 1.
@@ -411,32 +410,32 @@ Chapitre 1.
 ]
 Chapitre 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
 
  []
 
 [3
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 133.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 109.
 
  (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [4]
 Chapitre 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 157.
+(Font)              <9> on input line 133.
 [5
 
 ]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 217.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 193.
 
  (/usr/local/texlive/2014/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [6] [7]
 Chapitre 4.
 
-Overfull \hbox (10.6668pt too wide) in paragraph at lines 273--274
+Overfull \hbox (10.6668pt too wide) in paragraph at lines 249--250
 []\T1/lmr/bx/n/10 Les fi-chiers or-di-naires\T1/lmr/m/n/10 , c'est a dire les f
 i-chiers ran-dom comme \T1/lmr/m/it/10 merci.c\T1/lmr/m/n/10 , \T1/lmr/m/it/10 
 i_et_y_se_font_defoncer.mp4\T1/lmr/m/n/10 ,
@@ -446,59 +445,59 @@ File: adressage_direct.png Graphic file (type QTm)
 <use  "adressage_direct.png" >
 File: adressage_indirect.png Graphic file (type QTm)
  <use  "adressage_indirect.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 282--301
+Underfull \hbox (badness 10000) in paragraph at lines 258--277
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 282--301
+Underfull \hbox (badness 10000) in paragraph at lines 258--277
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 282--301
+Underfull \hbox (badness 10000) in paragraph at lines 258--277
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 282--301
+Underfull \hbox (badness 10000) in paragraph at lines 258--277
 
  []
 
 [8
 
 ] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 302--307
+Underfull \hbox (badness 10000) in paragraph at lines 278--283
 
  []
 
 File: rep_unix.png Graphic file (type QTm)
 <use  "rep_unix.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 320--323
+Underfull \hbox (badness 10000) in paragraph at lines 296--299
 
  []
 
 File: rep_linux.png Graphic file (type QTm)
 <use  "rep_linux.png" >
-Overfull \hbox (12.57045pt too wide) in paragraph at lines 324--328
+Overfull \hbox (12.57045pt too wide) in paragraph at lines 300--304
 [] 
  []
 
 [10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 373--380
+Underfull \hbox (badness 10000) in paragraph at lines 349--356
 
  []
 
 [12] [13]
 Chapitre 5.
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 439--439
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 415--415
 []\T1/lmtt/m/n/10 write(desc[1], buffer, 20); // On souhaite écrire dans notre 
 pipe 20 octets de notre buffer[] 
  []
 
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 447--447
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 423--423
 []\T1/lmtt/m/n/10 read(desc[0], bufferLecture, 20); //On veut lire 20 octets de
 puis le pipe dans notre buffer[] 
  []
@@ -508,7 +507,7 @@ puis le pipe dans notre buffer[]
 ]
 File: pipe.png Graphic file (type QTm)
  <use  "pipe.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 480--482
+Underfull \hbox (badness 10000) in paragraph at lines 456--458
 
  []
 
@@ -523,7 +522,7 @@ Missing character: There is no ’ in font ec-lmr10!
 [18
 
 ]
-Overfull \hbox (49.99347pt too wide) in paragraph at lines 594--594
+Overfull \hbox (49.99347pt too wide) in paragraph at lines 570--570
 []\T1/lmtt/m/n/10 int pthread_create(pthread_t *thread, const pthread_attr_t *a
 ttr, void *(*fonc)(void*), void *arg);[] 
  []
@@ -540,7 +539,7 @@ Missing character: There is no ∗ in font ec-lmr10!
  [24] [25] [26] [27] [28] [29] [30]
 Chapitre 8.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1074--1076
+Underfull \hbox (badness 10000) in paragraph at lines 1050--1052
 
  []
 
@@ -548,11 +547,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 1074--1076
 
 ] [32] [33] (./Sysfiche.aux) ) 
 Here is how much of TeX's memory you used:
- 5230 strings out of 493734
- 72515 string characters out of 6146349
- 324469 words of memory out of 5000000
- 8442 multiletter control sequences out of 15000+600000
- 109394 words of font info for 64 fonts, out of 8000000 for 9000
+ 5220 strings out of 493734
+ 72418 string characters out of 6146349
+ 319525 words of memory out of 5000000
+ 8434 multiletter control sequences out of 15000+600000
+ 109811 words of font info for 65 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  41i,7n,49p,662b,1475s stack positions out of 5000i,500n,10000p,200000b,80000s
 
