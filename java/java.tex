@@ -15,6 +15,9 @@
 \usepackage{listings}
 \usepackage{moreverb}
 
+\usepackage{fontspec}
+\setmainfont{Avenir}
+
 \lstset{showstringspaces=false}
 \lstset{frame=single}
 \lstset{
@@ -234,7 +237,8 @@ Déjà, il faut savoir qu'il existe 3 grands types d'erreur en Java.
 \end{itemize}
 
 Les \emph{RuntimeException} sont dérivées des \emph{Exceptions}. À la différence des \emph{Exceptions} tout court, on est pas obligé de traiter - c'est à dire avec un bloc \emph{try/catch/finally} - les \emph{RuntimeException}. \\
-Parlons maintenant du traitement en soi. Il y a deux types d'exceptions, les exceptions lancées toutes seules - à l'execution de la ligne de code - ou les exceptions jetées avec \emph{throw}. Concentrons nous pour l'instant sur le premier cas.\\
+Parlons maintenant du traitement en soi.\\
+Il y a deux types d'exceptions, les exceptions lancées toutes seules - à l'execution de la ligne de code - ou les exceptions jetées avec \emph{throw}. Concentrons nous pour l'instant sur le premier cas.\\
 Lorsque il existe une possibililté d'\emph{Exception}, il faut enrober le code qui pourrait lever une exception \sout{de chocolat} d'un bloc \emph{try}. Ce bloc doit etre suivi d'un autre bloc, \emph{catch}, qui contiendra le code exécuté si jamais une exception est levée. Ce bloc doit prendre en parametre le type d'Exception qu'il aura à traiter. Éclairissons tout ça avec un petit exemple pas piqué des hannetons:
 \begin{lstlisting}
 try
@@ -252,6 +256,7 @@ catch (Exception e)
 	System.out.println("Sauf pour IOException du coup.");
 }
 \end{lstlisting}
+Maintenant, regardons les exceptions lancées par \emph{throw}. \\
 
 
 
