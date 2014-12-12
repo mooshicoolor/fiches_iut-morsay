@@ -141,9 +141,9 @@ while(i.hasNext()) // tant qu'on a un suivant
 HashMap monHashMap<Character,String> = new HashSet<Character,String>(); 
 // on ajoute des string quelconques
 monHashMap.put('B',"Bruno"); 
-monHashMap.add('S',"Steeve");
+monHashMap.put('S',"Steeve");
 // Erreur le caractère 'B' est la clé associé à la chaine "Bruno"
-monHashMap.add('B',"Borey");
+monHashMap.put('B',"Borey");
 // récupère la chaine associé à la clé 'S'
 String p = monHashMap.get('S'); 
 if(monHashMap.get('E')==null)
@@ -320,6 +320,7 @@ public static void main(String args[])
 }
 \end{lstlisting}
 À chaque fois qu'on appelle le logger, on écrit donc un message dans la console java. Super !!!!!!!!	
+Enfin, parlons un peu des parametres du loggers; c'est un peu spécial, puisque en fait on modifie le fichier .xml du logger:
 
 
 
