@@ -292,8 +292,14 @@ Et voilà, le logger est mis en place. Maintenant, pour l'utiliser, c'est aussi 
 // On se trouve dans notre classe Rangdom
 public static void main(String args[])
 {
+	logger.debug("msg de debogage");
+	logger.info("msg d'information");
+	logger.warn("msg d'avertissement");
+	logger.error("msg d'erreur");
+	logger.fatal("msg d'erreur fatale");   
+}
 \end{lstlisting}
-	
+À chaque fois qu'on appelle le logger, on écrit donc un message dans la console java. Super !!!!!!!!	
 
 
 
