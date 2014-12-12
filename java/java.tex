@@ -15,6 +15,7 @@
 \usepackage{listings}
 \usepackage{moreverb}
 
+% Commenter ces deux lignes si vous n'avez pas la font Avenir.
 \usepackage{fontspec}
 \setmainfont{Avenir}
 
@@ -228,6 +229,7 @@ catch(IOException e)
 \end{lstlisting}
 
 \section{Exceptions et loggers}
+\subsection{Exceptions}
 Parce personne n'écrit un programme non-trivial sans erreur du premier coup (peut-être à part \textsc{Pouly}), et que la vie d'un programme n'est pas un long fleuve tranquille, on risque bien souvent de rencontrer au coin d'une ligne de code les \textbf{exceptions}. \\
 Déjà, il faut savoir qu'il existe 3 grands types d'erreur en Java.
 \begin{itemize}
@@ -257,7 +259,41 @@ catch (Exception e)
 }
 \end{lstlisting}
 Maintenant, regardons les exceptions lancées par \emph{throw}. \\
+Pour ce type d'exceptions, il faut d'abord spécifier dans la signature de la fonction le type d'exception lancée. Ensuite, dans le corps du programme, on lance - \emph{throw} - une nouvelle instance de cette Exception.\\
+Regardons un exemple:
+\begin{lstlisting}
+public void procedureCapableException() throws IOException
+{
+	//Condition qui vérifie si tout va bien ou pas
+	boolean cLaMerde = false;
+	[...] //reste du programme qui pourrait modifier notre boolean
+	if (cLaMerde)
+	{
+		throw new IOException();
+	}
+	[...]
+}
+\end{lstlisting}
+c tou
 
+\subsection{Loggers}
+Les loggers permettent de ... logger tous les évenements d'un programme de façon précise: connexions, ouverture de fichier, et surtout erreurs. Si vous voulez, c'est une sorte de \emph{System.out.println()}, mais en beaucoup mieux.\\
+Ainsi, notre cher \textsc{Blau2ez} utilise en tant que logger \emph{log4j}. Pas vraiment besoin de savoir ce que c'est réellement, contentez de vous de savoir comment le mettre en place:
+\begin{lstlisting}
+import org.apache.log4j.Logger;
+public class Rangdom {
+	[attributs]
+	public static Logger logger = new Logger(Rangdom.class);
+	[...]
+}
+\end{lstlisting}
+Et voilà, le logger est mis en place. Maintenant, pour l'utiliser, c'est aussi simple.
+\begin{lstlisting}
+// On se trouve dans notre classe Rangdom
+public static void main(String args[])
+{
+\end{lstlisting}
+	
 
 
 
