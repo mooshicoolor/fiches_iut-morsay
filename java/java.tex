@@ -200,10 +200,58 @@ Les équivalents à nos flux de données pour nos fichiers sont ici \emph{Buffer
 \paragraph{Lire des informations} : Pour lire depuis un socket, on va donc utiiliser, vous l'aurez deviné, \emph{BufferedReader}. Voyons comment ça marche:\\
 (Pour cet exemple, on se met partie client, mais c'est la meme chose pour le serveur.)
 \begin{lstlisting}
-BufferedReader lecture = new BufferedReader(new InputStreamReader(soc.getInputStream()));
-lecture.read();
+try
+{
+	BufferedReader lecture = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+	lecture.read();
+	[...]
+}
+catch(IOException e)
+{
+	[...]
+}
+\end{lstlisting}
+\paragraph{Écrire des informations} : De même, on va utiliser \emph{PrintWriter} pour écrire dans notre socket.
+\begin{lstlisting}
+try
+{
+	PrintWriter ecriture = new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
+	ecriture.write("merci");
+}
+catch(IOException e)
+{
+	[...]
+}
 \end{lstlisting}
 
+\section{Exceptions et loggers}
+Parce personne n'écrit un programme non-trivial sans erreur du premier coup (peut-être à part \textsc{Pouly}), et que la vie d'un programme n'est pas un long fleuve tranquille, on risque bien souvent de rencontrer au coin d'une ligne de code les \textbf{exceptions}. \\
+Déjà, il faut savoir qu'il existe 3 grands types d'erreur en Java.
+\begin{itemize}
+\item{\textbf{Error}, lorsque il se passe une erreur vraiment grave (mémoire qui fuit, jvm qui fait du caca, ...) ;}
+\item{\textbf{RuntimeException}, lorsque il se passe une erreur liée à la programmation (le fameux \emph{NullPointerException}, \emph{OutofBounds} et j'en passe);}
+\item{\textbf{Exceptions}, qui correspondent en fait à des erreurs moins graves qui ne compromettent pas forcément totalement le fonctionnement du programme. C'est ce qui va nous intéresser dans cette partie.}
+\end{itemize}
+
+Les \emph{RuntimeException} sont dérivées des \emph{Exceptions}. À la différence des \emph{Exceptions} tout court, on est pas obligé de traiter - c'est à dire avec un bloc \emph{try/catch/finally} - les \emph{RuntimeException}. \\
+Parlons maintenant du traitement en soi. Il y a deux types d'exceptions, les exceptions lancées toutes seules - à l'execution de la ligne de code - ou les exceptions jetées avec \emph{throw}. Concentrons nous pour l'instant sur le premier cas.\\
+Lorsque il existe une possibililté d'\emph{Exception}, il faut enrober le code qui pourrait lever une exception \sout{de chocolat} d'un bloc \emph{try}. Ce bloc doit etre suivi d'un autre bloc, \emph{catch}, qui contiendra le code exécuté si jamais une exception est levée. Ce bloc doit prendre en parametre le type d'Exception qu'il aura à traiter. Éclairissons tout ça avec un petit exemple pas piqué des hannetons:
+\begin{lstlisting}
+try
+{
+	// commande qui lancera une exception de type IOException
+	FileOutputSteam reader = new FileInputStream(new File("un fichier inexistant mdr"));
+}
+catch (IOException e)
+{
+	System.out.println("Je suis executé si c'est une exception de type IOException");
+}
+catch (Exception e)
+{
+	System.out.println("Je suis executé pour tous les types d'exceptions");
+	System.out.println("Sauf pour IOException du coup.");
+}
+\end{lstlisting}
 
 
 
