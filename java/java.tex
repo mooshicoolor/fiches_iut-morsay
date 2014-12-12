@@ -134,8 +134,28 @@ while(i.hasNext()) // tant qu'on a un suivant
 /* Notez que l'ordre de l'itération se fait aléatoirement.*/	
 \end{lstlisting}
 
-\paragraph{HashMap} : Un \emph{HashMap}, c'est une collection dans laquelle chaque valeur est associé à une clé.
-bla bla bla à completer
+\paragraph{HashMap} : Un \emph{HashMap}, c'est une collection dans laquelle chaque valeur est associé à une clé. Il s'agit d'une classe générique qui prend deux types d'objets en paramètre. On lui définit alors le type des "clés" et celui des objets que l'on veut placer. Ainsi quand je souhaite ajouter un objet je dois lui spécifier une clé qui me permettra de le retrouver par la suite.
+ 
+\begin{lstlisting}
+// on crée notre Map<Key,Object>
+HashMap monHashMap<Character,String> = new HashSet<Character,String>(); 
+// on ajoute des string quelconques
+monHashMap.put('B',"Bruno"); 
+monHashMap.add('S',"Steeve");
+// Erreur le caractère 'B' est la clé associé à la chaine "Bruno"
+monHashMap.add('B',"Borey");
+// récupère la chaine associé à la clé 'S'
+String p = monHashMap.get('S'); 
+if(monHashMap.get('E')==null)
+        System.out.println("Mon HashMap ne possède pas de chaine associé à la lettre E");
+ 
+ 
+System.out.println("Liste des valeurs contenues dans mon HashMap")
+// Affichage de chaque chaine de monHashMap
+for(String s : monHashMap.values())
+        System.out.println("-" + s); 
+ 
+\end{lstlisting}
 
 \section{Flux de données : les fichiers}
 Comme en système, il existe des \emph{InputStream} ou des \emph{OutputStream}, qui permettent de gérer des flux de données. Pour l'instant, on va s'interesser aux flux de données pour les fichiers, mais on verra après les flux de données destinés aux réseau, qui ne sont pas si différents.\\
