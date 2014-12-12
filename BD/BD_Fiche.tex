@@ -234,6 +234,25 @@ Cependant on s'attendrait à avoir qte = 4500 mais non bande de gogols. Cette er
 \includegraphics[scale=0.35]{../Pictures/BD3.PNG}\\ 
 Dans cette version, T1 pose un verrou exclusif lors de la lecture de qte, c'est-à-dire, que T1 va appliquer une modification sur cette valeur et que T2 doit attendre la fin de ce verrou (COMMIT ou ROLLBACK). Après que T1 ait modifier la valeur et fait un COMMIT (qte = 4000), c'est au tour de T2 d'appliquer un verrou exclusif et de modifier la valeur de qte. Et comme par gicMa, qte = 4500, car la valeur à laquelle accède T2 a été modifié et validé par T1.\\\\
 Pour les collisions de type : lecture impropre et lecture non reproductible se référait au cours parce que j'ai trop la flemme. Si vous avez compris cette exemple, vous comprendrez sûrement les autres (je vous conseille d'aller voir le cours pour tester vos connaissances ofc).\\\\
+Vu que vous êtes chimiques, on va faire une suite d'exemples :
+\begin{lstlisting}[style=MySQLStyle]
+-- l'utilisateur 1 change le nom d'un film (numero 15 et realisateur 58)
+-- on a ici l'application d'un verrou exclusif
+UPDATE ens2004.film
+SET titre = 'MABITE'
+WHERE numFilm = 15
+AND realisateur = 58;
+
+-- l'utilisateur 1 et 2 executent la meme requete d'affichage
+SELECT * FROM ens2004.film;
+-- A ce moment la, la modification du film n'etant pas valide, le titre du film affiche est toujours l'ancien
+
+-- l'utilisateur 1 fait un COMMIT
+COMMIT;
+
+SELECT * FROM ens2004.film;
+-- La valeur etant modifie, l'affichage contiendra la nouvelle valeur c'est-a-dire MA...
+\end{lstlisting}
 Il existe plusieurs niveaux de cohérence pour une transaction.
 Une donnée est dites salie si elle a été modifiée par une transaction non confirmée. En gros, par un COMMIT. Pour une transaction T, on peut exiger que T satisfasse une ou plusieurs des propriétés (c'est pas vraiment important mais c'est toujours utile):
 \begin{enumerate}
@@ -247,8 +266,46 @@ Pour chacune de ces propriétés, un niveau de cohérence est attribué à T :
 \item niveau 0 si T vérifie 1 : donc pas de problèmes de perte de mise à jour.
 \item niveau 1 si T vérifie 1 et 2 : si une transaction est annulée (ROLLBACK), il n'est pas nécessaire de défaire explicitement les modifications antérieures à l'annulation.
 \item niveau 2 si T vérifie 1 et 2 et 3 : pas de problèmes de perte de mise à jour et de lecture impropre.
-\item niveau 3 si T vérifie 1 et 2 et 3 et 4 : pas de problèmes de perte de mise à jour, de lecture impropre et assure la reproductibilité des lectures, donc une isolation totale de la transaction. (je vous avais dit de voir le cours)
+\item niveau 3 si T vérifie 1 et 2 et 3 et 4 : pas de problèmes de perte de mise à jour, de lecture impropre et assure la reproductibilité des lectures, donc une isolation totale de la transaction. (je vous avais dit de voir le cours)\\
 \end{itemize}
 
+J'espère que vous avez compris parce que sinon je vais vous \#rekt. Ensuite, une autre notion importante pour les verrous est le blocage fatal plus communément appelé Deadlock.\\
+Un Deadlock correspond à une erreur sur Oracle qui se produit lorsque deux processus utilisateurs ont posé des verrous sur des objets distincts, et que chacun des deux processus tente d'acquérir un nouveau verrou sur un objet que l'autre processus a déjà verrouillé. Je sais c'est le bordel mais on illustrer ça par un exemple (voir le cours aussi).\\
+Prenons deux utilisateurs lambda :
+\begin{lstlisting}[style=MySQLStyle]
+-- l'utilisateur 1 change le nom du film (numero 15 et realisateur 58)
+UPDATE ens2004.film
+SET titre = 'TD32'
+WHERE numFilm = 15
+AND realisateur = 58;
 
+-- l'utilisateur 2 change le nom d'un autre film (numero 32 et realisateur 96)
+UPDATE ens2004.film
+SET titre = 'BOGOSS'
+WHERE numFilm = 32
+AND realisateur = 96;
+
+-- l'utilisateur 1 change le nom du film qui est en train d'etre modifie par l'utilisateur 2 (numero 32 et realisateur 96)
+UPDATE ens2004.film
+SET titre = 'TD321'
+WHERE numFilm = 32
+AND realisateur = 96;
+
+-- l'utilisateur 2 change le nom du film qui est en train d'etre modifie par l'utilisateur 1 (numero 15 et realisateur 58)
+UPDATE ens2004.film
+SET titre = 'BOGOSS1'
+WHERE numFilm = 15
+AND realisateur = 58;
+\end{lstlisting}
+
+Dans cet exemple, on ne fait pas de COMMIT. A partir de la troisième instruction, Oracle va tourner en boucle (il attend le COMMIT de l'utilisateur 2) et va afficher sur l'utilisateur 1 blocage fatale de même à la quatrième instruction.
+Cette erreur est due au fait que deux utilisateurs veulent modifier des données qui sont modifiés par l'un et par l'autre mais n'ont fait aucune validation ou annulation.\\
+Les 4 conditions nécessaires à un blocage fatal sont:
+\begin{itemize}
+\item Accès aux ressources en exclusion mutuelle.
+\item Attente circulaire (voir exemple).
+\item Au moins une transaction détient des ressources et en demande d'autres.
+\item Non-réquisition des ressources.\\
+\end{itemize}
+Pour éviter les attentes circulaires, il faut utiliser la règle de Havender (spoil Avengers) qui consiste à ce que chaque transaction demande et vérouille les ressources dans le même ordre (voir exemple du cours).
 \end{document}
