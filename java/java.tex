@@ -1,0 +1,212 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+\usepackage{lmodern}
+\usepackage{fullpage}
+\usepackage[normalem]{ulem}
+\usepackage{epigraph}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{dialogue}
+\usepackage{listings}
+\usepackage{moreverb}
+
+\lstset{showstringspaces=false}
+\lstset{frame=single}
+\lstset{
+    language=java,
+    sensitive=true,
+    breaklines=true,
+    tabsize=2
+}
+
+\title{Programmation java done quick}
+\author{boré uk \& eliasssse moi  \& sttev 20cent le rappeur ofc}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+no docs/no pc/no objects/paper only/final destinantion
+\section{Généricité}
+D'après ma source sûre (Oui ki ?Pédia ofc) ce serait un type de polymorphisme mais on s'en bat les cou… en fait.\\
+Donc ce terme vient de générique. En effet on va pouvoir créer ce qu'on appelle des méthodes mais surtout des classes génériques, c'est-à-dire qui vont pouvoir faire des actions génériques à n'importe quelle types données.\\
+Une classe générique se définit de la manière suivante :
+\begin{lstlisting}
+public class GenericQuadruplet<T1,T2,T3,T4> {
+	private T1 first;
+	private T2 second;
+	private T3 third;
+	private T4 fourth;
+}
+\end{lstlisting}
+T1, T2, T3 et T4 étant des paramètres génériques, des types d'objets. Dans cette classe générique, on définit une variable de chacun de ces types. On définit ensuite un ou plusieurs constructeur(s), getters, setters et fonctions qui feront des actions sur ces objects. (Se référer au cours pour plus de détails).\\
+Pour instancier une classe générique avec les objets que l'on désire on procède de la manière suivante en créant une autre classe par exemple :
+\begin{lstlisting}
+public class GenericExample {
+	public static void main(String[] args)
+	{
+		GenericQuadruplet<Integer,String,Double,Byte> q1 =
+		new GenericQuadruplet<Integer,String,Double,Byte>
+		(new Integer(1), new String("str"), new Double(3.0), new Byte((byte)4));
+	}
+}
+\end{lstlisting}
+Ici ma classe \emph{GenericExample} crée une instance de ma classe \emph{GenericQuadruplet} et initialise mes objets avec leurs valeurs grâce au constructeur défini dans cette dernière.\\
+En gros, je crée une classe générique avec 4 objets différents qui sont\emph{ Integer, String, Double} et \emph{Byte}. J'aurais pu mettre, si je l'avais voulu, que des \emph{Integer}. D'où l'utilité d'une classe générique.\\
+
+\textbf{Attention} : Les paramètres d'une classe générique sont nécessairement des objets c'est pourquoi mettre \emph{int} au lieu de \emph{Integer} ou \emph{double} au lieu de \emph{Double} est faux.\\
+En effet \emph{int} et \emph{double} sont des types primitives tandis que \emph{Integer} et \emph{Double} sont types enveloppes correspondant à ces deux types primitives. --En plus d'être un object, un type enveloppe possède des fonctions utiles manipulant les types primitives auquels il est affilié.-- (Se référer au cours pour les autres exceptions).\\
+
+\noindent
+L'utilité principale ici est d'écrire un code unique pour plusieurs types d'objets. Prenons un exemple concret, celui du cours est plutôt bg je trouve :
+On crée une classe générique Point :
+\begin{lstlisting}
+public class Point<X,Y> {
+	protected X x;
+	protected Y y;
+	[...]
+}
+\end{lstlisting}
+X et Y sont mes objets que je définirai plus tard. Bien sûr, on part du principe qu'il y a aussi tout le reste - constructeur, getter, setters, etc -.\\
+Je crée une autre classe pour faire appel à toutes mes jolies fonctions de ma classe générique :
+
+\begin{lstlisting}
+public class GenericInheritance {
+	public static void main(String[] args) {
+		Point<Integer,Integer> p =
+		 newPoint<Integer,Integer>(newInteger(1), newInteger(2));
+		[...]
+	}
+}
+\end{lstlisting}
+Donc là j'ai crée une instance de ma classe générique avec 2 objets Integer. Du coup je peux mettre ce que je veux et même foutre un objet String - pourquoi pas -.\\
+D'ailleurs ça le ferait pas trop pour une histoire de points et de dimensions (\emph{"Diagonaliser la matrice et calculer le nuage de points !'} \# \textsc{Rinkel}).\\
+Donc : comment être sûr d'utiliser uniquement des nombres ?? Et bien il suffit de restreindre la généricité pour cela rien de plus simple il suffit de rajouter un \emph{extends} dans les paramètres de ma classe générique :
+\begin{lstlisting}
+public class Point<X extends Number,Y extends Number> {
+	[...]
+}
+\end{lstlisting}
+Donc là pour chacun de mes objets je fais un \emph{extends Number} pour indiquer que ces objets ne peuvent être que de type Integer, Double .. \\
+Information : L'héritage fonctionne également avec les classes génériques.
+
+
+\section{Collections}
+Il s'agit d'une interface qui est implémentée par des classes afin de manipuler une liste d'objet dynamiquement. Une \emph{ArrayList} est une collection, une \emph{LinkedList} aussi, etc.\\
+On peut parcourir une collection avec un itérateur, \emph{Iterator}. Par exemple, cela permet à Java de faire des foreach avec une liste. Et pour nous programmateur de renau... renom, cela permet dans certains cas de parcourir une liste rapidement.\\
+Les collections s'utilisent tous un peu de la même façon de fait qu'ils possèdent tous les fonctions de \emph{Collection}, mais voyons les types interessants:
+\begin{itemize}
+\item{\textbf{LinkedList} et \textbf{ArrayList}. Ils héritent tout deux de \emph{Collection} et de \emph{Iterable} ;}
+\item{\textbf{HashSet}. Il hérite de \emph{Set};}
+\item{\textbf{HashMap}. Il hérite de \emph{Map};}
+\end{itemize}
+
+\paragraph{LinkedList et ArrayList} Une LinkedList comme son nom l'indique est une liste dont chaque élément est "lié" à la suivante et à la précédente (ils possèdent des références). Alors qu'ArrayList est un tableau dynamique. Il se redimenssionne lorsque l'on rajoute un élément (Il s'agissait anciennement de la collection Vector)\\
+Par conséquent, si l'on veut récupérer l'élément n d'une LinkedList, la liste va partir de son premier élèment et aller vers l'élement suivant, n fois. Contrairement à l'ArrayList qui est un tableau et qui récupère donc directement le $n^{ième}$ élément. De l'autre coté, si je veux inserer une nouvelle valeur dans l'ArrayList, la classe va initialisé un nouveau tableau dans laquelle il va rajouter les éléments existants ainsi que le petit nouveau. Alors que le LinkedList rajoute juste une référence à son dernier élément vers la nouvelle.
+Bref une histoire de complexité et de temps d'accès.
+\begin{lstlisting}
+LinkedList<String> linkedListString = new LinkedList<String>();
+ArrayList<String> arrayListString = new ArrayList<String>();
+//etc
+\end{lstlisting}
+
+\paragraph{HashSet} : Une collection de type \emph{set}, c'est une collection dans laquelle chaque élément ne peut s'y trouver \textbf{qu'une fois}. Ce type de \emph{Set} utilise la fonction \emph{hashcode()} pour vérifier si un élément existe déjà ou pas.\\
+Notez que pour parcourir un \emph{HashSet}, il faut forcément utiliser un \emph{Iterator}.
+\begin{lstlisting}
+HashSet monHashSet<String> = new HashSet<String>(); // on crée notre Set
+monHashSet.add(new String("1")); // on ajoute des string quelconques
+monHashSet.add(new String("2"));
+monHashSet.add(new String("3"));
+i = monHashSet.iterator();
+while(i.hasNext()) // tant qu'on a un suivant
+{
+	System.out.println(i.next()); // on affiche le suivant
+}
+/* Notez que l'ordre de l'itération se fait aléatoirement.*/	
+\end{lstlisting}
+
+\paragraph{HashMap} : Un \emph{HashMap}, c'est une collection dans laquelle chaque valeur est associé à une clé.
+bla bla bla à completer
+
+\section{Flux de données : les fichiers}
+Comme en système, il existe des \emph{InputStream} ou des \emph{OutputStream}, qui permettent de gérer des flux de données. Pour l'instant, on va s'interesser aux flux de données pour les fichiers, mais on verra après les flux de données destinés aux réseau, qui ne sont pas si différents.\\
+Revenons à nos fichiers. \\
+Tout comme en système, il faut d'abord ouvrir le fichier. Pour cela, on déclare une instance de \emph{File} avec en paramètre le nom du fichier.
+\begin{lstlisting}
+File fichierRandom = new File("td32.txt");
+\end{lstlisting}
+On peut effectuer deux actions sur un fichier: \textbf{écrire}, ou \textbf{lire}. Cela se représente donc par deux classes distinctes, \textbf{FileOutputSteam} et \textbf{FileInputStream}.\\
+Commençons par l'écriture.
+\paragraph{Écriture} : Pour écrire depuis le programme, il faut utiliser la classe \textbf{FileOutputSteam}, dont le constructeur prend en parametre le \emph{File} créé auparavant. Après avoir créé le \emph{FileOutputStream}, on utilise la fonction \emph{.write}, qui prend en parametre un tableau de \emph{bytes}. Si on veut écrire un objet dans un fichier,  on passe par  \emph{ObjectOutputStream}.\\
+Imaginons que je souhaite écrire dans un fichier un objet de type "Random" dans un fichier "td32" , on va donc avoir:
+\begin{lstlisting}
+FileOutputSteam fluxSortie = new FileOutputStream(new File("td32"));
+Random rangdhome = new Random();
+ObjectOutputStream oos = new ObjectOutputStream(fluxSortie);
+oos.writeObject(rangdhome);
+fluxSortie.close();
+\end{lstlisting}
+Penchons nous maintenant sur la sauvegarde: la \emph{serialisation}. Vous vous souvenez de \textsc{Lavengro}? Ben voilà. Il faut implémenter l'interface \emph{Serializable}. Pour l'écriture après ça ne change rien, c'est pour la lecture qu'une subtilité va apparaitre. D'ailleurs, en parlant de lecture, concentrons nous dessus.
+\paragraph{Lecture} : On utilise alors \emph{FileInputStream}. Le principe est le même que pour l'écriture. On va reprendre notre fichier du haut, qui comporte un objet de type "Random". 
+\begin{lstlisting}
+FileInputStream fluxEntree = new FileInputStream(new File("td32"));
+ObjectInputStream ois = new ObjectInputStream(fluxEntree);
+Random recup  = (Random) ois.readObject();
+\end{lstlisting}
+
+\paragraph{les pipes}
+Ah ces bon vieux pipes. Deux classes, une qui représente l'entrée - \emph{PipedInputStream} -, une autre qui représente la sortie - \emph{PipedOutputStream} -. Ça n'a pas l'air très important.
+
+\section{Communication réseau : serveur et client}
+Toujours comme en Système, on va passer par des sockets; mais ne vous inquietez pas, c'est plus facile! Interessons nous d'abord à la partie serveur.
+\subsection{Le serveur}
+Un serveur va d'abord commencer par créér un socket d'écoute. C'est la classe \emph{ServerSocket}. Ensuite, il a juste à accepeter les connexions entrantes, à l'aide de la fonction de la classe socket \emph{accept()}.\\
+\begin{lstlisting}
+int port = 1337;
+ServerSocket s = new ServerSocket(port);
+boolean isRunning = true;
+// On accepte les requetes tant que le serveur tourne
+while(isRunning){
+	try{
+		Socket socketClient = s.accept();
+		[...]
+	}
+	catch(IOException ex){
+		System.out.println("dommage");
+	}
+}
+\end{lstlisting}
+
+\subsection{Le client}
+Pour le client c'est pas plus compliqué: il a juste à creer un socket contenant l'adresse ip du serveur et son port.
+\begin{lstlisting}
+try{
+	Socket soc = new Socket(ipServeur, port);
+	[...]
+}
+catch(IOException ex){
+	[...]
+}
+\end{lstlisting}
+
+\emph{Mais}, vous devez vous dire, \emph{c'est bien joli mais j'aimerais communiquer ouam}.\\
+Et vous avez raison. Pour cela, on va utiliser nos bons vieux flux de données.\\
+Les équivalents à nos flux de données pour nos fichiers sont ici \emph{BufferedReader} et \emph{PrintWriter}.\\
+\paragraph{Lire des informations} : Pour lire depuis un socket, on va donc utiiliser, vous l'aurez deviné, \emph{BufferedReader}. Voyons comment ça marche:\\
+(Pour cet exemple, on se met partie client, mais c'est la meme chose pour le serveur.)
+\begin{lstlisting}
+BufferedReader lecture = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+lecture.read();
+\end{lstlisting}
+
+
+
+
+
+
+\end{document} 
