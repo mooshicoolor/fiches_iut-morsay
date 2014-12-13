@@ -107,10 +107,28 @@ iptables -t filter -A OUTPUT --protocol tcp --source-port 80 -jump ACCEPT
 La translation d'adresses permet en fait d'utiliser \textbf{1 adresse ip publique} pour représenter \textbf{plusieurs machines}.  En fait, le serveur va "faire correspondre" un port sur son adresse ip à une adresse du réseau privé.\\
 Sous GNU/Linux, on peut effectuer 3 actions différentes:
 \begin{itemize}
+\item{Masquer l'adresse ip de l'emetteur par l'adresse ip d'une interface du serveur (\emph{Masquerade}) - POSTROUTING}
+\item{Changer l'adresse ip de l'emetteur par une adresse fixe spécifiée (\emph{SNAT}) - POSTROUTING}
+\item{Changer l'adresse ip du destinataire par une adresse fixe spécifiée (\emph{DNAT}) - PREROUTING}
+\end{itemize}
+Il faut savoir qu'enfin, il existe 2 étapes bien distinctes, \emph{POSTROUTING} et \emph{PREROUTING}. Le \emph{POSTROUTING} concerne les paquets qui arrivent depuis l'exterieur vers le serveur, et qui sont destinés à une machine du réseau interne, alors que le \emph{PREROUTING} concerne les paquets envoyés depuis le réseau interne vers l'exterieur.\\
 C'est pas très clair? Regardons l'exemple commenté:
 \begin{verbatim}
+# tous les paquets sortant par l'interface ppp0 pour le reseau interne 
+# auront l'adresse ip du serveur
+iptables -t nat -A POSTROUTING --out-interface ppp0 --jump MASQUERADE
+# les paquets concernés sont les mêmes qu'au dessus
+# sauf que cette fois ils auront l'adresse ip xxx.xxx.xxx.xxx
+iptables -t nat -A POSTROUTING --out-interface ppp0 --jump SNAT --to-source xxx.xxx.xxx.xxx
+\end{verbatim}
 
+\section{Administration système: gestion des utilisateurs}
+Il n'y a pas grand chose à ajouter par rapport au guide de Mr.\textsc{Lacour}.\\
+Hmm, non franchement, je vois pas.\\
+Rien à ajouter en fait.\\
 
-
+\begin{center}
+je me suis fait \textsc{preshot}
+\end{center}
 
 \end{document}
