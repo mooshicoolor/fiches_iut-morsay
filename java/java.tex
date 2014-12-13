@@ -190,7 +190,7 @@ Ah ces bon vieux pipes. Deux classes, une qui représente l'entrée - \emph{Pipe
 \section{Communication réseau : serveur et client}
 Toujours comme en Système, on va passer par des sockets; mais ne vous inquietez pas, c'est plus facile! Interessons nous d'abord à la partie serveur.
 \subsection{Le serveur}
-Un serveur va d'abord commencer par créér un socket d'écoute. C'est la classe \emph{ServerSocket}. Ensuite, il a juste à accepeter les connexions entrantes, à l'aide de la fonction de la classe socket \emph{accept()}.\\
+Un serveur va d'abord commencer par créer un socket d'écoute. C'est la classe \emph{ServerSocket}. Ensuite, il a juste à accepter les connexions entrantes, à l'aide de la fonction de la classe socket \emph{accept()}.\\
 \begin{lstlisting}
 int port = 1337;
 ServerSocket s = new ServerSocket(port);

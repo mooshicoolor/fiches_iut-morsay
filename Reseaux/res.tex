@@ -103,7 +103,13 @@ iptables -t filter -A OUTPUT --destination 192.168.30.45 --jump DROP
 iptables -t filter -A OUTPUT --protocol tcp --source-port 80 -jump ACCEPT
 \end{verbatim}
 
-\#ctou pr le momen
+\subsection{Translation d'adresses: NAT}
+La translation d'adresses permet en fait d'utiliser \textbf{1 adresse ip publique} pour représenter \textbf{plusieurs machines}.  En fait, le serveur va "faire correspondre" un port sur son adresse ip à une adresse du réseau privé.\\
+Sous GNU/Linux, on peut effectuer 3 actions différentes:
+\begin{itemize}
+C'est pas très clair? Regardons l'exemple commenté:
+\begin{verbatim}
+
 
 
 
