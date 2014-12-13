@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  12 DEC 2014 23:54
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2014.9.6)  13 DEC 2014 01:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -703,6 +703,12 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 36.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 36.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 40.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 40.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 40.
 
 Underfull \hbox (badness 10000) in paragraph at lines 63--65
 
@@ -720,41 +726,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 66--68
 LaTeX Font Warning: Font shape `EU1/Avenir(0)/m/sc' undefined
 (Font)              using `EU1/Avenir(0)/m/n' instead on input line 92.
 
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 114.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 114.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 114.
 Missing character: There is no è in font lmmi7!
 [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 193--194
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 221--224
+Underfull \hbox (badness 10000) in paragraph at lines 222--225
 
  []
 
 [5] [6]
-Overfull \hbox (5.72499pt too wide) in paragraph at lines 300--302
+Overfull \hbox (5.72499pt too wide) in paragraph at lines 301--303
 []\EU1/Avenir(0)/m/sc/10 Les loggers permettent de ... logger tous les évenemen
 ts d'un programme de façon précise : connexions,
  []
 
-[7] (./java.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 329--332
+
+ []
+
+[7] [8] [9] (./java.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 15914 strings out of 493734
- 313616 string characters out of 6146349
+ 15933 strings out of 493734
+ 313852 string characters out of 6146349
  514463 words of memory out of 5000000
- 19090 multiletter control sequences out of 15000+600000
- 26440 words of font info for 50 fonts, out of 8000000 for 9000
+ 19107 multiletter control sequences out of 15000+600000
+ 26456 words of font info for 52 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  36i,6n,40p,10375b,975s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on java.pdf (7 pages).
+Output written on java.pdf (9 pages).

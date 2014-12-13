@@ -28,17 +28,17 @@
     tabsize=2
 }
 
-\title{Programmation java done quick}
-\author{boré uk \& eliasssse moi  \& sttev 20cent le rappeur ofc}
+\title{java done quick}
+\author{boré \& eliazZz \& sttev }
 \date{\today}
 
 \begin{document}
 \maketitle{}
 
-no docs/no pc/no objects/paper only/final destinantion
+no docs/no objects/fox only/final destination/mge me
 \section{Généricité}
-D'après ma source sûre (Oui ki ?Pédia ofc) ce serait un type de polymorphisme mais on s'en bat les cou… en fait.\\
-Donc ce terme vient de générique. En effet on va pouvoir créer ce qu'on appelle des méthodes mais surtout des classes génériques, c'est-à-dire qui vont pouvoir faire des actions génériques à n'importe quelle types données.\\
+D'après ma source sûre (micko black) ce serait un type de polymorphisme\footnote{Mis a part pour impressionner quelques rang d'hommes, c'est pas très important}.\\
+Donc ce terme vient de générique. En effet on va pouvoir créer ce qu'on appelle des méthodes mais surtout des classes génériques, c'est-à-dire qui vont pouvoir faire des actions génériques à n'importe quelle types de données.\\
 Une classe générique se définit de la manière suivante :
 \begin{lstlisting}
 public class GenericQuadruplet<T1,T2,T3,T4> {
@@ -49,7 +49,7 @@ public class GenericQuadruplet<T1,T2,T3,T4> {
 }
 \end{lstlisting}
 T1, T2, T3 et T4 étant des paramètres génériques, des types d'objets. Dans cette classe générique, on définit une variable de chacun de ces types. On définit ensuite un ou plusieurs constructeur(s), getters, setters et fonctions qui feront des actions sur ces objects. (Se référer au cours pour plus de détails).\\
-Pour instancier une classe générique avec les objets que l'on désire on procède de la manière suivante en créant une autre classe par exemple :
+Pour instancier une classe générique avec les objets que l'on désire, on procède de la manière suivante en créant une autre classe par exemple :
 \begin{lstlisting}
 public class GenericExample {
 	public static void main(String[] args)
@@ -64,10 +64,10 @@ Ici ma classe \emph{GenericExample} crée une instance de ma classe \emph{Generi
 En gros, je crée une classe générique avec 4 objets différents qui sont\emph{ Integer, String, Double} et \emph{Byte}. J'aurais pu mettre, si je l'avais voulu, que des \emph{Integer}. D'où l'utilité d'une classe générique.\\
 
 \textbf{Attention} : Les paramètres d'une classe générique sont nécessairement des objets c'est pourquoi mettre \emph{int} au lieu de \emph{Integer} ou \emph{double} au lieu de \emph{Double} est faux.\\
-En effet \emph{int} et \emph{double} sont des types primitives tandis que \emph{Integer} et \emph{Double} sont types enveloppes correspondant à ces deux types primitives. --En plus d'être un object, un type enveloppe possède des fonctions utiles manipulant les types primitives auquels il est affilié.-- (Se référer au cours pour les autres exceptions).\\
+En effet \emph{int} et \emph{double} sont des types primitifs tandis que \emph{Integer} et \emph{Double} sont types des types dit "enveloppes" correspondant à ces deux types primitifs. --En plus d'être un object, un type enveloppe possède des fonctions utiles manipulant les types primitives auquels il est affilié.-- (Se référer au cours pour les autres exceptions).\\
 
 \noindent
-L'utilité principale ici est d'écrire un code unique pour plusieurs types d'objets. Prenons un exemple concret, celui du cours est plutôt bg je trouve :
+L'utilité principale ici est d'écrire un code unique pour plusieurs types d'objets. Prenons un exemple concret, celui du cours est plutôt \#bogoss je trouve :
 On crée une classe générique Point :
 \begin{lstlisting}
 public class Point<X,Y> {
@@ -111,8 +111,8 @@ Les collections s'utilisent tous un peu de la même façon de fait qu'ils possè
 \end{itemize}
 
 \paragraph{LinkedList et ArrayList} Une LinkedList comme son nom l'indique est une liste dont chaque élément est "lié" à la suivante et à la précédente (ils possèdent des références). Alors qu'ArrayList est un tableau dynamique. Il se redimenssionne lorsque l'on rajoute un élément (Il s'agissait anciennement de la collection Vector)\\
-Par conséquent, si l'on veut récupérer l'élément n d'une LinkedList, la liste va partir de son premier élèment et aller vers l'élement suivant, n fois. Contrairement à l'ArrayList qui est un tableau et qui récupère donc directement le $n^{ième}$ élément. De l'autre coté, si je veux inserer une nouvelle valeur dans l'ArrayList, la classe va initialisé un nouveau tableau dans laquelle il va rajouter les éléments existants ainsi que le petit nouveau. Alors que le LinkedList rajoute juste une référence à son dernier élément vers la nouvelle.
-Bref une histoire de complexité et de temps d'accès.
+Par conséquent, si l'on veut récupérer l'élément n d'une LinkedList, la liste va partir de son premier élèment et aller vers l'élement suivant, n fois. Contrairement à l'ArrayList qui est un tableau et qui récupère donc directement le $n^{ième}$ élément. De l'autre coté, si je veux inserer une nouvelle valeur dans l'ArrayList, la classe va initialiser un nouveau tableau dans laquelle il va rajouter les éléments existants ainsi que le petit nouveau, alors que le LinkedList rajoute juste une référence à son dernier élément vers la nouvelle.
+Bref, c'est une histoire de complexité et de temps d'accès.
 \begin{lstlisting}
 LinkedList<String> linkedListString = new LinkedList<String>();
 ArrayList<String> arrayListString = new ArrayList<String>();
@@ -158,7 +158,7 @@ for(String s : monHashMap.values())
 \end{lstlisting}
 
 \section{Flux de données : les fichiers}
-Comme en système, il existe des \emph{InputStream} ou des \emph{OutputStream}, qui permettent de gérer des flux de données. Pour l'instant, on va s'interesser aux flux de données pour les fichiers, mais on verra après les flux de données destinés aux réseau, qui ne sont pas si différents.\\
+Comme en système, il existe des \emph{InputStream} ou des \emph{OutputStream}, qui permettent de gérer des flux de données. Pour l'instant, on va s'intéresser aux flux de données pour les fichiers, mais on verra après les flux de données destinés aux réseau, qui ne sont pas si différents.\\
 Revenons à nos fichiers. \\
 Tout comme en système, il faut d'abord ouvrir le fichier. Pour cela, on déclare une instance de \emph{File} avec en paramètre le nom du fichier.
 \begin{lstlisting}
@@ -185,6 +185,7 @@ Random recup  = (Random) ois.readObject();
 
 \paragraph{les pipes}
 Ah ces bon vieux pipes. Deux classes, une qui représente l'entrée - \emph{PipedInputStream} -, une autre qui représente la sortie - \emph{PipedOutputStream} -. Ça n'a pas l'air très important.
+% Peut être à developper???
 
 \section{Communication réseau : serveur et client}
 Toujours comme en Système, on va passer par des sockets; mais ne vous inquietez pas, c'est plus facile! Interessons nous d'abord à la partie serveur.
@@ -322,7 +323,57 @@ public static void main(String args[])
 À chaque fois qu'on appelle le logger, on écrit donc un message dans la console java. Super !!!!!!!!	
 Enfin, parlons un peu des parametres du loggers; c'est un peu spécial, puisque en fait on modifie le fichier .xml du logger:
 
+A FAIRE !!!!!!!!
 
+\section{Threads \& Jamy}
+Ah, on se lassera jamais de cette \emph{bonne boutade} datant de la fiche de Système. Enfin bref.\\
+Tout comme les pthreads de notre bon vieux Bouyou, les threads partagent un même espace mémoire et permettent en fait d'exécuter des taches en parallèle.\\
+Une classe agissant en tant que thread doit implémenter l'interface \emph{Runnable}, et doit ainsi donc surcharger la methode \emph{run()}. C'est dans cette methode \emph{run()} que se trouvera le code executé par le thread.\\
+\begin{lstlisting}
+public class ThreadPerso implements Runnable
+{
+	[attributs]
+	[constructeur]
+	
+	public void run()
+	{
+		// faire des trucs
+	} 
+}
+\end{lstlisting}
+Et hop, ainsi, dans notre main, lorsque on voudra créer des threads qui exécuteront ça, on fera:
+\begin{lstlisting}
+public static void main(String args[])
+{
+	Thread th1 = new Thread(new ThreadPerso());
+	Thread th2 = new Thread(new ThreadPerso());
+	
+	th1.start(); th2.start();
+	[...]
+	th1.join(); th2.join()
+}
+\end{lstlisting}
+Mais comme tout ce qui touche à l'accès parallele à des données, il y a des risques de se \emph{mélanger les données} entre Threads. Par conséquent, il faut proteger l'accès aux données pour chaque Thread.\\
+On peut par exemple rendre une procédure synchronisé, c'est à dire que lorsque un thread est occupé avec les données, les autres ne peuvent toucher aux données. Dans ce cas, on ajoute le mot-clé \emph{synchronized} dans la signature de la fonction concernée.
+\begin{lstlisting}
+public synchronized void modifierTruc(Truc modifier)
+{
+	[...]
+}
+\end{lstlisting}
+
+L'autre moyen de proteger les données s'appelle \emph{Lock}. En fait, utiliser un \emph{Lock} permet de bloquer une partie des ressources utilisées entre le moment où on utilise le lock et le moment où on le "délock". Cela permet de ne pas avoir à bloquer tous les autres threads pendant toute une fonction.
+\begin{lstlisting}
+Lock lock = new Lock();
+
+public void modifierTruc(Truc modifier)
+{
+	Lock.lock();
+	[...]
+	Lock.unlock();
+}
+\end{lstlisting}
+c tou pour se soir j'ai dodo
 
 
 \end{document} 
