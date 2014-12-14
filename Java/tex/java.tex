@@ -119,13 +119,16 @@ ArrayList<String> arrayListString = new ArrayList<String>();
 //etc
 \end{lstlisting}
 
-\paragraph{HashSet} : Une collection de type \emph{set}, c'est une collection dans laquelle chaque élément ne peut s'y trouver \textbf{qu'une fois}. Ce type de \emph{Set} utilise la fonction \emph{hashcode()} pour vérifier si un élément existe déjà ou pas.\\
+\paragraph{HashSet} : Une collection de type \emph{set}, c'est une collection dans laquelle chaque élément ne peut s'y trouver \textbf{qu'une fois}. Ce type de \emph{Set} utilise la fonction \emph{hashcode()} pour vérifier si un élément existe déjà ou pas. Si on essaye d'ajouter une valeur déjà existante, ça ne fonctionne pas.
 Notez que pour parcourir un \emph{HashSet}, il faut forcément utiliser un \emph{Iterator}.
 \begin{lstlisting}
 HashSet monHashSet<String> = new HashSet<String>(); // on crée notre Set
 monHashSet.add(new String("1")); // on ajoute des string quelconques
 monHashSet.add(new String("2"));
 monHashSet.add(new String("3"));
+// ne fonctionne pas
+monHashSet.add(new String("1"));
+
 i = monHashSet.iterator();
 while(i.hasNext()) // tant qu'on a un suivant
 {
@@ -142,7 +145,7 @@ HashMap monHashMap<Character,String> = new HashSet<Character,String>();
 // on ajoute des string quelconques
 monHashMap.put('B',"Bruno"); 
 monHashMap.put('S',"Steeve");
-// Erreur le caractère 'B' est la clé associé à la chaine "Bruno"
+// la valeur "Borey" va remplacer "Bruno"
 monHashMap.put('B',"Borey");
 // récupère la chaine associé à la clé 'S'
 String p = monHashMap.get('S'); 
@@ -267,7 +270,8 @@ Lorsque il existe une possibililté d'\emph{Exception}, il faut enrober le code 
 try
 {
 	// commande qui lancera une exception de type IOException
-	FileOutputSteam reader = new FileInputStream(new File("un fichier inexistant mdr"));
+	// On essaye de lire depuis un fichier qui n'existe pas
+	FileOutputSteam reader = new FileOutputStream(new File("un fichier inexistant mdr"));
 }
 catch (IOException e)
 {
