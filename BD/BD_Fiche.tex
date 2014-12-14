@@ -35,7 +35,7 @@
 \lstset{language=Java,frame=none}
 
 \title{Base de Data}
-\author{JP Momo \& Brunoir}
+\author{JP Momo \& Sttv \& Brunoir}
 \date{\today}
 
 \begin{document}
@@ -207,7 +207,7 @@ Pour être plus clair, en reprenant le cours, si plusieurs utilisateurs manipule
 \section{Accès concurrents}
 Pour cela, on va définir plusieurs termes importants pour la fiche et pour tout le reste.\\\\
 \textbf{Transaction :} unité logique de traitement. Pour résumer grossièrement, ça correspond à la modification ou l'interrogation d'une base de données (requêtes, fonctions, procédures, etc...).\\
-Le début d'une transaction se définit par un ordre SQL(SELECT, UPDATE, INSEERT, etc...) ou la fin de la transaction précédente. La fin d'une transaction est définit par l'instruction COMMIT ou ROLLBACK.\\
+Le début d'une transaction se définit par un ordre SQL(SELECT, UPDATE, INSERT, etc...) ou la fin de la transaction précédente. La fin d'une transaction est définit par l'instruction COMMIT ou ROLLBACK.\\
 L'instruction COMMIT consiste à valider la transaction en cours et donc rendre les modifications persistantes.\\
 Quant à ROLLBACK, elle annule la transaction en cours et toutes les modifications effectués lors de cette dernière.\\
 \noindent\textbf{Accès concurrents :} plusieurs utilisateurs accèdent, en même temps, à la même donnée dans la base.\\
@@ -221,6 +221,8 @@ Pour assurer la consistance de nos données, il faudra verrouiller les données 
 \item verrous globaux (global lock) : pour bloquer un ensemble de données, généralement une table toute entière.
 \end{itemize}
 Il y a une autre notion à connaître c'est la collision. si 2 transactions accèdent à la même donnée en même temps, il y a collision avec un GROS CAMION et donc une perte de cohérence.\\
+
+\section{Utilisation et problèmes liés aux verrous}
 Quand est ce qu'un verrou est posé ?\\
 Il est posé jusqu'à la fin de la transaction en cours. Le seul moyen de relâcher les verrous posés par une transaction est par le biais des instructions COMMIT et ROLLBACK(lors de la création d'une table aussi, il y a un COMMIT implicite).\\
 Pour mieux comprendre cette histoire de verrous, on va reprendre les exemples du cours et les commenter.\\\\
@@ -270,7 +272,7 @@ Pour chacune de ces propriétés, un niveau de cohérence est attribué à T :
 \end{itemize}
 Sur Oracle les verrous sont invoqués automatiquement dans des cas spécifiques, mais on peut le faire manuellement aussi. Ce tableau résume bien les différents verrous que l'on peut mettre.
 \newline
-\includegraphics[scale=0.6]{./Pictures/BD4.png}
+\includegraphics[scale=0.45]{./Pictures/BD4.png}
 \newline
 \begin{itemize}
 \item RX : Row exclusif, interdiction de modification et de lecture sur la ligne que l'on modifie pour tout autre utilisateur
@@ -282,9 +284,9 @@ Sur Oracle les verrous sont invoqués automatiquement dans des cas spécifiques,
 \subsubsection{Problème possible lié au verrou}
 \textbf{Deadlock} : On rencontre ce problème lorsque un utilisateur attend la fin du verrou d'un autre alors que celui ci attend la fin du verrou de l'un. 
 \newline Par Exemple je pose un verrou sur la ligne 1 d'une table puis un random pose un verrou sur la ligne 2. Je souhaite récupérer la valeur de la ligne 2 $\rightarrow$ je suis mis en attente par le random, sauf que ce putain de random attend que moi j'enlève mon verrou sur la ligne 1. Du coup on se retrouve en attente tout les deux comme des cons.
-$\rightarrow$ Pour éviter ce problème il faut que l'ordre dans laquelle le random et moi posons les verrous soit le même. Je prend la ligne 1, il prend la ligne 1, je prend la ligne 2, il prend la ligne 2 etc... Cette solution est appelé \textbf{\underline{Règle de Havender}}. Allez savoir pourquoi...
+$\rightarrow$ Pour éviter ce problème il faut que l'ordre dans laquelle le random et moi posons les verrous soit le même. Je prend la ligne 1, il prend la ligne 1, je prend la ligne 2, il prend la ligne 2 etc... Cette solution est appelé \textbf{Règle de Havender}. Allez savoir pourquoi...
 \newline
-Prenons deux utilisateurs lambda :
+Prenons deux utilisateurs lambda :\\\\\\\
 \begin{lstlisting}[style=MySQLStyle]
 -- l'utilisateur 1 change le nom du film (numero 15 et realisateur 58)
 UPDATE ens2004.film
@@ -312,7 +314,7 @@ AND realisateur = 58;
 \end{lstlisting}
 
 Dans cet exemple, on ne fait pas de COMMIT. A partir de la troisième instruction, Oracle va tourner en boucle (il attend le COMMIT de l'utilisateur 2) et va afficher sur l'utilisateur 1 blocage fatale de même à la quatrième instruction.
-Cette erreur est due au fait que deux utilisateurs veulent modifier des données qui sont modifiés par l'un et par l'autre mais n'ont fait aucune validation ou annulation.\\
+Cette erreur est due au fait que deux utilisateurs veulent modifier des données qui sont modifiés par l'un et par l'autre mais n'ont fait aucune validation ou annulation.\\\\
 \textbf{Problème de la tasse à café....} : Il s'agit du fait que la saisie d'un utilisateur peut potentiellement mettre indéfiniment le programme en pause (Par exemple, je vais prendre une tasse de thé parce que j'aime le thé et faire chier les gens), ce qui provoque dans le cas où on a posé un verrou avant la demande de saisie, cela verrouille la cible indéfiniment et donc bloqué d'autre utilisateur.
 $\rightarrow$ Pour éviter ce problème, il faut poser le verrou après la saisie tout simplement. 
 
