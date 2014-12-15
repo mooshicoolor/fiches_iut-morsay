@@ -314,7 +314,7 @@ X suit une loi de Bernoulli de paramètre p si X ne peut que prendre les valeur 
 \textbf{Paramètres}
 $E(X) = p$ et $ V(X)=p(1-p)$
 \subsubsection{Loi Binomiale}
-X suit une loi Binomiale de paramètre (n,p) si X représente le nombre de réussite dans une suite d'épreuves de Bernoulli identique \textbf{effectué dans les mêmes conditions / avec remise}, on a alors $P(X=x)=\left( n \\ p \right) p^x (1-p)^(n-x)$. p étant la probabilité de réussite et n le nombre d'expérience. \newline
+X suit une loi Binomiale de paramètre (n,p) si X représente le nombre de réussite dans une suite d'épreuves de Bernoulli identique \textbf{effectué dans les mêmes conditions / avec remise}, on a alors $P(X=x)=\left( \begin{array}{l} n \\ p \end{array} \right) p^x (1-p)^(n-x)$. p étant la probabilité de réussite et n le nombre d'expérience. \newline
 \textbf{Paramètres} 
 $E(X) = np$ et $ V(X)=np(1-p)$
 \subsubsection{Loi Hypergéométrique}
@@ -383,10 +383,47 @@ On dit que $X_n$, suivant une loi qui dépend de n, converge en Loi vers X si $\
 
 \section{Chaine de Markov}
 
-Dans le prochain épisode...
+Vu que j'aime bien l'exemple de M. Bensadon, je vais le reprendre. Voici la situation de Bubulle le poisson rouge.
+\newline
+\noindent
+\includegraphics[scale=0.8]{Bubulle le poisson rouge.jpg}
+\newline
+Vu ainsi, ce graphe doit être incompréhensible, pourtant il est très simple. Ce graphe présente 3 états de Bubulle numéroté de 1 à 3.
+\begin{enumerate}
+\item Dormir
+\item manger
+\item tourner dans son bocale
+\end{enumerate}
+Pour chaque états, Bubulles peut faire autre chose, ce changement d'état est représenté par une flèche. Les valeurs correspondant aux flèches représente la probabilité que Bubulle passe de léetat source à l'état destination. Par exemple la flèche partant de 1 et allant à 3 représente le changement de l'état "Bubulle dort" à l'état "Bubulle mange" et "0.7" est la probabilité que Bubulle mange après avoir dormis.
+La chaîne de Markov est la suite de variable aléatoire $(X_n)_{n \in \mathbb{N}}$, dont chaque $X_i$ est égale à l'état de Bubulle à l'instant i. 
+\textbf{La matrice de transition} associé à ce graphe est une matrice carrée dont chaque coefficient $x_{ij}$ correspond à la probabilité de passé de l'état i à l'état j.
+\newline
+\begin{eqnarray}
+\begin{array}{l c r c c}
+1 & 2 & 3 & &
+\end{array} \\
+\left.
+\begin{array}{l}
+1 \\
+2 \\
+3
+\end{array}
+ \right.
+ \left(
+\begin{array}{c c c}
+0.1 & 0.2 & 0.7 \\
+0.8 & 0 & 0.2 \\
+0.2 & 0.6 & 0.2
+\end{array}
+ \right)
+\end{eqnarray}
 
-
-
+La matrice $P(i)$ est la matrice colonne dont chaque coefficient représente chacun des probabilités que Bubulle soit dans un état spécifique à l'instant i. 
+\newline
+\textbf{Exemple} : $P(0)=\left( \begin{array}{c} P(X_0=1) \\ P(X_0=2) \\ P(X_0=3) \end{array} \right)= \left( \begin{array}{c} 0.2 \\ 0.4 \\ 0.4 \end{array} \right)$. Il s'agit de l'état initial de Bubulle. A partir de cet matrice on peut déterminer les probabilité suivante. \newline
+\textbf{Note} : La chaine de Markov suit une loi sans vieillissement, donc P(i) ne dépend que de P(i-1). La corrélation entre ces deux probabilités est $P(i) = ^tM * P(i-1)$. On dit alors que la matrice de transition est \textbf{homogène} car elle dépend d'aucune variable. \newline
+\textbf{Note} : La matrice de transition est \textbf{une matrice stochastique} car la somme des coefficient sur une ligne/colonne est égale à 1.
+\textbf{Une Loi est stationnaire} si d'un instant i à un instant i+1 les probabilités restent les mêmes. $P(i) = P(i+1)$
 
 
 \end{document} 
