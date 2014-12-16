@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.10.27)  12 DEC 2014 23:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.10.27)  16 DEC 2014 19:57
 entering extended mode
 **Gestion.tex
-("D:\Users\JP\Desktop\Cours\Université Paris Sud\A2\Gestion\Gestion.tex"
+("D:\Users\JP\Desktop\GitHub IUT\trunk\Gestion\Gestion.tex"
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -326,7 +326,7 @@ Package: fullpage 1999/02/23 1.1 (PWD)
 Package: eurosym 1998/08/06 v1.1 European currency symbol ``Euro''
 \@eurobox=\box26
 )
-("D:\Users\JP\Desktop\Cours\Université Paris Sud\A2\Gestion\Gestion.aux")
+("D:\Users\JP\Desktop\GitHub IUT\trunk\Gestion\Gestion.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
@@ -407,7 +407,7 @@ Package pdftex.def Info: TVA.jpg used on input line 87.
 (pdftex.def)             Requested size: 406.51775pt x 117.43845pt.
  [3
 
- <D:/Users/JP/Desktop/Cours/Université Paris Sud/A2/Gestion/TVA.jpg>]
+ <D:/Users/JP/Desktop/GitHub IUT/trunk/Gestion/TVA.jpg>]
 Overfull \hbox (0.9542pt too wide) in paragraph at lines 102--103
  \T1/cmr/bx/n/10 Re-trou-ver le mon-tant de TVA � par-tir d'une va-leur TTC : $
 \OML/cmm/m/it/10 TVA \OT1/cmr/m/n/10 = ([]) \OMS/cmsy/m/n/10  \OML/cmm/m/it/10
@@ -434,34 +434,34 @@ ns\OT1/cmr/m/n/10 )$
 
 [7
 
-] ("D:\Users\JP\Desktop\Cours\Université Paris Sud\A2\Gestion\Gestion.aux") ) 
+] ("D:\Users\JP\Desktop\GitHub IUT\trunk\Gestion\Gestion.aux") ) 
 Here is how much of TeX's memory you used:
  2342 strings out of 493921
- 29290 string characters out of 3147290
+ 29192 string characters out of 3147290
  84408 words of memory out of 3000000
  5620 multiletter control sequences out of 15000+200000
  16482 words of font info for 39 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  27i,6n,24p,316b,255s stack positions out of 5000i,500n,10000p,200000b,50000s
- 
-<D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx14
-40.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
-\ecbx1000.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec
-\dpi600\ecrm1000.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
-ppen\ec\dpi600\ecti1000.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfo
-ur\jknappen\ec\dpi600\ecbx2488.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\
-pk\ljfour\jknappen\ec\dpi600\eccc1200.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9
-\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <D:\Users\JP\AppData\Local\MiK
-TeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2074.pk><D:/Users/JP/Documents/L
-aTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Users/JP/Documents/LaTeX/fon
-ts/type1/public/amsfonts/cm/cmmi12.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1
-/public/amsfonts/cm/cmmi7.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/a
-msfonts/cm/cmr10.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/c
-m/cmr12.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmr7.pf
-b><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Us
-ers/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/Users/JP/Do
-cuments/LaTeX/fonts/type1/public/eurosym/feymr10.pfb>
-Output written on Gestion.pdf (8 pages, 233362 bytes).
+ <D:\Users\JP\A
+ppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <D:\Use
+rs\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1000.pk> 
+<D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm10
+00.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
+\ecti1000.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec
+\dpi600\ecbx2488.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
+ppen\ec\dpi600\eccc1200.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\pk\ljfo
+ur\jknappen\ec\dpi600\ecrm1200.pk> <D:\Users\JP\AppData\Local\MiKTeX\2.9\fonts\
+pk\ljfour\jknappen\ec\dpi600\ecbx2074.pk><D:/Users/JP/Documents/LaTeX/fonts/typ
+e1/public/amsfonts/cm/cmmi10.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/publi
+c/amsfonts/cm/cmmi12.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfon
+ts/cm/cmmi7.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmr
+10.pfb><D:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><D
+:/Users/JP/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/Users/JP
+/Documents/LaTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Users/JP/Documen
+ts/LaTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/Users/JP/Documents/LaTeX/
+fonts/type1/public/eurosym/feymr10.pfb>
+Output written on Gestion.pdf (8 pages, 233367 bytes).
 PDF statistics:
  356 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
