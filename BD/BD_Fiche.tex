@@ -41,11 +41,190 @@
 \begin{document}
 \maketitle{}
 
+\chapter{Requêtes et résultats}
+\section{Statements et ResultSet : définitions}
+
+Bon vu que vous êtes vraiment nuls, on va voir à quoi correspond les Statement en Java. Donc Statement est un interface de l'API JDBC qui définit les objets qui permettent d'exécuter des requêtes statiques SQL et ainsi retourner le résultat produit.\\
+Généralement un Statement s'utilise avec un ResultSet (c'est tout le temps en fait). En effet, les instances de l'interface ResultSet contiennent les requêtes SQL. En gros, ils contiennent des tuples (\#BogDonald, \#3.33), lignes si vous préférez. Il faut savoir qu'un seul ResultSet ne peut être actif à la fois.\\
+Pour assez blablater, getExemple() :
+\begin{lstlisting}[style=MyJavaStyle]
+// creation d'un statement BASIC
+Statement createStatement() throws SQLException // parce qu'on est des BG
+// un autre statement
+Statement createStatement(int rsType, int rsConcurrency) throws SQLException
+// encore un autre
+Statement createStatement(int rsTypen int rsConcurrency, int rsHoldability) throws SQLException
+\end{lstlisting}
+Vous me direz "Bordelle de merde pourquoi Pa..". Non en fait. Donc comme vous le voyez ci-dessus, il y plusieurs manières de créer un Statement.\\
+La première, bon pas besoin de la commenter. A partie de la deuxième, bah y a des paramètres. On va les définir tout de suite.\\
+\begin{itemize}
+\item \textbf{int rsType} permet de définir le type du ResultSet, c'est-à-dire sa navigabilité (que je définirai plus tard).
+\item \textbf{int rsConcurrency} permet de définir le fait qu'on puisse faire mises à jour ou non.
+\item enfin \textbf{int rsHoldability} qui définit son comportement lors d'un commit.\\
+\end{itemize}
+Bon vous comprenez toujours pas et c'est bien parce que j'ai encore rien expliqué. Donc il y a quelques méthodes à connaître pour les ResultSet.
+\begin{itemize}
+\item pour créer un ResultSet contenant les résultats d'une requête c'est \textbf{ResultSet executeQuery(String sql) throws SQLException}.
+\item \textbf{void close() throws SQLException} (bon pas de commentaires)
+\item \textbf{int executeUpdate(String sql) throws SQLException} (c'est même pas définit dans la doc donc bon)
+\item \textbf{boolean execute(String sql) throws SQLException} qui renvoie vrai si le ResultSet s'est bien exécuté faux sinon ofc
+\end{itemize}
+
+\section{Statements et ResultSet : utilisations}
+Bon vous vous rappelez des termes que j'avais définit auparavant ? Bien sûr que non parce que je l'ai ap fait GRO.\\
+C'est bien beau de connaître quelques méthodes (parce qu'il y en a beaucoup) mais faut faire des choses avec notre ResultSet.\\
+En ce qui concerne la navigabilité (int rsType) d'un ResultSet :
+\begin{itemize}
+\item \textbf{TYPE\_FORWARD\_ONLY} (par défaut) : donc navigation en avant.
+\item \textbf{TYPE\_SCROLL\_INSENSITIVE} : navigation dans tous les sens et où l'on veut (merde c'est dégueulasse). Cependant, on a pas d'accès aux modifications sur la source de données depuis l'ouverture du ResultSet.
+\item \textbf{TYPE\_SCROLL\_SENSITIVE} : navigation comme le précédent et en plus on a accès aux modifications.\\
+\end{itemize}
+En ce qui concerne la mise à jour (int rsConcurrency) :
+
+\begin{itemize}
+\item \textbf{CONCUR\_READ\_ONLY} (par défaut) : aucune modification.
+\item \textbf{CONCUR\_UPDATABLE} : modifications possibles.\\
+\end{itemize}
+Enfin en ce qui concerne son comportement à la validation, à un commit (int rsHoldability) :
+\begin{itemize}
+\item \textbf{CLOSE\_CURSORS\_AT\_COMMIT} (par défaut) : fermé après chaque validation ou commit pour les malins.
+\item \textbf{HOLD\_CURSORS\_OVER\_COMMIT} : reste ouvert lors d'une validation (COMMIT ou ROLLBACK).
+\end{itemize}
+Bah maintenant qu'on connait tout sur les Statement et les ResultSet, il est grand temps de l'illustrer par un exemple.\\
+Supposons que je veuille : 
+\begin{itemize}
+\item parcourir le résultat de la requête dans n'importe quel sens sans avoir accès à d'éventuelles modifications dans les données sur la base.
+\item sans modifier les éléments au travers de ResultSet.
+\item et fermer le ResultSet si il y a un commit.\\
+\end{itemize}
+Voici the solution :
+\begin{lstlisting}[style=MyJavaStyle]
+// on cree un Statement avec les differentes proprietes du ResultSet que l'on veut (voir au dessus pour les parametres)
+Statement stm = co.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY, ResultSet.CLOSE_CURSOR_AT_COMMIT);
+// apres avoir creer le Statement et donner les proprietes de notre ResulSet, on cree un ResultSet contenant notre requete ofc
+ResultSet rs = stm.executeQuery("SELECT * FROM Film");
+\end{lstlisting}
+Les méthodes de mouvement d'un ResultSet dépendent des propriétés que l'on a définit. (il faut savoir qu'à la création, l'ouverture d'un ResultSet, le \textbf{ResultSet pointe avant la première ligne})\\
+Donc si il est de type TYPE\_FORWARD\_ONLY :\\
+on ne pourra utiliser que \textbf{.next()} qui renvoie un booléen. En effet, \textbf{next()} passe à la ligne suivante du résultat de la requête si elle existe (vrai) et rien sinon (faux).\\
+Sinon pour les reste on a :
+\begin{itemize}
+\item \textbf{previous()} : ligne précédente.
+\item \textbf{first()} : sur la première ligne, retourne vrai si elle existe, faux sinon (en gros un ResultSet vide).
+\item \textbf{last()} : sur la dernière ligne.
+\item \textbf{beforeFirst()} : avant la première (comme à l'ouverture).
+\item \textbf{afterLast()} : après la dernière.
+\item \textbf{relative (int rows (lignes pour les nuls))} : il fait rows ligne après la position courante du ResultSet et revient en arrière si rows est négatif.
+\item \textbf{absolute(int row)} : se place à la row-ième ligne. Si row = 1, il se place sur la première ligne et si row est négatif ou row = 0 se place à la dernière ligne.\\
+\end{itemize}
+Bon on va utiliser l'exemple précédent avec quelques modifications pour des raisons de commodité.
+
+\begin{lstlisting}[style=MyJavaStyle]
+// comme d'hab un Statement (voir au-dessus pour les parametres)
+Statement stm = co.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE);
+ResultSet rs = stm.executeQuery("SELECT * FROM Film");
+rs.absolute(3); // on se positionne sur la 3eme ligne
+rs.relative(5); // on se positionne sur la 8eme ligne car on etait sur la 3eme ligne et on rajoute 5 lignes
+rs.previous(); // on se positionne sur la 7eme ligne
+rs.last(); // on se positionne sur la derniere ligne
+\end{lstlisting}
+En ce qui concerne les mises à jour de lignes, si le Statement est ouvert en mode CONCUR\_UPDATABLE, alors on peut mettre à jour par le biais du ResultSet.\\
+La mise à jour d'une ligne se fait en 2 étapes :
+\begin{itemize}
+\item mise à jour de la nouvelle valeur de la colonne : \textbf{update<type>()}.
+\item changement affectés à la ligne concernée \textbf{updateRow()}(et à ce-moment là la base sera mis à jour).\\
+\end{itemize}
+Exemples :
+\begin{lstlisting}[style=MyJavaStyle]
+Statement stm = co.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+ResultSet rs = stm.executeQuery("SELECT Titre FROM Film 
+				WHERE NumFilm = 123");
+rs.next(); // on se positionne a la 1ere ligne
+rs.updateString("Titre", "Django Unchained"); // on modifie le titre
+rs.updateRow(); // effectue la modification de la ligne
+\end{lstlisting}
+Toujours avec le même mode (voir au-dessus), on peut supprimer une ligne dans la base avec \textbf{deleteRow()}. Elle se place, après la suppression, avant la première ligne valide suivant celle qui vient d'être supprimée. Son indice devient invalide et on peut tester son existence avec \textbf{rowDeleted()}.
+\begin{lstlisting}[style=MyJavaStyle]
+Statement stm = co.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+ResultSet rs = stm.executeQuery("SELECT * FROM Film");
+rs.absolute(4); // on se positionne a la 4eme ligne
+rs.deleteRow(); // supprime la ligne courante
+bool = rs.rowDeleted(); // bool vaut vrai
+\end{lstlisting}
+Enfin qui dit suppression dit insertion (toujours avec le même mode). En gros, ça permet l'insertion de nouvelles lignes.\\
+L'insertion se fait en 3 étapes :
+\begin{itemize}
+\item on se positionne sur la ligne d'insertion avec \textbf{moveToInsertRow()}.
+\item initialiser les valeurs des champs de la ligne à insérer avec \textbf{update<type>()}.
+\item enfin insérer la ligne avec \textbf{insertRow()}.
+\end{itemize}
+\newpage
+\begin{lstlisting}[style=MyJavaStyle]
+Statement stm = co.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+ResultSet rs = stm.executeQuery("SELECT Prenom, Nom, NumIndividu FROM Individu");
+rs.moveToInsertRow(); // positionne sur une ligne d'insertion en gros vide
+rs.updateString(1, "Bruno"); // cree le prenom
+rs.updateString(2, "Benjamin Pierrot"); // cree le nom
+rs.updateLong(3, 269); // cree le numero
+rs.insertRow(); // insere la ligne qu'on vient de creer
+rs.moveToCurrentRow(); // revient a l'ancienne position
+\end{lstlisting}
+
+\section{PreparedStatement trop ez}
+Bon on pas vu le gros du cours. Normalement cette partie devrait être assez facile.\\
+Tout d'abord, on va parler de requêtes pré-compilées. Si on doit répéter plusieurs fois la même requête en utilisant un objet Statement, à chaque fois le serveur devra interpréter la requête SQL et en particulier créer un plan de requête. En général, c'est très coûteux (le CAAASH).\\
+C'est pour ça qu'on va utiliser l'interface PreparedStatement. En effet, le code SQL est transmis à la base une seule fois, dès que la méthode prepareStatement() délivre l'objet PreparedStatement correspondant. Vu que le principe revient à la même qu'un Statement, on va faire un multitude d'exemples.
+\begin{lstlisting}[style=MyJavaStyle]
+// on cree un PreparedStatement avec la requete
+PreparedStatement psm = co.prepareStatement("SELECT titre FROM Film 
+					    WHERE numFilm = 50
+					    AND realisateur = 8");
+// on execute la requete
+ResultSet rs = psm.executeQuery();
+// tant qu'il y a un suivant, donc une ligne contenant un resultat
+while(rs.next()){
+	// on recupere et on affiche le resultat
+	System.out.println(rs.getString(1)); 
+}
+\end{lstlisting}
+
+Bon ça c'est un truc assez simple.(faut savoir qu'on peut toujours utiliser les méthodes de ResultSet).\\
+La principale différence avec un Statement c'est qu'on va pouvoir passer des paramètres à notre requête grâce au ?. On va reprendre le même exemple.
+\begin{lstlisting}[style=MyJavaStyle]
+PreparedStatement psm = co.prepareStatement("SELECT titre FROM Film 
+					    WHERE numFilm = ?
+					    AND realisateur = ?");
+psm.setInt(1, 50); // pour le 1er parametre, on lui attribut la valeur 50
+psm.setInt(2, 8); // pour le second, on lui attribut 8
+ResultSet rs = psm.executeQuery();
+// tant qu'il y a un suivant, donc une ligne contenant un resultat
+while(rs.next()){
+	// on recupere et on affiche le resultat
+	System.out.println(rs.getString(1)); 
+}
+\end{lstlisting}
+
+\section{ResultSetMetaData, double v T F}
+Bon cette partie va être assez courte. En gros, ResultSetMetaDate permet d'obtenir des informations sur la structure d'un ResultSet comme le nom de la colonne choisie, le nombre de colonnes du ResultSet, la table d'où provient la colonne, etc... ? En gros, plein d'informations très utiles(non je rigole).\\
+Je vais résumer ça par l'exemple du cours parce que bon y a pas grand chose.
+\begin{lstlisting}[style=MyJavaStyle]
+Connection co = DriverManager.getConnection(url);
+Statement stm = co.createStatement();
+ResultSet rs = stm.executeQuery("SELECT a, b, c FROM Table1");
+ResultSetMetaData rsmd = rs.getMetaData();
+int nbreColonnes = rsmd.getColumnCount();
+for (int i = 1; i <= nbreColonnes; i++){
+	int jdbcType = rsmd.getColumnType(i);
+	String name = rsmd.getColumnTypeName(i);
+	System.out.println("L'attribut " + i + " est du type JDBC " + 		jdbcType + " dont le nom est " + name);
+}
+\end{lstlisting}
+
 \chapter{Fonctions et procédures stockées}
 \section{Partie PL/SQL}
 Donc comme vous êtes tous des GROSSES mer..., je vais vous expliquer ce que sont les fonctions et les procédures en PL/SQL.
 Tout d'abord, à quoi servent les fonctions et les procédures STOCKEES ?\\
-Elle servent à enregistrer des programmes dans le noyau Oracle. Elles peuvent être utilisées par tout le monde (selon les droits) et sont stockées sous forme de \textit{pseudo-code}, c'est-à-dire qu'elles ne sont compilées qu'UNE SEULE FOIS. C'est génial non ?\\
+Elle servent à \textbf{enregistrer des programmes dans le noyau Oracle}. Elles peuvent être utilisées par tout le monde (selon les droits) et sont stockées sous forme de \textit{pseudo-code}, c'est-à-dire qu'elles ne sont compilées qu'UNE SEULE FOIS. C'est génial non ?\\
 Trêve de bavardages, on va voir leurs syntaxes.\\
 Une procédure en PL/SQL se déclare de la manière suivante :
 \begin{lstlisting}[style=MySQLStyle]
@@ -61,7 +240,7 @@ END;
 
 Bon ce n'est pas très clair mais on va voir ça petit à petit.\\
 Donc, la première ligne correspond à une déclaration de procédure basique avec son nom et ses différents paramètres (ne pas oublier le IS ou le AS).\\
-La deuxième ligne correspond à la déclaration des variables. \\A partir du BEGIN, on écrit ce que va faire notre procédure. EXCEPTION est facultatif mais correspond à la zone d'exception du code. \\Enfin le END, bah END.\\
+La deuxième ligne correspond à la déclaration des variables. \\A partir du \textbf{BEGIN}, on écrit ce que va faire notre procédure. \textbf{EXCEPTION} est facultatif mais correspond à la zone d'exception du code. \\Enfin le \textbf{END}, bah THE END.\\
 En ce qui concerne les paramètres dans une procédure (ou une fonction), il faut leur donner un nom (gicLo), spécifié si c'est un paramètre \textbf{d'entrée} (IN, donc non modifiable) ou \textbf{de sortie} (OUT, modifiable par la procédure) ou les deux et enfin spécifié son type(une procédure ou une fonction n'a pas obligatoirement de paramètres).\\
 
 \begin{lstlisting}[style=MySQLStyle]
@@ -102,7 +281,7 @@ EXCEPTION \\facultatif
 END;
 \end{lstlisting}
 La principale différence c'est que l'on spécifie la variable que l'on va renvoyé.
-En ce qui concerne les paramètres d'une fonction, c'est la même chose qu'une procédure SAUF que l'on préfère ne spécifier que des paramètres d'entrées (IN).\\
+En ce qui concerne les paramètres d'une fonction, c'est la même chose qu'une procédure \textbf{SAUF} que l'on préfère ne spécifier que des paramètres d'entrées (IN).\\
 Vu que vous êtes trop fort, on peut passer directement à un exemple ofc.
 \begin{lstlisting}[style=MySQLStyle]
 /* on definit la fonction numFilm qui renvoie le numero d'un film
@@ -126,7 +305,7 @@ C'est bien beau de définir des fonctions ou des procédures stockées mais faut
 Je suppose que vous avez tous suivi le magnifique cours sur JDBC, donc on va directement voir le code Java.\\
 Donc comment appeler nos fonctions et procédures en Java. Il suffit d'utiliser ce que l'on appelle l'interface CallableStatement. Comme l'indique son nom, elle appelle les procédures et les fonctions stockées sur Oracle.\\
 Comment ça marche ?(pas le site ofc)
-Il suffit d'indiquer le nom de la fonction ou de la procédure lors de l'initialisation de l'objet CallableStatement grâce à la méthode prepareCall() de l'interface Connection (fallait suivre le cours sur JDBC).\\
+Il suffit d'indiquer le nom de la fonction ou de la procédure lors de l'initialisation de l'objet \textbf{CallableStatement} grâce à la méthode \textbf{prepareCall()} de l'interface Connection (fallait suivre le cours sur JDBC).\\
 Il existe deux cas : soit la procédure ou la fonction comporte des paramètres lors de l'appel soit elle n'en comporte pas. EXEMPLE !!!
 
 \begin{lstlisting}[style=MyJavaStyle]
@@ -171,7 +350,7 @@ cst1.setString(2, 'TITANIQUE');
 cst1.setInt(3, '69');
 cst1.registerOutParameter(1, java.sql.Types.INTEGER);
 \end{lstlisting}
-Vous avez compris ? Cependant, on n'a toujours pas exécuter notre procédure ou fonction. C'est très simple THREAD, il suffit d'utiliser la méthode execute().
+Vous avez compris ? Cependant, on n'a toujours pas exécuter notre procédure ou fonction. C'est très simple THREAD, il suffit d'utiliser la méthode \textbf{execute()}.
 (Vu que c'est un booléen, on préfère la stocker dans une variable).
 Et enfin, il faut pouvoir récupérer les valeurs de sortie (si il y en a).\\
 Pour cela, on utilise la méthode get<type>(<rang>) qui fonctionne un peu près comme set<type>(<rang>, <valeur>).\\
@@ -197,7 +376,7 @@ cst1.close();
 \end{lstlisting}
 
 \chapter{Concurrence d'accès}
-La concurrence d'accès est un principe, en base de données, qui consiste en la gestion de données.\\
+La concurrence d'accès est un principe, en base de données, qui consiste en \textbf{la gestion de données}.\\
 Pour être plus clair, en reprenant le cours, si plusieurs utilisateurs manipulent les mêmes données en même temps, il faut arbitrer entre :
 \begin{itemize}
 \item la disponibilité de l'information : ne pas bloquer tout le monde parce que une personne travaille
@@ -224,7 +403,7 @@ Il y a une autre notion à connaître c'est la collision. si 2 transactions acc�
 
 \section{Utilisation et problèmes liés aux verrous}
 Quand est ce qu'un verrou est posé ?\\
-Il est posé jusqu'à la fin de la transaction en cours. Le seul moyen de relâcher les verrous posés par une transaction est par le biais des instructions COMMIT et ROLLBACK(lors de la création d'une table aussi, il y a un COMMIT implicite).\\
+Il est posé jusqu'à la fin de la transaction en cours. Le seul moyen de relâcher les verrous posés par une transaction est par le biais des instructions \textbf{COMMIT} et \textbf{ROLLBACK}(lors de la création d'une table aussi, il y a un COMMIT implicite).\\
 Pour mieux comprendre cette histoire de verrous, on va reprendre les exemples du cours et les commenter.\\\\
 Pour une collision de type : perte de mise à jour :\\
 \includegraphics[scale=0.3]{./Pictures/BD1.PNG}\\
@@ -275,13 +454,13 @@ Sur Oracle les verrous sont invoqués automatiquement dans des cas spécifiques,
 \includegraphics[scale=0.45]{./Pictures/BD4.png}
 \newline
 \begin{itemize}
-\item RX : Row exclusif, interdiction de modification et de lecture sur la ligne que l'on modifie pour tout autre utilisateur
-\item RS : Row share, interdiction de modification seulement sur la ligne que l'on lit
-\item S : Share, interdiction de modification sur la table que l'on lit
-\item X : Exclusif, interdiction de modification et lecture sur la table que l'on modifie
+\item \textbf{RX} : Row exclusif, interdiction de modification et de lecture sur la ligne que l'on modifie pour tout autre utilisateur
+\item \textbf{RS} : Row share, interdiction de modification seulement sur la ligne que l'on lit
+\item \textbf{S} : Share, interdiction de modification sur la table que l'on lit
+\item \textbf{X} : Exclusif, interdiction de modification et lecture sur la table que l'on modifie
 \end{itemize}
 
-\subsubsection{Problème possible lié au verrou}
+\subsubsection{Problèmes possibles liés aux verrous}
 \textbf{Deadlock} : On rencontre ce problème lorsque un utilisateur attend la fin du verrou d'un autre alors que celui ci attend la fin du verrou de l'un. 
 \newline Par Exemple je pose un verrou sur la ligne 1 d'une table puis un random pose un verrou sur la ligne 2. Je souhaite récupérer la valeur de la ligne 2 $\rightarrow$ je suis mis en attente par le random, sauf que ce putain de random attend que moi j'enlève mon verrou sur la ligne 1. Du coup on se retrouve en attente tout les deux comme des cons.
 $\rightarrow$ Pour éviter ce problème il faut que l'ordre dans laquelle le random et moi posons les verrous soit le même. Je prend la ligne 1, il prend la ligne 1, je prend la ligne 2, il prend la ligne 2 etc... Cette solution est appelé \textbf{Règle de Havender}. Allez savoir pourquoi...
@@ -338,6 +517,7 @@ Ville VARCHAR2(30),
 CodePostal CHAR(5),
 Pays VARCHAR2(15));
 \end{lstlisting}
+Comme vous le constatez, nous créons un type comme si c'était une table avec des attributs, la nature de l'attribut et la taille de l'attribut. AS OBJECT permet de définir le type comme un objet; c'est à dire comme un constructeur en Java qui va être utilisé dans d'autres types et tables quand c'est nécessaire. \\
 
 Maintenant nous voulons créer un type personne qui possède un nom, un prénom et le type adresse qu'on a créé plus tôt.
 \begin{lstlisting}[style=MySQLStyle]
@@ -346,11 +526,13 @@ Nom VARCHAR2(30),
 Prenom VARCHAR2(30),
 Adresse obAdresseTy);
 \end{lstlisting}
+Vous pouvez le remarquer aussi qu'un attribut est de nature un type. Cet attribut permet d'appeler le type qu'on souhaite pour éviter de réécrire tous les attributs d'adresse. En gros l'attribut adresse va appeler tous les attributs du type adresse. Plus simple non ? \\
 
 Pour supprimer un type rien de spécial. Mais à faire si il n'est plus utilisé !
 \begin{lstlisting}[style=MySQLStyle]
 DROP TYPE nomObjetType;
 \end{lstlisting}
+Une erreur apparaitra si vous voulez supprimer un type qui est encore présent dans une table utilisée. Pour cela il faut supprimer la table puis le type.
 
 \section{Créer une table avec des types}
 Après avoir pris le temps de créer ces jolis types, nous voulons créer une table qui comporte la colonne personne à l'intérieur accompagné d'un login et de la date d'inscription.
@@ -360,7 +542,7 @@ login CHAR(20) PRIMARY KEY ,
 client obPersonneTy,
 dateIns DATE NOT NULL);
 \end{lstlisting}
-
+Le code ci-dessus nous montre que la table peut appeler un type. A quoi sa sert ? Bah sa sert à raccourcir le code et d'éviter d'appeler tous les attributs qu'on a besoin. De manière plus abstraite, le table va appeler tous les attributs de type Personne qui va appeler tous les attributs de type Adresse. En gros nous avons économiser 7 lignes de création d'attributs qui va quand même apparaître dans la table. Elle n'est pas belle la vie ? \\
 REMARQUE : Dans une table, il faut toujours avoir un attribut qui a le rôle de clé primaire (Genius gnégné) MAIS un type ne peut pas être une clé primaire (Je t'ai troué le cul là hein!).\\ \\
 Maintenant qu'on a perdu du temps pour créer des tables, il faut savoir les remplir (de sp... spécialité maison). Regardez bien le code :
 \begin{lstlisting}[style=MySQLStyle]
@@ -374,15 +556,18 @@ Comme vous le constatez, pour donner des valeurs à une table c'est la même pro
 ATTENTION : Si un type possède un autre type dans ses attributs, il faut faire la même opération : appeler le type et compléter ses attributs. \\\\
 
 Après avoir bien remplis (hohoho), faut savoir rechercher les données d'un type. C'est la même procédure mais faut faire un appel spécial pour le type.\\ \\
+
 Pour chercher le nom d'un client :
 \begin{lstlisting}[style=MySQLStyle]
 SELECT p.client.Nom FROM obClient p;
 \end{lstlisting}
+Pour que le code marche à tous les coups, il faut donner une "abréviation" à notre table. Pourquoi ? Cela permet au code SQL de ne pas se confondre lors de l'exécution. Ici, nous avons mis comme abréviation la lettre p pour le client. Cela permettra de pouvoir cibler plus facilement ce qu'on cherche. Nous allons cibler dans ce cas l'attribut client qui est de type Personne dans la table et plus précisément nous voulons l'attribut nom du type Personne.\\ \\
 
 Pour chercher la ville d'un client ;
 \begin{lstlisting}[style=MySQLStyle]
 SELECT p.client.Adresse.Ville FROM obClient p;
 \end{lstlisting}
+C'est la même procédure mais pour ce cas, nous voulions adresse. Pour le chercher, il faut passer par l'attribut client de type Personne qui contient Adresse qui celui la contient l'attribut ville. \\ \\
 
 Maintenant pour modifier un type dans un table, c'est la même méthode mais faut spécifier l'appel tout simplement.\\
 Modifions la rue d'un client tiens :
@@ -391,6 +576,7 @@ UPDATE obClient p
 SET p.client.adresse.rue='15 rue des vagues'
 WHERE UPPER (p.client.nom)='DUVAL';
 \end{lstlisting}
+Comme prévu, la méthode SQL pour modifier ne change pas mais faut juste faire la spécification comme dans la recherche.
 
 \section{Créer une table avec un seul type d'objet}
 La méthode ne change pas, juste spécifier le type d'objet à utiliser et donner une clé primaire.
@@ -401,6 +587,14 @@ CREATE TABLE nomTable OF nomTypeObjet;
 ATTENTION : Si nous voulons créer une table avec un seul type d'objet MAIS le type concerné possède un attribut venant d'un autre type, là c'est la merde. Mais SQL a tout pensé, faut juste donner une référence à l'attribut qui possède le type. \\
 Regardez le code ça sera plus simple à comprendre.
 \begin{lstlisting}[style=MySQLStyle]
+CREATE TYPE obIndividuTy AS OBJECT (
+NumIndividu NUMBER(5),
+Nom VARCHAR2(30),
+Prenom VARCHAR2(30) );
+
+CREATE TABLE obIndividu OF obIndividuTy
+(NumIndividu PRIMARY KEY);
+
 CREATE TYPE obFilmTy AS OBJECT (
 NumFilm NUMBER(5),
 Titre VARCHAR2(50),
@@ -409,6 +603,7 @@ realisateur REF obIndividuTy );
 CREATE TABLE obFilm OF obFilmTy
 (NumFilm PRIMARY KEY);
 \end{lstlisting}
+Comme vous le voyez, la table obFilm n'est que de type obFilmTy. Cela veut dire que cette table ne peut posséder que les attribut du type Film. Le problème c'est qu'il a le type Individu qui vient foutre la merde. Pourquoi il a un REF ?? Le REF a pour fonctionnalité de faire référence a un autre type qui possède aussi une table (ici c'est Individu). Donc avec le REF l'affaire est réglée.\\ \\
 
 Maintenant pour donner des valeurs, c'est autre chose. Il faut d'abord donner les attributs du type. Ici il faut d'abord donner les attributs de Individu avant de donner les attributs Film.\\ \\
 Le code pour individu :
@@ -420,6 +615,7 @@ INSERT INTO obIndividu VALUES
 INSERT INTO obIndividu VALUES
 (2987,'PAGNOL', 'MARCEL');
 \end{lstlisting}
+Ici c'est simple on ajoute des données dans la table obIndividu.
 Ensuite pour donner les attributs Film, c'est plus compliqué. Pour insérer les attributs, il faut donner la référence à l'individu qu'on souhaite. 
 \begin{lstlisting}[style=MySQLStyle]
 INSERT INTO obFilm
@@ -435,7 +631,7 @@ SELECT 18,'CESAR',
 REF(c) FROM obIndividu c
 WHERE NumIndividu=2987;
 \end{lstlisting}
-
+Ce code nous explique que lorsqu'on ajoute un film, il faut faire référence (avec REF) sur l'individu qu'on souhaite car sinon, le film ne contient aucun réalisateur, c'est similaire à NullPointeurException de mes c...
 \section{Création d'une spécification et d'un corps par des méthodes}
 Une méthode permet de manipuler des types et de définir leur comportement à n'importe quel moment. Une méthode ne peut cependant effectuer des modifications sur la base de données.\\ \\
 
@@ -519,6 +715,61 @@ SELECT p.client.Nom,
 ORDER BY p.client.adresse;
 \end{lstlisting}
 
+\section{Tableau dans une table}
+Oui un tableau dans une table vous avez bien entendu. Voyons d'abord comment créer un tableau en SQL. Il s'agit d'un type spécifique qui "hérite" de VARRAY dont il faut spécifier le type qu'il doit stocker. On déclare ce type de la façon suivante : \newline
 
+\begin{lstlisting}[style=MySQLStyle]
+CREATE TYPE nomType AS VARRAY (limite) OF type;
+\end{lstlisting}
+Supposons qu'un film ai dix acteurs, je ne vais pas lui mettre 10 attributs de type ob\_Individu\_Ty, je vais plutôt créer le type acteur\textbf{s}Ty qui sera un tableau de 10 ob\_Individu\_Ty:
+\begin{lstlisting}[style=MySQLStyle]
+CREATE TYPE acteursTy AS VARRAY (10) OF ob_Individu_Ty;
+\end{lstlisting}
+Ce qui donnera donc pour le type obfilmty:
+\begin{lstlisting}[style=MySQLStyle]
+CREATE TYPE obFilmTy AS OBJECT (
+NumFilm NUMBER(5),
+Titre VARCHAR2(50),
+listeActeurs acteursTy,
+realisateur REF obIndividuTy );
+\end{lstlisting}
+Mais alors attention, il ne faut pas y mettre des valeurs bruts. Il faut y mettre des \textbf{références}, vu? 
+\begin{lstlisting}[style=MySQLStyle]
+INSERT INTO obFilm
+SELECT 43, 'LE MARI DE LA COIFFEUSE',
+ acteursTy(ref(a),ref(c)),
+REF(b) FROM  obIndividu a,obIndividu b, obIndividu c
+WHERE b.NumIndividu=1996
+and a.NumIndividu=1
+and c.NumIndividu=1254;
+\end{lstlisting}
+Maintenant supposons que vous faites un SELECT sur la table obFilm, ce que vous allez avoir comme affichage c'est une reference (une adresse) vers le tableau que vous sélectionnée. Si vous souhaitez afficher le contenue d'un tableau, vous devez passez par une requete PL/SQL. 
+\newpage
+
+\begin{lstlisting}[style=MySQLStyle]
+DECLARE
+	stock acteursTy; // le tableau d'individu
+	p REF obIndividuTy; // variable qui va contenir la reference vers un acteur
+	reali obIndividuTy;
+	nom varchar2(30);
+	CURSOR c IS
+		SELECT numfilm, titre, DEREF(realisateur) r, acteurs
+		FROM obFilm;
+BEGIN
+	FOR s IN c LOOP
+		stock:=s.acteurs; // on recupere la liste d'acteurs
+		i:=1;
+		LOOP
+			p:=stock(i);
+			SELECT a.nomindividu INTO nom FROM obIndividu a
+			WHERE REF(a)=p;
+			DBMS OUTPUT.PUT LINE(TO CHAR(s.numfilm) || ' ** ' || s.titre || ' ** ' || s.r.nomindividu || ' ** ' || nom);
+			i:=i+1;
+			EXIT WHEN i>=stock.count;
+		END LOOP;
+	END LOOP;
+END;
+\end{lstlisting}
+Voilà vous savez tout sur cette partie.
 
 \end{document}

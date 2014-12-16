@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.12)  14 DEC 2014 15:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.12)  16 DEC 2014 18:25
 entering extended mode
 **BD_Fiche.tex
 (C:\Users\Haharis\Documents\GitHub\fiches_iut-morsay\BD\BD_Fiche.tex
@@ -679,201 +679,289 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 Chapitre 1.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 52.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 52.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 52.
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--66
+Underfull \hbox (badness 10000) in paragraph at lines 58--60
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--72
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
 
  []
 
 [1
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 76.
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 98--99
+
+ []
+
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 105.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [2] [3]
-[4]
+) [2]
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+
+ []
+
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 123.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 123.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 123.
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+
+ []
+
+[3] [4] [5]
 Chapitre 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--218
+Underfull \hbox (badness 10000) in paragraph at lines 241--245
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--218
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
 
  []
 
+[6
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
-
- []
-
-[5
-
-] <./Pictures/BD1.PNG, id=29, 1034.36438pt x 554.82281pt>
-File: ./Pictures/BD1.PNG Graphic file (type png)
-
-<use ./Pictures/BD1.PNG>
-Package pdftex.def Info: ./Pictures/BD1.PNG used on input line 230.
-(pdftex.def)             Requested size: 310.3117pt x 166.44812pt.
-
-<./Pictures/BD2.PNG, id=31, 1036.62282pt x 540.51938pt>
-File: ./Pictures/BD2.PNG Graphic file (type png)
-
-<use ./Pictures/BD2.PNG>
-Package pdftex.def Info: ./Pictures/BD2.PNG used on input line 232.
-(pdftex.def)             Requested size: 310.98924pt x 162.15706pt.
- <./Pictures/BD3.PNG, id=32, 897.3525pt x 537.50812pt>
-File: ./Pictures/BD3.PNG Graphic file (type png)
-
-<use ./Pictures/BD3.PNG>
-Package pdftex.def Info: ./Pictures/BD3.PNG used on input line 236.
-(pdftex.def)             Requested size: 314.07808pt x 188.13066pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 226--240
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 226--240
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 226--240
-
- []
-
-[6 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD1.PNG> <C
-:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD2.PNG>]
-[7 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD3.PNG>]
-Underfull \hbox (badness 10000) in paragraph at lines 264--265
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 271--272
-
- []
-
-<./Pictures/BD4.png, id=44, 680.5425pt x 420.06938pt>
-File: ./Pictures/BD4.png Graphic file (type png)
- <use ./Pictures/BD4.png>
-Package pdftex.def Info: ./Pictures/BD4.png used on input line 275.
-(pdftex.def)             Requested size: 306.24129pt x 189.02946pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 273--277
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--290
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--290
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--290
-
- []
-
-[8 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 316--320
-
- []
-
-[9]
+] [7] [8] [9]
 Chapitre 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 323--325
+Underfull \hbox (badness 10000) in paragraph at lines 387--397
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--397
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
 
  []
 
 [10
 
+] <./Pictures/BD1.PNG, id=46, 1034.36438pt x 554.82281pt>
+File: ./Pictures/BD1.PNG Graphic file (type png)
+
+<use ./Pictures/BD1.PNG>
+Package pdftex.def Info: ./Pictures/BD1.PNG used on input line 409.
+(pdftex.def)             Requested size: 310.3117pt x 166.44812pt.
+
+<./Pictures/BD2.PNG, id=48, 1036.62282pt x 540.51938pt>
+File: ./Pictures/BD2.PNG Graphic file (type png)
+
+<use ./Pictures/BD2.PNG>
+Package pdftex.def Info: ./Pictures/BD2.PNG used on input line 411.
+(pdftex.def)             Requested size: 310.98924pt x 162.15706pt.
+ <./Pictures/BD3.PNG, id=49, 897.3525pt x 537.50812pt>
+File: ./Pictures/BD3.PNG Graphic file (type png)
+
+<use ./Pictures/BD3.PNG>
+Package pdftex.def Info: ./Pictures/BD3.PNG used on input line 415.
+(pdftex.def)             Requested size: 314.07808pt x 188.13066pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 405--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 405--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 405--419
+
+ []
+
+[11 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD1.PNG> <
+C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD2.PNG>]
+[12 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD3.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 443--444
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 450--451
+
+ []
+
+<./Pictures/BD4.png, id=60, 680.5425pt x 420.06938pt>
+File: ./Pictures/BD4.png Graphic file (type png)
+ <use ./Pictures/BD4.png>
+Package pdftex.def Info: ./Pictures/BD4.png used on input line 454.
+(pdftex.def)             Requested size: 306.24129pt x 189.02946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 452--456
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 464--469
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 464--469
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 464--469
+
+ []
+
+[13 <C:/Users/Haharis/Documents/GitHub/fiches_iut-morsay/BD/Pictures/BD4.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 495--499
+
+ []
+
+[14]
+Chapitre 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 502--504
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 520--521
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--530
+
+ []
+
+[15
+
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 364--366
+Underfull \hbox (badness 10000) in paragraph at lines 545--548
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 373--375
+Underfull \hbox (badness 10000) in paragraph at lines 555--557
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 373--375
+Underfull \hbox (badness 10000) in paragraph at lines 555--557
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 376--378
-
- []
-
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 413--415
+Underfull \hbox (badness 10000) in paragraph at lines 558--559
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 440--441
+Underfull \hbox (badness 10000) in paragraph at lines 558--559
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 440--441
-
- []
-
-[12]
-Underfull \hbox (badness 10000) in paragraph at lines 452--455
+Underfull \hbox (badness 10000) in paragraph at lines 564--565
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--455
+Underfull \hbox (badness 10000) in paragraph at lines 564--565
+
+ []
+
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 570--571
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 466--468
+Underfull \hbox (badness 10000) in paragraph at lines 570--571
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 466--468
+Underfull \hbox (badness 10000) in paragraph at lines 606--607
 
  []
 
-[13] [14] (C:\Users\Haharis\Documents\GitHub\fiches_iut-morsay\BD\BD_Fiche.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 606--607
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 608--610
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 636--637
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 636--637
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 648--651
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 648--651
+
+ []
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 662--664
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 662--664
+
+ []
+
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 719--720
+
+ []
+
+[20] [21] (C:\Users\Haharis\Documents\GitHub\fiches_iut-morsay\BD\BD_Fiche.aux)
  ) 
 Here is how much of TeX's memory you used:
- 5438 strings out of 493921
- 72620 string characters out of 3144869
- 255000 words of memory out of 3000000
- 8622 multiletter control sequences out of 15000+200000
+ 5508 strings out of 493921
+ 73592 string characters out of 3144869
+ 266000 words of memory out of 3000000
+ 8692 multiletter control sequences out of 15000+200000
  61353 words of font info for 48 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 29i,6n,44p,493b,1664s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,6n,44p,499b,1664s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program 
-Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program Files (x86)/MiK
-TeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}<C:/Program Files (x86)/MiKTeX 2.9/fon
+Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Files (x86)
+/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}<C:/Program Files (x86)/MiKTeX 2.9/fon
 ts/type1/public/lm/lmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
 blic/lm/lmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr
 10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/P
@@ -881,9 +969,9 @@ rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files
  (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C:/Program Files (x86)/MiKTeX
  2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
 type1/public/lm/lmsy10.pfb>
-Output written on BD_Fiche.pdf (15 pages, 418031 bytes).
+Output written on BD_Fiche.pdf (22 pages, 449492 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
+ 121 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
