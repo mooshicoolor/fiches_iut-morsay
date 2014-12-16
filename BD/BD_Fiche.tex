@@ -338,6 +338,7 @@ Ville VARCHAR2(30),
 CodePostal CHAR(5),
 Pays VARCHAR2(15));
 \end{lstlisting}
+Comme vous le constatez, nous créons un type comme si c'était une table avec des attributs, la nature de l'attribut et la taille de l'attribut. AS OBJECT permet de définir le type comme un objet; c'est à dire comme un constructeur en Java qui va être utilisé dans d'autres types et tables quand c'est nécessaire. \\
 
 Maintenant nous voulons créer un type personne qui possède un nom, un prénom et le type adresse qu'on a créé plus tôt.
 \begin{lstlisting}[style=MySQLStyle]
@@ -346,11 +347,13 @@ Nom VARCHAR2(30),
 Prenom VARCHAR2(30),
 Adresse obAdresseTy);
 \end{lstlisting}
+Vous pouvez le remarquer aussi qu'un attribut est de nature un type. Cet attribut permet d'appeler le type qu'on souhaite pour éviter de réécrire tous les attributs d'adresse. En gros l'attribut adresse va appeler tous les attributs du type adresse. Plus simple non ? \\
 
 Pour supprimer un type rien de spécial. Mais à faire si il n'est plus utilisé !
 \begin{lstlisting}[style=MySQLStyle]
 DROP TYPE nomObjetType;
 \end{lstlisting}
+Une erreur apparaitra si vous voulez supprimer un type qui est encore présent dans une table utilisée. Pour cela il faut supprimer la table puis le type.
 
 \section{Créer une table avec des types}
 Après avoir pris le temps de créer ces jolis types, nous voulons créer une table qui comporte la colonne personne à l'intérieur accompagné d'un login et de la date d'inscription.
@@ -360,7 +363,7 @@ login CHAR(20) PRIMARY KEY ,
 client obPersonneTy,
 dateIns DATE NOT NULL);
 \end{lstlisting}
-
+Le code ci-dessus nous montre que la table peut appeler un type. A quoi sa sert ? Bah sa sert à raccourcir le code et d'éviter d'appeler tous les attributs qu'on a besoin. De manière plus abstraite, le table va appeler tous les attributs de type Personne qui va appeler tous les attributs de type Adresse. En gros nous avons économiser 7 lignes de création d'attributs qui va quand même apparaître dans la table. Elle n'est pas belle la vie ? \\
 REMARQUE : Dans une table, il faut toujours avoir un attribut qui a le rôle de clé primaire (Genius gnégné) MAIS un type ne peut pas être une clé primaire (Je t'ai troué le cul là hein!).\\ \\
 Maintenant qu'on a perdu du temps pour créer des tables, il faut savoir les remplir (de sp... spécialité maison). Regardez bien le code :
 \begin{lstlisting}[style=MySQLStyle]
@@ -374,15 +377,18 @@ Comme vous le constatez, pour donner des valeurs à une table c'est la même pro
 ATTENTION : Si un type possède un autre type dans ses attributs, il faut faire la même opération : appeler le type et compléter ses attributs. \\\\
 
 Après avoir bien remplis (hohoho), faut savoir rechercher les données d'un type. C'est la même procédure mais faut faire un appel spécial pour le type.\\ \\
+
 Pour chercher le nom d'un client :
 \begin{lstlisting}[style=MySQLStyle]
 SELECT p.client.Nom FROM obClient p;
 \end{lstlisting}
+Pour que le code marche à tous les coups, il faut donner une "abréviation" à notre table. Pourquoi ? Cela permet au code SQL de ne pas se confondre lors de l'exécution. Ici, nous avons mis comme abréviation la lettre p pour le client. Cela permettra de pouvoir cibler plus facilement ce qu'on cherche. Nous allons cibler dans ce cas l'attribut client qui est de type Personne dans la table et plus précisément nous voulons l'attribut nom du type Personne.\\ \\
 
 Pour chercher la ville d'un client ;
 \begin{lstlisting}[style=MySQLStyle]
 SELECT p.client.Adresse.Ville FROM obClient p;
 \end{lstlisting}
+C'est la même procédure mais pour ce cas, nous voulions adresse. Pour le chercher, il faut passer par l'attribut client de type Personne qui contient Adresse qui celui la contient l'attribut ville. \\ \\
 
 Maintenant pour modifier un type dans un table, c'est la même méthode mais faut spécifier l'appel tout simplement.\\
 Modifions la rue d'un client tiens :
@@ -391,6 +397,7 @@ UPDATE obClient p
 SET p.client.adresse.rue='15 rue des vagues'
 WHERE UPPER (p.client.nom)='DUVAL';
 \end{lstlisting}
+Comme prévu, la méthode SQL pour modifier ne change pas mais faut juste faire la spécification comme dans la recherche.
 
 \section{Créer une table avec un seul type d'objet}
 La méthode ne change pas, juste spécifier le type d'objet à utiliser et donner une clé primaire.
@@ -401,6 +408,14 @@ CREATE TABLE nomTable OF nomTypeObjet;
 ATTENTION : Si nous voulons créer une table avec un seul type d'objet MAIS le type concerné possède un attribut venant d'un autre type, là c'est la merde. Mais SQL a tout pensé, faut juste donner une référence à l'attribut qui possède le type. \\
 Regardez le code ça sera plus simple à comprendre.
 \begin{lstlisting}[style=MySQLStyle]
+CREATE TYPE obIndividuTy AS OBJECT (
+NumIndividu NUMBER(5),
+Nom VARCHAR2(30),
+Prenom VARCHAR2(30) );
+
+CREATE TABLE obIndividu OF obIndividuTy
+(NumIndividu PRIMARY KEY);
+
 CREATE TYPE obFilmTy AS OBJECT (
 NumFilm NUMBER(5),
 Titre VARCHAR2(50),
@@ -409,6 +424,7 @@ realisateur REF obIndividuTy );
 CREATE TABLE obFilm OF obFilmTy
 (NumFilm PRIMARY KEY);
 \end{lstlisting}
+Comme vous le voyez, la table obFilm n'est que de type obFilmTy. Cela veut dire que cette table ne peut posséder que les attribut du type Film. Le problème c'est qu'il a le type Individu qui vient foutre la merde. Pourquoi il a un REF ?? Le REF a pour fonctionnalité de faire référence a un autre type qui possède aussi une table (ici c'est Individu). Donc avec le REF l'affaire est réglée.\\ \\
 
 Maintenant pour donner des valeurs, c'est autre chose. Il faut d'abord donner les attributs du type. Ici il faut d'abord donner les attributs de Individu avant de donner les attributs Film.\\ \\
 Le code pour individu :
@@ -420,6 +436,7 @@ INSERT INTO obIndividu VALUES
 INSERT INTO obIndividu VALUES
 (2987,'PAGNOL', 'MARCEL');
 \end{lstlisting}
+Ici c'est simple on ajoute des données dans la table obIndividu.
 Ensuite pour donner les attributs Film, c'est plus compliqué. Pour insérer les attributs, il faut donner la référence à l'individu qu'on souhaite. 
 \begin{lstlisting}[style=MySQLStyle]
 INSERT INTO obFilm
@@ -435,7 +452,7 @@ SELECT 18,'CESAR',
 REF(c) FROM obIndividu c
 WHERE NumIndividu=2987;
 \end{lstlisting}
-
+Ce code nous explique que lorsqu'on ajoute un film, il faut faire référence (avec REF) sur l'individu qu'on souhaite car sinon, le film ne contient aucun réalisateur, c'est similaire à NullPointeurException de mes c...
 \section{Création d'une spécification et d'un corps par des méthodes}
 Une méthode permet de manipuler des types et de définir leur comportement à n'importe quel moment. Une méthode ne peut cependant effectuer des modifications sur la base de données.\\ \\
 
