@@ -2,7 +2,8 @@ fiches de révision S3, 2014/2015
 =================
 ### @ IUT morsay2tess
 la tryhard des uns pourra peut être servir à d'autres
-##Participants principaux
+
+## Participants principaux
 * sttev 20cents (maths graphes, modélisation, réseaux s2, java s3 et un peu système s3)
 * bbp / rien du tout (base de données, méthodologie cancer)
 * jpmomo (base de données, éco)
